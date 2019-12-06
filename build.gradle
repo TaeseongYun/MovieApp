@@ -14,6 +14,10 @@ buildscript {
         glide_version = '4.10.0'
 
         lifecycle_version = '2.1.0'
+
+        aac_extension_version = '1.0.0-alpha'
+
+        design_version = '28.0.0'
     }
     repositories {
         google()

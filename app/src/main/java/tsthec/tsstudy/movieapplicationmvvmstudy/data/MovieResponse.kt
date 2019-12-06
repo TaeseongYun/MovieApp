@@ -1,9 +1,11 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data
 
+import com.google.gson.annotations.SerializedName
+
 data class MovieResponse(
     val dates: Dates,
     val page: Int,
-    val results: List<Result>,
+    val results: List<MovieResult>,
     val total_pages: Int,
     val total_results: Int
 )
@@ -13,7 +15,7 @@ data class Dates(
     val minimum: String
 )
 
-data class Result(
+data class MovieResult(
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,
@@ -22,7 +24,8 @@ data class Result(
     val original_title: String,
     val overview: String,
     val popularity: Double,
-    val poster_path: String,
+    @SerializedName("poster_path")
+    val posterPath: String,
     val release_date: String,
     val title: String,
     val video: Boolean,
