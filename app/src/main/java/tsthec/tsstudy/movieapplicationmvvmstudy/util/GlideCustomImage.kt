@@ -12,7 +12,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.R
 class GlideCustomImage @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
-    defStyleAttr: Int
+    defStyleAttr: Int = 0
 ) : ImageView(context, attrs, defStyleAttr) {
     fun loadMovieBackground(baseUrl: String, @DrawableRes placeholder: Int = R.drawable.ic_bubble_chart_white_24dp) {
         Glide.with(this)

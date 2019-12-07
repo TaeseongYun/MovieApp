@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseLifeCycleViewModel : ViewModel() {
-    protected val disposable = CompositeDisposable()
+    val disposable = CompositeDisposable()
+//    protected val test = AutoCl
+
+    protected var isLoading = false
 
     override fun onCleared() {
         disposable.dispose()

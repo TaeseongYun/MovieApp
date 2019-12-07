@@ -7,8 +7,10 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.isOnline
 object RetrofitObject {
     private const val baseURL = "https://api.themoviedb.org/3/"
 
-    val movieAPI = createRetrofitFun(
-        baseURL,
-        MovieInterface::class.java
-    ) { MovieApp.context.isOnline() }
+    val movieAPI: MovieInterface by lazy {
+        createRetrofitFun(
+            baseURL,
+            MovieInterface::class.java
+        )
+    }
 }

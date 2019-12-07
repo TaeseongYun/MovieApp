@@ -17,7 +17,7 @@ interface MovieInterface {
         @Query("page") page: Int
     ): Single<MovieResponse>
 
-    @GET("movie//{movie_id}")
+    @GET("movie/{movie_id}")
     fun loadMovieDetailInformation(
         @Path("movie_id") movieId: String,
         @Query("api_key") api_key: String,

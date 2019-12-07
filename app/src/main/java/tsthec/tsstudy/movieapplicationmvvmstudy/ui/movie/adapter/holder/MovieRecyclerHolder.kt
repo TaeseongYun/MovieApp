@@ -13,11 +13,11 @@ class MovieRecyclerHolder (context: Context?, parent: ViewGroup): RecyclerView.V
     LayoutInflater.from(context).inflate(R.layout.recycler_view_detail, parent, false)
 ) {
     private fun View.onBind(item: MovieResult) {
-        glideCustomImage.loadMovieBackground(item.posterPath)
+        glideCustomImage.loadMovieBackground("https://image.tmdb.org/t/p/w342${item.posterPath}")
         movie_name.text = item.title
     }
 
-    internal fun onBind(item: MovieResult) {
+    fun onBind(item: MovieResult) {
         itemView.onBind(item)
     }
 }

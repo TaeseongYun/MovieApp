@@ -13,7 +13,11 @@ class MovieViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
-        return MovieNowPlayingViewModel(movieRepository, movieRecyclerModel) as T
+//        return MovieNowPlayingViewModel(movieRepository, movieRecyclerModel) as T
+        return modelClass.getConstructor(
+            MovieRepository::class.java,
+            MovieRecyclerModel::class.java
+        ).newInstance(movieRepository, movieRecyclerModel)
     }
 
 }
