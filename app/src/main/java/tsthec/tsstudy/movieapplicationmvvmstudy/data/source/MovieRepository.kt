@@ -18,4 +18,7 @@ class MovieRepository private constructor(private val movieAPI: MovieInterface) 
 
     fun repositoryMovieList(apiKey: String, language: String = "ko-KR", page: Int) =
         movieRemoteDataSource.remoteSourceMovieList(apiKey, language, page)
+
+    fun repositoryDetailMovie(movieID: Int, apiKey: String, language: String = "ko-KR") =
+        movieRemoteDataSource.remoteSourceDetailMovie(movieID, apiKey = apiKey)
 }

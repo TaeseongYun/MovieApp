@@ -18,6 +18,10 @@ buildscript {
         aac_extension_version = '1.0.0-alpha'
 
         design_version = '28.0.0'
+        anko_version='0.10.8'
+        recyclerView_version = '1.1.0'
+
+        material_version = '1.2.0-alpha02'
     }
     repositories {
         google()

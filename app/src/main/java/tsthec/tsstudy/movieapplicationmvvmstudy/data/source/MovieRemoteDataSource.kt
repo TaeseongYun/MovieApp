@@ -8,6 +8,6 @@ class MovieRemoteDataSource(private val movieAPI: MovieInterface) {
         movieAPI.loadMovieListAboutNowPlaying(apiKey, language, page)
 
 
-    fun remoteSourceDetailMovie(movieId: String, apiKey: String, language: String = "ko-KR") =
+    fun remoteSourceDetailMovie(movieId: Int, apiKey: String, language: String = "ko-KR") =
         movieAPI.loadMovieDetailInformation(movieId, apiKey, language)
 }

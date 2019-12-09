@@ -18,7 +18,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
+        debug {
             buildConfigField "String", "MOVIE_API_KEY", rootProject.ext.movieKey
         }
         release {
@@ -60,6 +60,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    api 'com.google.android.material:material:1.2.0-alpha02'
+    implementation "androidx.recyclerview:recyclerview:$recyclerView_version"
+    api "com.google.android.material:material:$material_version"
+
+    implementation "org.jetbrains.anko:anko:$anko_version"
 }

@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="NowPlaying" parent="Widget.AppCompat.TextView">
+        <item name="android:text">@string/nowPlaying</item>
+        <item name="android:textColor">@color/androidWhite</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:layout_marginStart">@dimen/spacing_large</item>
+        <item name="android:layout_marginTop">@dimen/spacing_large</item>
+    </style>
+
 </resources>

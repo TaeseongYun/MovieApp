@@ -13,38 +13,54 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.model.MovieRecyclerModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
-class MovieNowPlayingViewModel(
+class MovieNowPlayingViewModel internal constructor(
     private val movieRepository: MovieRepository,
     private val movieRecyclerModel: MovieRecyclerModel<MovieResult>
 ) :
     BaseLifeCycleViewModel() {
 
 
-    var page = 0
-    private val movieResult = BehaviorSubject.create<MovieResponse>()
-    private val _movieListData = MutableLiveData<List<MovieResult>>()
+    var page = 1
+    var isLoading = false
+    private val movieResult = BehaviorSubject.create<Pair<MovieResponse, Int>>()
+    private val _movieListData = MutableLiveData<Pair<List<MovieResult>, Int>>()
 
-    val movieListData: LiveData<List<MovieResult>>
+    private lateinit var movieReponse: List<MovieResult>
+
+    val movieListData: LiveData<Pair<List<MovieResult>, Int>>
         get() = _movieListData
 
     init {
         disposable += movieResult.observeOn(AndroidSchedulers.mainThread())
+            .map {
+                it.also {
+                    movieReponse = it.first.results
+
+                }
+            }
             .subscribe({
-//                movieRecyclerModel.clearItems()
-                _movieListData.postValue(it.results)
+                isLoading = true
+                _movieListData.postValue(Pair(movieReponse, 0))
                 movieRecyclerModel.notifiedChangedItem()
-            }, {})
+                isLoading = false
+            }, {
+                it.printStackTrace()
+            })
+
+        movieRecyclerModel.onClick = { position ->
+            _movieListData.postValue(Pair(movieReponse, movieReponse[position].id))
+        }
     }
 
     fun loadMovieList(apiKey: String, language: String = "ko-KR") =
         movieRepository.repositoryMovieList(
             apiKey,
             language,
-            ++page
+            page
         ).observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
-                movieResult.onNext(it)
+                movieResult.onNext(Pair(it, 0))
             }, {
                 Log.e("error", it.message)
             })

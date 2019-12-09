@@ -24,6 +24,7 @@
     <dimen name="spacing_xx_large">32dp</dimen>
     <dimen name="spacing_xxx_large">48dp</dimen>
     <dimen name="spacing_huge">64dp</dimen>
+    <dimen name="spacing_x_huge">70dp</dimen>
     <dimen name="spacing_super_huge">75dp</dimen>
 
     <dimen name="text_micro">10sp</dimen>

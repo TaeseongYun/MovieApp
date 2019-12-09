@@ -10,10 +10,12 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.model.MovieRecy
 class MovieRecyclerAdapter(private val context: Context?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), MovieRecyclerModel<MovieResult> {
 
+    override lateinit var onClick: (position: Int) -> Unit
+
     private val movieList = mutableListOf<MovieResult>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        MovieRecyclerHolder(context, parent)
+        MovieRecyclerHolder(onClick ,context, parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as MovieRecyclerHolder).onBind(movieList[position])

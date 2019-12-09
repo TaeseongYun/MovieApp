@@ -4,4 +4,6 @@
     <string name="custom_search_menu_title">Search</string>
 
     <string name="query_string_hint">영화제목을 입력하세요</string>
+
+    <string name="nowPlaying">현재 상영중</string>
 </resources>

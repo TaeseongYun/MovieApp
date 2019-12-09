@@ -10,4 +10,6 @@ interface MovieRecyclerModel<T>  {
     fun getItemCount(): Int
 
     fun clearItems()
+
+    var onClick: (position: Int) -> Unit
 }

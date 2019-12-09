@@ -6,12 +6,17 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.recycler_view_detail.*
+import org.jetbrains.anko.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
@@ -42,6 +47,8 @@ class MovieMainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+        initState()
+
         movieViewModel = ViewModelProviders.of(
             this,
             movieViewModelFactory
@@ -49,25 +56,28 @@ class MovieMainActivity : AppCompatActivity() {
 
         recyclerView.run {
             adapter = movieRecyclerAdapter
-            layoutManager = GridLayoutManager(this.context, 1)
-            addOnScrollListener(recyclerViewScrollListener)
+            layoutManager = LinearLayoutManager(this.context).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
+            }
         }
 
 
         movieViewModel.movieListData.observe(this, Observer {
-            it.forEach { movieResult ->
-                movieRecyclerAdapter.addItems(movieResult)
-            }
+            it.first.forEach { movieResult ->
+                movieRecyclerAdapter.addItems(movieResult) }
+//            it.forEach { movieResult ->
+//                movieRecyclerAdapter.addItems(movieResult)
+//            }
+            if(it.second != 0)
+                startActivity<DetailMovieActivity>("movieID" to it.second.toString())
+            afterGetLiveData()
         })
 
         movieViewModel.loadMovieList(BuildConfig.MOVIE_API_KEY)
 
+
     }
 
-    override fun onDestroy() {
-        recyclerView.removeOnScrollListener(recyclerViewScrollListener)
-        super.onDestroy()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
@@ -89,18 +99,15 @@ class MovieMainActivity : AppCompatActivity() {
         return true
     }
 
+    private fun initState() {
+        recyclerView?.visibility = View.GONE
+        nowPlayingTextView?.visibility = View.GONE
+        progress_bar?.visibility = View.VISIBLE
+    }
 
-    private val recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val totalChildItemCount = recyclerView.adapter?.itemCount ?: 0
-            val firstViewItemIndex =
-                (recyclerView as? GridLayoutManager)?.findFirstVisibleItemPosition() ?: 0
-            val itemVisibleCount = recyclerView.childCount
-            if ((firstViewItemIndex + itemVisibleCount) >= totalChildItemCount - 17) {
-                movieViewModel.page += 1
-                movieViewModel.loadMovieList(BuildConfig.MOVIE_API_KEY)
-            }
-            super.onScrolled(recyclerView, dx, dy)
-        }
+    private fun afterGetLiveData() {
+        recyclerView?.visibility = View.VISIBLE
+        nowPlayingTextView?.visibility = View.VISIBLE
+        progress_bar?.visibility = View.GONE
     }
 }
