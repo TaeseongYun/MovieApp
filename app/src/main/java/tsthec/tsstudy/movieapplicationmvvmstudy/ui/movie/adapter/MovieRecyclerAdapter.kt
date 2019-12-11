@@ -2,38 +2,21 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter
 
 import android.content.Context
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.adapter.BaseRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.CardStackRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.MovieRecyclerHolder
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.model.MovieRecyclerModel
 
-class MovieRecyclerAdapter(private val context: Context?) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), MovieRecyclerModel<MovieResult> {
-
-    override lateinit var onClick: (position: Int) -> Unit
-
-    private val movieList = mutableListOf<MovieResult>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        MovieRecyclerHolder(onClick ,context, parent)
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as MovieRecyclerHolder).onBind(movieList[position])
-    }
-
-    override fun addItems(item: MovieResult) {
-        movieList.add(item)
-    }
-
-    override fun getItem(position: Int): MovieResult = movieList[position]
-
-    override fun notifiedChangedItem() {
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int = movieList.size
-
-    override fun clearItems() {
-        movieList.clear()
-    }
+class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?) :
+    BaseRecyclerAdapter<MovieResult>() {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseRecyclerViewHolder<MovieResult> =
+        when (this.viewType) {
+            ViewType.NOWPLAYING -> MovieRecyclerHolder(onClick, context, parent)
+            ViewType.CARDVIEW -> CardStackRecyclerViewHolder(context, parent)
+        }
 }

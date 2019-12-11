@@ -10,12 +10,12 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleView
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.model.MovieRecyclerModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class MovieNowPlayingViewModel internal constructor(
     private val movieRepository: MovieRepository,
-    private val movieRecyclerModel: MovieRecyclerModel<MovieResult>
+    private val movieRecyclerModel: MovieRecyclerModel
 ) :
     BaseLifeCycleViewModel() {
 
@@ -25,7 +25,7 @@ class MovieNowPlayingViewModel internal constructor(
     private val movieResult = BehaviorSubject.create<Pair<MovieResponse, Int>>()
     private val _movieListData = MutableLiveData<Pair<List<MovieResult>, Int>>()
 
-    private lateinit var movieReponse: List<MovieResult>
+    private lateinit var movieResponse: List<MovieResult>
 
     val movieListData: LiveData<Pair<List<MovieResult>, Int>>
         get() = _movieListData
@@ -34,21 +34,20 @@ class MovieNowPlayingViewModel internal constructor(
         disposable += movieResult.observeOn(AndroidSchedulers.mainThread())
             .map {
                 it.also {
-                    movieReponse = it.first.results
-
+                    movieResponse = it.first.results
                 }
             }
             .subscribe({
                 isLoading = true
-                _movieListData.postValue(Pair(movieReponse, 0))
+                _movieListData.postValue(Pair(movieResponse, 0))
                 movieRecyclerModel.notifiedChangedItem()
                 isLoading = false
             }, {
                 it.printStackTrace()
             })
 
-        movieRecyclerModel.onClick = { position ->
-            _movieListData.postValue(Pair(movieReponse, movieReponse[position].id))
+        movieRecyclerModel.onClick = { position: Int ->
+            _movieListData.postValue(Pair(movieResponse, movieResponse[position].id))
         }
     }
 
@@ -64,5 +63,4 @@ class MovieNowPlayingViewModel internal constructor(
             }, {
                 Log.e("error", it.message)
             })
-
 }

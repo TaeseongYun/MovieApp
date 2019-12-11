@@ -22,6 +22,7 @@ buildscript {
         recyclerView_version = '1.1.0'
 
         material_version = '1.2.0-alpha02'
+        cardStackView_version = '2.3.4'
     }
     repositories {
         google()

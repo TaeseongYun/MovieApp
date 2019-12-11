@@ -21,7 +21,8 @@ data class MovieResult(
     val genre_ids: List<Int>,
     val id: Int,
     val original_language: String,
-    val original_title: String,
+    @SerializedName("original_title")
+    val originalTitle: String,
     val overview: String,
     val popularity: Double,
     @SerializedName("poster_path")

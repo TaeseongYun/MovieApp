@@ -7,18 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.recycler_view_detail.*
 import org.jetbrains.anko.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieRecyclerAdapter
@@ -33,11 +30,11 @@ class MovieMainActivity : AppCompatActivity() {
         get() = MovieRepository.getInstance(RetrofitObject.movieAPI)
 
     private val movieViewModelFactory by lazy {
-        MovieViewModelFactory(movieRepository, movieRecyclerAdapter)
+        MovieViewModelFactory(movieRepository, nowPlayingRecyclerAdapter)
     }
 
-    private val movieRecyclerAdapter: MovieRecyclerAdapter by lazy {
-        MovieRecyclerAdapter(this)
+    private val nowPlayingRecyclerAdapter: MovieRecyclerAdapter by lazy {
+        MovieRecyclerAdapter(ViewType.NOWPLAYING, this)
     }
 
     private lateinit var movieViewModel: MovieNowPlayingViewModel
@@ -55,7 +52,7 @@ class MovieMainActivity : AppCompatActivity() {
         )[MovieNowPlayingViewModel::class.java]
 
         recyclerView.run {
-            adapter = movieRecyclerAdapter
+            adapter = nowPlayingRecyclerAdapter
             layoutManager = LinearLayoutManager(this.context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
             }
@@ -64,10 +61,7 @@ class MovieMainActivity : AppCompatActivity() {
 
         movieViewModel.movieListData.observe(this, Observer {
             it.first.forEach { movieResult ->
-                movieRecyclerAdapter.addItems(movieResult) }
-//            it.forEach { movieResult ->
-//                movieRecyclerAdapter.addItems(movieResult)
-//            }
+                nowPlayingRecyclerAdapter.addItems(movieResult) }
             if(it.second != 0)
                 startActivity<DetailMovieActivity>("movieID" to it.second.toString())
             afterGetLiveData()

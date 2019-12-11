@@ -64,4 +64,5 @@ dependencies {
     api "com.google.android.material:material:$material_version"
 
     implementation "org.jetbrains.anko:anko:$anko_version"
+    implementation "com.yuyakaido.android:card-stack-view:$cardStackView_version"
 }
