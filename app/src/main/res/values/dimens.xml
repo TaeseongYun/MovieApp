@@ -42,4 +42,16 @@
     <integer name="anim_duration_long">500</integer>
 
     <dimen name="key_line_1">72dp</dimen>
+
+    <dimen name="spacing_minus_micro">-2dp</dimen>
+    <dimen name="spacing_minus_mini">-4dp</dimen>
+    <dimen name="spacing_minus_small">-8dp</dimen>
+    <dimen name="spacing_minus_normal">-12dp</dimen>
+    <dimen name="spacing_minus_large">-16dp</dimen>
+    <dimen name="spacing_x_minus_large">-24dp</dimen>
+    <dimen name="spacing_xx_minus_large">-32dp</dimen>
+    <dimen name="spacing_xxx_minus_large">-48dp</dimen>
+    <dimen name="spacing_minus_huge">-64dp</dimen>
+    <dimen name="spacing_x_minus_huge">-70dp</dimen>
+    <dimen name="spacing_super_minus_huge">-75dp</dimen>
 </resources>

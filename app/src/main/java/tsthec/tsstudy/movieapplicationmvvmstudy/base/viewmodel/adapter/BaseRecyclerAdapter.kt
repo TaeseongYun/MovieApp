@@ -1,13 +1,13 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.adapter
 
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 @Suppress("UNCHECKED_CAST")
-abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BaseRecyclerViewHolder<MovieResult>>(),
+abstract class BaseRecyclerAdapter<in T>
+    : RecyclerView.Adapter<BaseRecyclerViewHolder<MovieResult>>(),
     MovieRecyclerModel {
 
     private val list = mutableListOf<T>()
@@ -17,13 +17,6 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BaseRecyclerViewHol
     }
 
     override lateinit var onClick: (position: Int) -> Unit
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): BaseRecyclerViewHolder<MovieResult> =
-        createViewHolder(parent, viewType)
-
 
     override fun onBindViewHolder(holder: BaseRecyclerViewHolder<MovieResult>, position: Int) {
         holder.onBind(list[position])

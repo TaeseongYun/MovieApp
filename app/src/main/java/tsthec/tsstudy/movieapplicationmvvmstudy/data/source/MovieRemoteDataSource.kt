@@ -10,4 +10,10 @@ class MovieRemoteDataSource(private val movieAPI: MovieInterface) {
 
     fun remoteSourceDetailMovie(movieId: Int, apiKey: String, language: String = "ko-KR") =
         movieAPI.loadMovieDetailInformation(movieId, apiKey, language)
+
+    fun remoteSourcePopularMovie(apiKey: String) =
+        movieAPI.loadPopularMovie(apiKey)
+
+    fun remoteSourceOrderByRatingMovie(apiKey: String, page: Int) =
+        movieAPI.loadOrderByRatingMovie(apiKey, page = page)
 }

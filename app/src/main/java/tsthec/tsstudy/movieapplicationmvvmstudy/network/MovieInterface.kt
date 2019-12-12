@@ -7,6 +7,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.MoviePopular
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieRatingList
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 
 interface MovieInterface {
@@ -23,4 +25,18 @@ interface MovieInterface {
         @Query("api_key") api_key: String,
         @Query("language") language: String = "ko-KR"
     ): Single<MovieDetailResponse>
+
+    @GET("movie/popular")
+    fun loadPopularMovie(
+        @Query("api_key") api_key: String,
+        @Query("language") language: String = "ko-KR",
+        @Query("page") page: Int = 1
+    ): Single<MoviePopular>
+
+    @GET("movie/top_rated")
+    fun loadOrderByRatingMovie(
+        @Query("api_key") api_key: String,
+        @Query("language") language: String = "ko-KR",
+        @Query("page") page: Int
+    ): Single<MovieRatingList>
 }

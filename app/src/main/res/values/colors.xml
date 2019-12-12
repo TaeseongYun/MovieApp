@@ -7,4 +7,6 @@
     <color name="androidMainBackGround">#283B42</color>
 
     <color name="androidWhite">#FFFFFF</color>
+
+    <color name="movieNameCardColor">#4D000000</color>
 </resources>

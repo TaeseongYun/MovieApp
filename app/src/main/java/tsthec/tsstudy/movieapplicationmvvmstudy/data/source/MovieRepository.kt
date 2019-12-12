@@ -21,4 +21,10 @@ class MovieRepository private constructor(private val movieAPI: MovieInterface) 
 
     fun repositoryDetailMovie(movieID: Int, apiKey: String, language: String = "ko-KR") =
         movieRemoteDataSource.remoteSourceDetailMovie(movieID, apiKey = apiKey)
+
+    fun repositoryPopularMovie(apiKey: String) =
+        movieRemoteDataSource.remoteSourcePopularMovie(apiKey)
+
+    fun repositoryOrderByRatingMovie(apiKey: String, page: Int) =
+        movieRemoteDataSource.remoteSourceOrderByRatingMovie(apiKey, page)
 }

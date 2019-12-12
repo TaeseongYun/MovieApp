@@ -1,64 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="350dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/spacing_normal"
-    android:layout_marginEnd="@dimen/spacing_large">
+    android:layout_marginEnd="@dimen/spacing_normal"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/selectableItemBackground"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false"
+    app:cardCornerRadius="@dimen/spacing_large">
 
-    <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
-        android:id="@+id/glideCustomImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="@dimen/spacing_normal"
-        android:elevation="@dimen/spacing_x_large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_search_black_24dp" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
+        <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
+            android:layout_width="match_parent"
+            android:scaleType="fitXY"
+            android:id="@+id/movieBackgroundIMG"
+            android:layout_height="match_parent"
+            tools:src="@drawable/ic_launcher_background"/>
+    </FrameLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_xxx_large"
-        android:layout_marginTop="@dimen/spacing_xxx_large"
-        android:layout_toEndOf="@+id/glideCustomImage"
-        app:cardCornerRadius="@dimen/spacing_normal"
-        app:cardElevation="@dimen/spacing_normal"
-        app:layout_constraintStart_toEndOf="@+id/glideCustomImage"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_gravity="bottom"
+        android:background="@color/movieNameCardColor"
+        android:padding="@dimen/spacing_large"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/movie_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_x_huge"
-                android:ellipsize="end"
-                android:ems="10"
-                android:maxLines="1"
-                android:textColor="@color/movieNameColor"
-                android:textSize="@dimen/text_x_large"
-                tools:text="영화제목입니다." />
-
-            <TextView
-                android:id="@+id/movie_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/movie_name"
-                android:layout_marginStart="@dimen/spacing_x_huge"
-                android:ellipsize="end"
-                android:ems="10"
-                android:maxLines="1"
-                tools:text="영화감독 입니다." />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/originMovieName"
+            android:ems="5"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_height="wrap_content"
+            style="@style/CardStackOriginName"
+            tools:text="오리진 영화이름" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/koreanMovieName"
+            style="@style/NowPlaying"
+            tools:text="한국영화이름"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

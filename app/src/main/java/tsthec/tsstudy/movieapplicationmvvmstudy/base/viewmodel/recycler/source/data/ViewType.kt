@@ -1,6 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data
 
 enum class ViewType {
-    CARDVIEW,
-    NOWPLAYING
+    NOW_POPULAR,
+    NOWPLAYING,
+    ORDER_BY_RATING
 }

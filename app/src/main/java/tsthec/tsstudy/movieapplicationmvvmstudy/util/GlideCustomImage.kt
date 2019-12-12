@@ -17,7 +17,7 @@ class GlideCustomImage @JvmOverloads constructor(
     fun loadMovieBackground(baseUrl: String, @DrawableRes placeholder: Int = R.drawable.ic_bubble_chart_white_24dp) {
         Glide.with(this)
             .load(baseUrl)
-            .apply(RequestOptions.placeholderOf(placeholder).circleCrop())
+            .apply(RequestOptions.placeholderOf(placeholder).centerCrop())
             .into(this)
     }
 }

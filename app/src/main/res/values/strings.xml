@@ -6,4 +6,8 @@
     <string name="query_string_hint">영화제목을 입력하세요</string>
 
     <string name="nowPlaying">현재 상영중</string>
+
+    <string name="nowPopular">인기 영화</string>
+
+    <string name="ordering_by_rating">평점 순</string>
 </resources>
