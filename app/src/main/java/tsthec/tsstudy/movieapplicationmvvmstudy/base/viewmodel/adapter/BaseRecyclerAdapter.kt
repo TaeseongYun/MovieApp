@@ -7,7 +7,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 @Suppress("UNCHECKED_CAST")
 abstract class BaseRecyclerAdapter<in T>
-    : RecyclerView.Adapter<BaseRecyclerViewHolder<MovieResult>>(),
+    : RecyclerView.Adapter<BaseRecyclerViewHolder<*>>(),
     MovieRecyclerModel {
 
     private val list = mutableListOf<T>()
@@ -18,7 +18,7 @@ abstract class BaseRecyclerAdapter<in T>
 
     override lateinit var onClick: (position: Int) -> Unit
 
-    override fun onBindViewHolder(holder: BaseRecyclerViewHolder<MovieResult>, position: Int) {
+    override fun onBindViewHolder(holder: BaseRecyclerViewHolder<*>, position: Int) {
         holder.onBind(list[position])
     }
 

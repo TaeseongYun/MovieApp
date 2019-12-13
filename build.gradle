@@ -25,6 +25,8 @@ buildscript {
         cardStackView_version = '2.3.4'
 
         lottie_version = '3.3.1'
+
+        glide_version_blur = '4.0.0'
     }
     repositories {
         google()

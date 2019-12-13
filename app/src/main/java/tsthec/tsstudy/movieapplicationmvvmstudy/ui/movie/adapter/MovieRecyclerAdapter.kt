@@ -1,6 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.ViewGroup
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.adapter.BaseRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
@@ -21,5 +22,6 @@ class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?
             ViewType.NOWPLAYING -> NowPlayingMovieRecyclerHolder(onClick, context, parent)
             ViewType.NOW_POPULAR -> PopularMovieRecyclerViewHolder(context, parent)
             ViewType.ORDER_BY_RATING -> OrderByRatingMovieRecyclerViewHolder(context, parent)
+            else -> throw Resources.NotFoundException("Here Not Detail View")
         }
 }

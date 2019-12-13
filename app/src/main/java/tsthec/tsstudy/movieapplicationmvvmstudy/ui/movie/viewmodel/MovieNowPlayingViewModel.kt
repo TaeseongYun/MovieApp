@@ -12,7 +12,9 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MoviePopular
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieRatingList
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class MovieNowPlayingViewModel internal constructor(
@@ -24,55 +26,78 @@ class MovieNowPlayingViewModel internal constructor(
 
     var page = 1
     var isLoading = false
-    private val movieResult = BehaviorSubject.create<Pair<MovieResponse, Int>>()
-
-    private val _movieListData = MutableLiveData<Pair<List<MovieResult>, Int>>()
 
 
 
 
     private lateinit var movieResponse: List<MovieResult>
 
+    private lateinit var orderByRatingModel: List<MovieResult>
+
+    private lateinit var popularMovieModel: List<MovieResult>
+
+    private val _movieListData = MutableLiveData<Pair<List<MovieResult>, Int>>()
+
     val movieListData: LiveData<Pair<List<MovieResult>, Int>>
         get() = _movieListData
 
+    private val _orderByMutableLiveData = MutableLiveData<Pair<List<MovieResult>, Int>>()
+
+    val orderByLiveData: LiveData<Pair<List<MovieResult>, Int>>
+        get() = _orderByMutableLiveData
+
+    private val _popularMovieListData = MutableLiveData<Pair<List<MovieResult>, Int>>()
+
+    val popularMovieListData: LiveData<Pair<List<MovieResult>, Int>>
+        get() = _popularMovieListData
 
     init {
-        disposable += movieResult.observeOn(AndroidSchedulers.mainThread())
-            .map {
-                it.also {
-                    movieResponse = it.first.results
-                }
+        movieRecyclerModel.onClick =
+            { position: Int ->
+                _movieListData.postValue(Pair(movieResponse, movieResponse[position].id))
             }
-            .subscribe({
-                isLoading = true
-                _movieListData.postValue(Pair(movieResponse, 0))
-                movieRecyclerModel.notifiedChangedItem()
-                isLoading = false
-            }, {
-                it.printStackTrace()
-            })
-
-
-
-
-        movieRecyclerModel.onClick = { position: Int ->
-            _movieListData.postValue(Pair(movieResponse, movieResponse[position].id))
-        }
-
-
     }
 
-    fun loadMovieList(apiKey: String, language: String = "ko-KR") =
-        movieRepository.repositoryMovieList(
+    fun loadMovieList(apiKey: String, language: String = "ko-KR") {
+        disposable += movieRepository.repositoryMovieList(
             apiKey,
             language,
             page
         ).observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
+            .map {
+                movieResponse = it.results
+            }
             .subscribe({
-                movieResult.onNext(Pair(it, 0))
+                _movieListData.postValue(Pair(movieResponse, 0))
             }, {
                 Log.e("error", it.message)
             })
+    }
+
+    fun loadOrderByRatingMovies(page: Int) {
+        disposable += movieRepository.repositoryOrderByRatingMovie(BuildConfig.MOVIE_API_KEY, page)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .map { orderByRatingModel = it.results }
+            .subscribe({
+                _orderByMutableLiveData.postValue(Pair(orderByRatingModel, 0))
+//                movieRecyclerModel.notifiedChangedItem()
+            }, { it.printStackTrace() })
+    }
+
+    fun loadPopularMovie() {
+        disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .map {
+                popularMovieModel = it.results
+            }
+            .subscribe({
+                _popularMovieListData.value = Pair(popularMovieModel, 0)
+                movieRecyclerModel.notifiedChangedItem()
+            }, {
+                Log.e("error", it.message)
+            })
+    }
 }

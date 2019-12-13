@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 
 @Suppress("UNCHECKED_CAST")
 class MovieViewModelFactory(
@@ -12,7 +13,6 @@ class MovieViewModelFactory(
     private val movieRecyclerModel: MovieRecyclerModel
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-
         return modelClass.getConstructor(
             MovieRepository::class.java,
             MovieRecyclerModel::class.java

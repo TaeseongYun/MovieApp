@@ -6,10 +6,7 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MoviePopular
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieRatingList
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.*
 
 interface MovieInterface {
     @GET("movie/now_playing")
@@ -39,4 +36,10 @@ interface MovieInterface {
         @Query("language") language: String = "ko-KR",
         @Query("page") page: Int
     ): Single<MovieRatingList>
+
+    @GET("movie/{movie_id}/credits")
+    fun loadCreditCastMovie(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String
+    ): Single<CreditsResponse>
 }

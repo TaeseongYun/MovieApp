@@ -10,4 +10,14 @@
     <string name="nowPopular">인기 영화</string>
 
     <string name="ordering_by_rating">평점 순</string>
+
+    <string name="movie_detailName">영화제목</string>
+
+    <string name="movie_rating">영화평점</string>
+
+    <string name="movie_detail_Story">영화 줄거리</string>
+
+    <string name="movie_author">영화 출연진</string>
+
+    <string name="authorName">출연자 이름</string>
 </resources>
