@@ -3,10 +3,11 @@
     <color name="colorPrimary">#85B8CB</color>
     <color name="colorPrimaryDark">#1D6A96</color>
     <color name="colorAccent">#1D6A96</color>
-    <color name="movieNameColor">#000000</color>
+    <color name="movieNameColor">#FFFFFF</color>
     <color name="androidMainBackGround">#283B42</color>
 
     <color name="androidWhite">#FFFFFF</color>
 
     <color name="movieNameCardColor">#4D000000</color>
 </resources>
+

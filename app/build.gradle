@@ -30,6 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -62,11 +66,12 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.recyclerview:recyclerview:$recyclerView_version"
-    api "com.google.android.material:material:$material_version"
+    implementation "com.google.android.material:material:$material_version"
 
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation "com.yuyakaido.android:card-stack-view:$cardStackView_version"
 
     //lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
+//    implementation "com.android.support:design:$design_version"
 }

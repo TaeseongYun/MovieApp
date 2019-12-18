@@ -1,8 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.network
 
-import tsthec.tsstudy.movieapplicationmvvmstudy.MovieApp
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.createRetrofitFun
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.isOnline
 
 object RetrofitObject {
     private const val baseURL = "https://api.themoviedb.org/3/"

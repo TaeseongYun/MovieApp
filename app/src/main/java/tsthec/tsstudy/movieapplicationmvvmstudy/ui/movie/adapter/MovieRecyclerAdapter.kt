@@ -8,8 +8,6 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecycl
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.NowPlayingMovieRecyclerHolder
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.OrderByRatingMovieRecyclerViewHolder
 
 class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?) :
     BaseRecyclerAdapter<MovieResult>() {
@@ -19,9 +17,7 @@ class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?
         viewType: Int
     ): BaseRecyclerViewHolder<MovieResult> =
         when (this.viewType) {
-            ViewType.NOWPLAYING -> NowPlayingMovieRecyclerHolder(onClick, context, parent)
-            ViewType.NOW_POPULAR -> PopularMovieRecyclerViewHolder(context, parent)
-            ViewType.ORDER_BY_RATING -> OrderByRatingMovieRecyclerViewHolder(context, parent)
-            else -> throw Resources.NotFoundException("Here Not Detail View")
+            ViewType.MOVIE -> PopularMovieRecyclerViewHolder(onClick, context, parent)
+            else -> PopularMovieRecyclerViewHolder(onClick, context, parent)
         }
 }

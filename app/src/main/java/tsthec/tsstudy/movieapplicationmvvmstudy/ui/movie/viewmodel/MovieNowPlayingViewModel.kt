@@ -24,77 +24,45 @@ class MovieNowPlayingViewModel internal constructor(
     BaseLifeCycleViewModel() {
 
 
-    var page = 1
+    var page = 0
+
     var isLoading = false
-
-
-
-
-    private lateinit var movieResponse: List<MovieResult>
-
-    private lateinit var orderByRatingModel: List<MovieResult>
 
     private lateinit var popularMovieModel: List<MovieResult>
 
-    private val _movieListData = MutableLiveData<Pair<List<MovieResult>, Int>>()
+    private val _popularMovieListData = MutableLiveData<Pair<List<MovieResult>, MovieResult?>>()
 
-    val movieListData: LiveData<Pair<List<MovieResult>, Int>>
-        get() = _movieListData
-
-    private val _orderByMutableLiveData = MutableLiveData<Pair<List<MovieResult>, Int>>()
-
-    val orderByLiveData: LiveData<Pair<List<MovieResult>, Int>>
-        get() = _orderByMutableLiveData
-
-    private val _popularMovieListData = MutableLiveData<Pair<List<MovieResult>, Int>>()
-
-    val popularMovieListData: LiveData<Pair<List<MovieResult>, Int>>
+    val popularMovieListData: LiveData<Pair<List<MovieResult>, MovieResult?>>
         get() = _popularMovieListData
 
     init {
         movieRecyclerModel.onClick =
             { position: Int ->
-                _movieListData.postValue(Pair(movieResponse, movieResponse[position].id))
+                _popularMovieListData.postValue(
+                    Pair(
+                        popularMovieModel,
+                        popularMovieModel[position]
+                    )
+                )
             }
-    }
-
-    fun loadMovieList(apiKey: String, language: String = "ko-KR") {
-        disposable += movieRepository.repositoryMovieList(
-            apiKey,
-            language,
-            page
-        ).observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .map {
-                movieResponse = it.results
-            }
-            .subscribe({
-                _movieListData.postValue(Pair(movieResponse, 0))
-            }, {
-                Log.e("error", it.message)
-            })
-    }
-
-    fun loadOrderByRatingMovies(page: Int) {
-        disposable += movieRepository.repositoryOrderByRatingMovie(BuildConfig.MOVIE_API_KEY, page)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .map { orderByRatingModel = it.results }
-            .subscribe({
-                _orderByMutableLiveData.postValue(Pair(orderByRatingModel, 0))
-//                movieRecyclerModel.notifiedChangedItem()
-            }, { it.printStackTrace() })
     }
 
     fun loadPopularMovie() {
-        disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY)
+        disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, ++page)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
+            .doOnSubscribe { isLoading = true }
+            .doOnSuccess {
+                isLoading = false
+            }
             .map {
                 popularMovieModel = it.results
             }
             .subscribe({
-                _popularMovieListData.value = Pair(popularMovieModel, 0)
+                _popularMovieListData.value = Pair(popularMovieModel, null)
+                popularMovieModel.forEach {
+                    movieRecyclerModel.addItems(it)
+                }
                 movieRecyclerModel.notifiedChangedItem()
             }, {
                 Log.e("error", it.message)

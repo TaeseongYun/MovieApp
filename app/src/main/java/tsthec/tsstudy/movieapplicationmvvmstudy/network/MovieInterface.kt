@@ -27,7 +27,7 @@ interface MovieInterface {
     fun loadPopularMovie(
         @Query("api_key") api_key: String,
         @Query("language") language: String = "ko-KR",
-        @Query("page") page: Int = 1
+        @Query("page") page: Int
     ): Single<MoviePopular>
 
     @GET("movie/top_rated")

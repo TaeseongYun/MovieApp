@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">영화어플</string>
+    <string name="app_name">MovieAPP</string>
 
     <string name="custom_search_menu_title">Search</string>
 
-    <string name="query_string_hint">영화제목을 입력하세요</string>
+    <string name="query_string_hint">INPUT MOVIE NAME</string>
 
     <string name="nowPlaying">현재 상영중</string>
 
@@ -26,4 +27,5 @@
     <string name="menu_tv_title">티비</string>
 
     <string name="menu_star_title">스타배우</string>
+
 </resources>

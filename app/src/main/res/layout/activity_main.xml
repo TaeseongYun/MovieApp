@@ -1,163 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/androidMainBackGround">
+    android:background="@color/androidWhite">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.movie.MovieMainActivity">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/cardView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="animated-indonesian-first-president.json"
-            app:lottie_loop="true"
-            app:lottie_scale="0.3"
-            tools:layout_editor_absoluteY="2dp" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_sheet_menu"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-        <LinearLayout
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottieAnimation">
-
-            <RelativeLayout
-                android:id="@+id/popularMovieRelativeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/nowPopularMovieTV"
-                    android:layout_width="wrap_content"
-                    style="@style/NowPlaying"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_large"
-                    android:text="@string/nowPopular"
-                    android:textSize="@dimen/text_large" />
-
-                <ImageView
-                    android:id="@+id/seeMorePopularMovie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="@dimen/spacing_xx_large"
-                    android:src="@drawable/ic_format_list_bulleted_white_24dp" />
-
-            </RelativeLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_sheet_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/androidWhite"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_sheet_menu" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/nowPopularMovie_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginBottom="@dimen/spacing_minus_large" />
-
-        </LinearLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/nowPlayingLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-            <TextView
-                android:id="@+id/nowPlayingTextView"
-                style="@style/NowPlaying"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/seeMoreNowPlayingMovie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="@dimen/spacing_xx_large"
-                android:src="@drawable/ic_format_list_bulleted_white_24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </RelativeLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/spacing_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nowPlayingLayout" />
-
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_huge"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <LinearLayout
-            android:id="@+id/orderByRatingRecyclerView"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/NowPlaying"
-                    android:text="@string/ordering_by_rating"/>
-
-                <ImageView
-                    android:id="@+id/seeMoreRatingMovie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="@dimen/spacing_xx_large"
-                    android:src="@drawable/ic_format_list_bulleted_white_24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:id="@+id/ratingMovieRecyclerView"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

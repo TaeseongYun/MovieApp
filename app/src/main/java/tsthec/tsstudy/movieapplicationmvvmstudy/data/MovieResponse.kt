@@ -1,6 +1,8 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class MovieResponse(
     val dates: Dates,
@@ -15,6 +17,7 @@ data class Dates(
     val minimum: String
 )
 
+@Parcelize
 data class MovieResult(
     val adult: Boolean,
     val backdrop_path: String,
@@ -32,4 +35,4 @@ data class MovieResult(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
+): Parcelable
