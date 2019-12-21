@@ -3,7 +3,6 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.adapter
 import androidx.recyclerview.widget.RecyclerView
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 @Suppress("UNCHECKED_CAST")
 abstract class BaseRecyclerAdapter<in T>
@@ -33,4 +32,6 @@ abstract class BaseRecyclerAdapter<in T>
     override fun getItem(position: Int): Any? = list[position]
 
     override fun getItemCount(): Int = list.size
+
+    override fun listReserve() = list.reverse()
 }

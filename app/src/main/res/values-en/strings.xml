@@ -16,7 +16,7 @@
 
     <string name="movie_rating">영화평점</string>
 
-    <string name="movie_detail_Story">영화 줄거리</string>
+    <string name="movie_detail_Story">Movie Story</string>
 
     <string name="movie_author">영화 출연진</string>
 
@@ -28,4 +28,7 @@
 
     <string name="menu_star_title">스타배우</string>
 
+    <string name="movie_summary">Summary</string>
+
+    <string name="favorite_btn">favorite</string>
 </resources>

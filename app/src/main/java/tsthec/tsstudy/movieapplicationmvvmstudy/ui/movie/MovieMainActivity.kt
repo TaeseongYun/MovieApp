@@ -6,10 +6,12 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.SearchView
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.MovieFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadFragment
@@ -64,6 +66,13 @@ class MovieMainActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.app_like_btn) {
+            FavoriteActivity.getStartActivity(this)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun Fragment.setFragment() {

@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MovieDetailResponse(
     val adult: Boolean,
-    val backdrop_path: String,
+    val backdrop_path: String?,
     val budget: Int,
     val genres: List<Genre>,
     val homepage: String,

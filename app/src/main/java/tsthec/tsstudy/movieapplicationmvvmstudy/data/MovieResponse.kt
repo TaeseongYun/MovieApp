@@ -1,6 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data
 
 import android.os.Parcelable
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -17,10 +18,11 @@ data class Dates(
     val minimum: String
 )
 
+@Entity(tableName = "MovieResult", primaryKeys = [("id")])
 @Parcelize
 data class MovieResult(
     val adult: Boolean,
-    val backdrop_path: String,
+    val backdrop_path: String?,
     val genre_ids: List<Int>,
     val id: Int,
     val original_language: String,

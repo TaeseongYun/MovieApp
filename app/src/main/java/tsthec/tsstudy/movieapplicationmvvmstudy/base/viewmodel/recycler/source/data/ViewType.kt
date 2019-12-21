@@ -3,5 +3,6 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.
 enum class ViewType {
     MOVIE,
     TV,
-    STAR
+    STAR,
+    GENRE
 }

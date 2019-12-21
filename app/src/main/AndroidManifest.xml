@@ -12,10 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.movie.FavoriteActivity"></activity>
         <activity
             android:name=".ui.movie.DetailMovieActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/DetailActivity"/>
+            android:theme="@style/DetailActivity" />
         <activity
             android:name=".ui.movie.MovieMainActivity"
             android:screenOrientation="portrait">

@@ -1,49 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="200dp"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/selectableItemBackground"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardUseCompatPadding="true"
-    app:cardPreventCornerOverlap="false"
-    app:cardCornerRadius="@dimen/spacing_large">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
-            android:layout_width="match_parent"
-            android:scaleType="centerCrop"
-            android:id="@+id/movieBackgroundIMG"
-            android:layout_height="match_parent"
-            tools:src="@drawable/ic_launcher_background"/>
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/movieNameCardColor"
-        android:padding="@dimen/spacing_large"
-        android:orientation="vertical">
+        android:background="?attr/selectableItemBackground"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/spacing_large"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:id="@+id/originMovieName"
-            android:ems="5"
-            android:maxLines="1"
-            android:ellipsize="end"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
+                android:id="@+id/movieBackgroundIMG"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/ic_launcher_background" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/CardStackOriginName"
-            tools:text="오리진 영화이름" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/koreanMovieName"
-            style="@style/NowPlaying"
-            tools:text="한국영화이름"/>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+            android:layout_gravity="bottom"
+            android:background="@color/movieNameCardColor"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_large">
+
+            <TextView
+                android:id="@+id/originMovieName"
+                style="@style/CardStackOriginName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:ems="5"
+                android:maxLines="1"
+                tools:text="오리진 영화이름" />
+
+            <TextView
+                android:id="@+id/koreanMovieName"
+                style="@style/NowPlaying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="한국영화이름" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import org.jetbrains.anko.collections.forEachWithIndex
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
@@ -23,12 +24,15 @@ class MovieNowPlayingViewModel internal constructor(
 ) :
     BaseLifeCycleViewModel() {
 
+    lateinit var showProgressBar: () -> Unit
 
-    var page = 0
+    lateinit var hideProgressBar: () -> Unit
+
+    private var page = 0
 
     var isLoading = false
 
-    private lateinit var popularMovieModel: List<MovieResult>
+    private val mutableMovieResult = mutableListOf<MovieResult>()
 
     private val _popularMovieListData = MutableLiveData<Pair<List<MovieResult>, MovieResult?>>()
 
@@ -36,14 +40,14 @@ class MovieNowPlayingViewModel internal constructor(
         get() = _popularMovieListData
 
     init {
+
         movieRecyclerModel.onClick =
             { position: Int ->
-                _popularMovieListData.postValue(
+                _popularMovieListData.value =
                     Pair(
-                        popularMovieModel,
-                        popularMovieModel[position]
+                        mutableMovieResult,
+                        mutableMovieResult[position]
                     )
-                )
             }
     }
 
@@ -51,18 +55,29 @@ class MovieNowPlayingViewModel internal constructor(
         disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, ++page)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .doOnSubscribe { isLoading = true }
+            .doOnSubscribe {
+                if(::showProgressBar.isInitialized) {
+                    showProgressBar()
+                }
+
+                isLoading = true
+
+            }
             .doOnSuccess {
                 isLoading = false
+
+                if(::hideProgressBar.isInitialized) {
+                    hideProgressBar()
+                }
             }
-            .map {
-                popularMovieModel = it.results
+            .map { mp ->
+                mp.results.forEachWithIndex { i, movieResult ->
+                    mutableMovieResult.add(movieResult)
+
+                    movieRecyclerModel.addItems(movieResult)
+                }
             }
             .subscribe({
-                _popularMovieListData.value = Pair(popularMovieModel, null)
-                popularMovieModel.forEach {
-                    movieRecyclerModel.addItems(it)
-                }
                 movieRecyclerModel.notifiedChangedItem()
             }, {
                 Log.e("error", it.message)

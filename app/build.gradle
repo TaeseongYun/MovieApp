@@ -11,7 +11,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "tsthec.tsstudy.movieapplicationmvvmstudy"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -73,5 +73,10 @@ dependencies {
 
     //lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
-//    implementation "com.android.support:design:$design_version"
+
+
+    //room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 }

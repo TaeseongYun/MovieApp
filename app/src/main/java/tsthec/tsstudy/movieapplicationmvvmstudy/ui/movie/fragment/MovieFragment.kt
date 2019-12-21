@@ -34,14 +34,14 @@ class MovieFragment : Fragment() {
         MovieRepository.getInstance(RetrofitObject.movieAPI)
     }
 
-    private lateinit var movieViewmodel: MovieNowPlayingViewModel
+    private lateinit var movieViewModel: MovieNowPlayingViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        movieViewmodel = ViewModelProviders.of(
+        movieViewModel = ViewModelProviders.of(
             this,
             moviePopularViewModelFactory
         )[MovieNowPlayingViewModel::class.java]
@@ -53,9 +53,12 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        movieViewmodel.loadPopularMovie()
+        viewModelInit()
 
-        movieViewmodel.popularMovieListData.observe(this, Observer {
+        movieViewModel.loadPopularMovie()
+
+        movieViewModel.popularMovieListData.observe(this, Observer {
+
             if(it.second != null)
                 startActivity<DetailMovieActivity>("movieID" to it.second)
         })
@@ -66,9 +69,9 @@ class MovieFragment : Fragment() {
             addOnScrollListener(addRecyclerViewListener)
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
+    
+    override fun onDestroyView() {
+        super.onDestroyView()
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)
     }
 
@@ -81,8 +84,21 @@ class MovieFragment : Fragment() {
 
             val firstItemIndex =
                 (recyclerView.layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
-            if (!movieViewmodel.isLoading && (visibleItem + firstItemIndex) >= totalItemCount - 5)
-                movieViewmodel.loadPopularMovie()
+
+            if (!movieViewModel.isLoading && (visibleItem + firstItemIndex) >= totalItemCount - 3)
+                movieViewModel.loadPopularMovie()
+        }
+    }
+
+    private fun viewModelInit() {
+        movieViewModel.run {
+            showProgressBar = {
+                loading_group_progress?.visibility = View.VISIBLE
+            }
+
+            hideProgressBar = {
+                loading_group_progress?.visibility = View.GONE
+            }
         }
     }
 }

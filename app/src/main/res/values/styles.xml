@@ -55,4 +55,10 @@
     <style name="CollapsedExpandedTitleText" parent="AppTheme">
         <item name="android:textColor">@android:color/transparent</item>
     </style>
+
+    <style name="DetailActivity.TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_marginTop">@dimen/spacing_large</item>
+        <item name="android:layout_marginStart">@dimen/spacing_large</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

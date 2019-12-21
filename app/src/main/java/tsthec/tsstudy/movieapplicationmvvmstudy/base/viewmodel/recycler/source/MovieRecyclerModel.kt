@@ -12,4 +12,6 @@ interface MovieRecyclerModel {
     fun clearItems()
 
     var onClick: (position: Int) -> Unit
+
+    fun listReserve()
 }

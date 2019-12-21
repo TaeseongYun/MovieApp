@@ -29,6 +29,8 @@ buildscript {
         glide_version_blur = '4.0.0'
 
         design_version = '28.0.0'
+
+        room_version = '2.2.3'
     }
     repositories {
         google()

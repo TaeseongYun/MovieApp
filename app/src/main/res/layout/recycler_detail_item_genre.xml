@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/androidWhite"
+    android:layout_marginEnd="@dimen/spacing_normal"
+    app:cardCornerRadius="@dimen/spacing_normal">
+
+    <TextView
+        android:id="@+id/genre_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_small"
+        android:textColor="@android:color/black"
+        tools:text="안녕하세요" />
+
+</androidx.cardview.widget.CardView>

@@ -54,4 +54,11 @@
     <dimen name="spacing_minus_huge">-64dp</dimen>
     <dimen name="spacing_x_minus_huge">-70dp</dimen>
     <dimen name="spacing_super_minus_huge">-75dp</dimen>
+
+
+    <dimen name="detail_card_view">120dp</dimen>
+
+    <dimen name="detail_activity_star_view">30dp</dimen>
+
+    <dimen name="detail_card">200dp</dimen>
 </resources>

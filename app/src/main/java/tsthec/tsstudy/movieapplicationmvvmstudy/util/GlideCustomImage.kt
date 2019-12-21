@@ -36,6 +36,7 @@ class GlideCustomImage @JvmOverloads constructor(
         Glide.with(this)
             .load(baseUrl)
             .apply(RequestOptions.bitmapTransform(options))
+            .apply(RequestOptions.placeholderOf(placeholder))
             .into(this)
     }
 }

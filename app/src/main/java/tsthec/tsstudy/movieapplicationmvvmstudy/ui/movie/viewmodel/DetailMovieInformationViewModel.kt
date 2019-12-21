@@ -1,5 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
+import android.view.View
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,6 +37,9 @@ class DetailMovieInformationViewModel(
         ).observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
+                it.genres.forEach { gn ->
+                    movieRecyclerModel.addItems(gn)
+                }
                 _movieDetailData.postValue(it)
                 movieRecyclerModel.notifiedChangedItem()
             }, {
