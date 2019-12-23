@@ -20,7 +20,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="250dp">
 
             <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
                 android:id="@+id/movieBackgroundIMG"
@@ -30,13 +30,13 @@
                 tools:src="@drawable/ic_launcher_background" />
         </FrameLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/movieNameCardColor"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_large">
+            android:paddingBottom="@dimen/spacing_normal">
 
             <TextView
                 android:id="@+id/originMovieName"
@@ -44,16 +44,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:ems="5"
+                android:ems="4"
                 android:maxLines="1"
                 tools:text="오리진 영화이름" />
 
             <TextView
                 android:id="@+id/koreanMovieName"
                 style="@style/NowPlaying"
+                android:layout_below="@+id/originMovieName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="한국영화이름" />
-        </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:id="@+id/favorite_btn"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:src="@drawable/ic_favorite_border_black_24dp"/>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 class PopularMovieRecyclerViewHolder(
     onClick: (position: Int) -> Unit,
+    favoriteOnClick: (position: Int) -> Unit,
     context: Context?,
     parent: ViewGroup
 ) :
@@ -20,6 +21,9 @@ class PopularMovieRecyclerViewHolder(
 
     init {
         itemView.run {
+            favorite_btn.setOnClickListener {
+                favoriteOnClick(adapterPosition)
+            }
             setOnClickListener {
                 onClick(adapterPosition)
             }
@@ -29,7 +33,6 @@ class PopularMovieRecyclerViewHolder(
     override fun View.onBind(item: MovieResult) {
         if (item.posterPath.isNotEmpty())
             movieBackgroundIMG.loadMovieBackground(API.moviePhoto+item.posterPath)
-
         originMovieName.text = item.originalTitle
         koreanMovieName.text = item.title
     }

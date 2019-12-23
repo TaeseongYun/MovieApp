@@ -5,17 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import org.jetbrains.anko.collections.forEachWithIndex
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MoviePopular
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieRatingList
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class MovieNowPlayingViewModel internal constructor(
@@ -40,7 +34,6 @@ class MovieNowPlayingViewModel internal constructor(
         get() = _popularMovieListData
 
     init {
-
         movieRecyclerModel.onClick =
             { position: Int ->
                 _popularMovieListData.value =
@@ -49,6 +42,10 @@ class MovieNowPlayingViewModel internal constructor(
                         mutableMovieResult[position]
                     )
             }
+
+        movieRecyclerModel.onFavoriteClick = {
+            Log.d("$it", "테스트")
+        }
     }
 
     fun loadPopularMovie() {
@@ -59,9 +56,7 @@ class MovieNowPlayingViewModel internal constructor(
                 if(::showProgressBar.isInitialized) {
                     showProgressBar()
                 }
-
                 isLoading = true
-
             }
             .doOnSuccess {
                 isLoading = false
@@ -71,7 +66,7 @@ class MovieNowPlayingViewModel internal constructor(
                 }
             }
             .map { mp ->
-                mp.results.forEachWithIndex { i, movieResult ->
+                mp.results.forEach { movieResult ->
                     mutableMovieResult.add(movieResult)
 
                     movieRecyclerModel.addItems(movieResult)

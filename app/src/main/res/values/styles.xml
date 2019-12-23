@@ -18,14 +18,15 @@
     <style name="NowPlaying" parent="Widget.AppCompat.TextView">
         <item name="android:text">@string/nowPlaying</item>
         <item name="android:textColor">@color/androidWhite</item>
-        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textSize">@dimen/text_normal</item>
         <item name="android:layout_marginStart">@dimen/spacing_large</item>
     </style>
 
     <style name="CardStackOriginName" parent="Widget.AppCompat.TextView">
         <item name="android:text">@string/nowPlaying</item>
         <item name="android:textColor">@color/androidWhite</item>
-        <item name="android:textSize">@dimen/text_x_large</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_marginStart">@dimen/spacing_large</item>
         <item name="android:layout_marginTop">@dimen/spacing_large</item>
     </style>

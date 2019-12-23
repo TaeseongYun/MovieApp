@@ -14,6 +14,7 @@ import org.jetbrains.anko.support.v4.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
+import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.DetailMovieActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieRecyclerAdapter
@@ -21,7 +22,6 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayi
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieViewModelFactory
 
 class MovieFragment : Fragment() {
-
     private val movieAdapter: MovieRecyclerAdapter by lazy {
         MovieRecyclerAdapter(ViewType.MOVIE, context)
     }
@@ -31,7 +31,11 @@ class MovieFragment : Fragment() {
     }
 
     private val movieRepository: MovieRepository by lazy {
-        MovieRepository.getInstance(RetrofitObject.movieAPI)
+        MovieRepository.getInstance(RetrofitObject.movieAPI, movieDatabase)
+    }
+
+    private val movieDatabase: MovieDatabase by lazy {
+        MovieDatabase.getInstance(this.context!!)
     }
 
     private lateinit var movieViewModel: MovieNowPlayingViewModel

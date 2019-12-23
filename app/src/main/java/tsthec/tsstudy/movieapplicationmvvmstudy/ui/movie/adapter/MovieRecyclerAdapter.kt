@@ -17,7 +17,12 @@ class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?
         viewType: Int
     ): BaseRecyclerViewHolder<MovieResult> =
         when (this.viewType) {
-            ViewType.MOVIE -> PopularMovieRecyclerViewHolder(onClick, context, parent)
-            else -> PopularMovieRecyclerViewHolder(onClick, context, parent)
+            ViewType.MOVIE -> PopularMovieRecyclerViewHolder(
+                onClick,
+                onFavoriteClick,
+                context,
+                parent
+            )
+            else -> PopularMovieRecyclerViewHolder(onClick, onFavoriteClick, context, parent)
         }
 }

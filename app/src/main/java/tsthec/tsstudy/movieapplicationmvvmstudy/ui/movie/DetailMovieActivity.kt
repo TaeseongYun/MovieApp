@@ -1,9 +1,11 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -15,6 +17,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.d
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailMovieBinding
+import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieGenreRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.DetailMovieInformationViewModel
@@ -35,8 +38,13 @@ class DetailMovieActivity : BaseActivity() {
     }
 
     private val movieRepository: MovieRepository by lazy {
-        MovieRepository.getInstance(RetrofitObject.movieAPI)
+        MovieRepository.getInstance(RetrofitObject.movieAPI, movieDatabase)
     }
+
+    private val movieDatabase: MovieDatabase by lazy {
+        MovieDatabase.getInstance(this)
+    }
+
     private lateinit var detailViewModel: DetailMovieInformationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,11 +63,26 @@ class DetailMovieActivity : BaseActivity() {
                     orientation = LinearLayoutManager.HORIZONTAL
                 }
             }
+            favorite_btn.setOnClickListener {
+                detailViewModel.onFavoriteButtonClick(getDetailMovie())
+            }
         }
 
         initView()
 
         detailViewModel.getResultDetailMovie(getDetailMovie().id)
+
+
+
+        detailViewModel.favoriteState.observe(this, Observer { map ->
+            favorite_btn.setOnClickListener {
+                if (map[getDetailMovie()] == true)
+                    detailViewModel.onNotFavoriteButtonClick(getDetailMovie())
+                else
+                    detailViewModel.onFavoriteButtonClick(getDetailMovie())
+            }
+            map[getDetailMovie()]?.let { showFavoriteState(it) }
+        })
 
     }
 
@@ -82,5 +105,23 @@ class DetailMovieActivity : BaseActivity() {
             this,
             detailViewModelFactory
         )[DetailMovieInformationViewModel::class.java]
+
+        detailViewModel.loadFavoriteData()
+
+        detailViewModel.databaseMovieResultList.observe(this, Observer {
+            it.forEach {mr ->
+                Log.d("test", "$mr")
+            }
+            it.find { mr ->
+                mr == getDetailMovie()
+            }?.isLike?.let { it1 -> showFavoriteState(it1) }
+        })
+    }
+
+    private fun showFavoriteState(isFavorite: Boolean) {
+        if (isFavorite)
+            favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
+        else
+            favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
     }
 }
