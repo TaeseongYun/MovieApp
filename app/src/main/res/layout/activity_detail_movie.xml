@@ -12,7 +12,6 @@
         <variable
             name="api"
             type="tsthec.tsstudy.movieapplicationmvvmstudy.api.API" />
-
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -55,12 +54,12 @@
                         android:background="@drawable/my_rect_shadow" />
 
                     <ImageView
+                        android:id="@+id/favorite_btn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginEnd="@dimen/spacing_large"
-                        android:id="@+id/favorite_btn"
                         android:src="@drawable/ic_favorite_border_black_24dp" />
                 </RelativeLayout>
 
@@ -153,19 +152,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/genre_recyclerView"
-                    android:textSize="@dimen/text_large"
-                    android:text="@string/movie_summary" />
+                    android:text="@string/movie_summary"
+                    android:textSize="@dimen/text_large" />
 
                 <TextView
-                    android:layout_below="@+id/summaryTV"
+                    android:id="@+id/summary"
+                    style="@style/DetailActivity.TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="영화 요약"
-                    android:layout_marginEnd="@dimen/spacing_xx_large"
+                    android:layout_below="@+id/summaryTV"
                     android:layout_marginStart="@dimen/spacing_xx_large"
-                    style="@style/DetailActivity.TextView"
-                    android:id="@+id/summary"
-                    android:text="@{movieDetailResult.overview}" />
+                    android:layout_marginEnd="@dimen/spacing_xx_large"
+                    android:text="@{movieDetailResult.overview}"
+                    tools:text="영화 요약" />
 
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>

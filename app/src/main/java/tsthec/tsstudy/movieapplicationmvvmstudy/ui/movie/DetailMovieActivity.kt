@@ -1,19 +1,16 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.view.View
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_detail_movie.*
-import org.jetbrains.anko.toast
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailMovieBinding
@@ -50,43 +47,22 @@ class DetailMovieActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with(binding) {
-            movieDetailResult = getDetailMovie()
-            api = API
-            if (!getDetailMovie().backdrop_path.isNullOrEmpty())
-                glideToolbar.loadMovieBackground(API.moviePhoto + getDetailMovie().backdrop_path)
-            movie_img.loadMovieBackground(API.moviePhoto + getDetailMovie().posterPath)
-            rating_tv.text = getDetailMovie().vote_average.toString()
-            genre_recyclerView.run {
-                adapter = genreRecyclerViewAdapter
-                layoutManager = LinearLayoutManager(this.context).apply {
-                    orientation = LinearLayoutManager.HORIZONTAL
-                }
-            }
-            favorite_btn.setOnClickListener {
-                detailViewModel.onFavoriteButtonClick(getDetailMovie())
-            }
-        }
-
         initView()
+
+
+        favorite_btn.setOnClickListener {
+            detailViewModel.favoriteClick()
+        }
 
         detailViewModel.getResultDetailMovie(getDetailMovie().id)
 
-
-
-        detailViewModel.favoriteState.observe(this, Observer { map ->
-            favorite_btn.setOnClickListener {
-                if (map[getDetailMovie()] == true)
-                    detailViewModel.onNotFavoriteButtonClick(getDetailMovie())
-                else
-                    detailViewModel.onFavoriteButtonClick(getDetailMovie())
-            }
-            map[getDetailMovie()]?.let { showFavoriteState(it) }
+        detailViewModel.favoriteState.observe(this, Observer {
+            it[getDetailMovie()]?.let { it1 -> showFavoriteState(it1) }
         })
-
     }
 
-    private fun getDetailMovie() = intent.getParcelableExtra("movieID") as MovieResult
+    private fun getDetailMovie() =
+        intent.getParcelableExtra("movieID") as MovieResult
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home)
@@ -106,16 +82,9 @@ class DetailMovieActivity : BaseActivity() {
             detailViewModelFactory
         )[DetailMovieInformationViewModel::class.java]
 
-        detailViewModel.loadFavoriteData()
+        viewBinding()
 
-        detailViewModel.databaseMovieResultList.observe(this, Observer {
-            it.forEach {mr ->
-                Log.d("test", "$mr")
-            }
-            it.find { mr ->
-                mr == getDetailMovie()
-            }?.isLike?.let { it1 -> showFavoriteState(it1) }
-        })
+//        detailViewModel.loadFavoriteData(getDetailMovie().id)
     }
 
     private fun showFavoriteState(isFavorite: Boolean) {
@@ -123,5 +92,22 @@ class DetailMovieActivity : BaseActivity() {
             favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
         else
             favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+    }
+
+    private fun viewBinding() {
+        with(binding) {
+            movieDetailResult = getDetailMovie()
+            api = API
+            if (!getDetailMovie().backdrop_path.isNullOrEmpty())
+                glideToolbar.loadMovieBackground(API.moviePhoto + getDetailMovie().backdrop_path)
+            movie_img.loadMovieBackground(API.moviePhoto + getDetailMovie().posterPath)
+            rating_tv.text = getDetailMovie().voteAverage.toString()
+            genre_recyclerView.run {
+                adapter = genreRecyclerViewAdapter
+                layoutManager = LinearLayoutManager(this.context).apply {
+                    orientation = LinearLayoutManager.HORIZONTAL
+                }
+            }
+        }
     }
 }

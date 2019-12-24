@@ -5,11 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 
 @Database(entities = [MovieResult::class], version = 1, exportSchema = false)
-@TypeConverters(value = [IntegerListConverters::class])
+@TypeConverters(value = [IntegerListConverters::class, GenreListConverters::class])
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun  movieResultDAO(): MovieResultDAO

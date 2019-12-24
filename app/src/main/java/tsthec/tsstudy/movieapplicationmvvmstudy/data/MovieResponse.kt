@@ -1,7 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data
 
 import android.os.Parcelable
-import androidx.room.*
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -37,8 +37,7 @@ data class MovieResult(
     val release_date: String,
     val title: String,
     val video: Boolean,
-    val vote_average: Double,
-    val vote_count: Int,
-
-    var isLike: Boolean
+    @SerializedName("vote_average")
+    val voteAverage: Double,
+    val vote_count: Int
 ): Parcelable

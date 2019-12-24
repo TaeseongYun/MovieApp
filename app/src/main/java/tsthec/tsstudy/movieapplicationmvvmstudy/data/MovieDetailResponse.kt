@@ -1,6 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data
 
 import android.os.Parcelable
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -14,17 +15,15 @@ data class MovieDetailResponse(
     val id: Int,
     val imdb_id: String,
     val original_language: String,
-    val original_title: String,
+    @SerializedName("original_title")
+    val originalTitle: String,
     val overview: String,
     val popularity: Double,
     @SerializedName("poster_path")
     val posterPath: String,
-    val production_companies: List<ProductionCompany>,
-    val production_countries: List<ProductionCountry>,
     val release_date: String,
     val revenue: Int,
     val runtime: Int,
-    val spoken_languages: List<SpokenLanguage>,
     val status: String,
     val tagline: String,
     val title: String,

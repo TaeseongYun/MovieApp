@@ -1,13 +1,9 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
-import android.util.Log
-import android.view.View
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.Android
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
@@ -15,7 +11,6 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.CreditsResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
-import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class DetailMovieInformationViewModel(
@@ -28,8 +23,6 @@ class DetailMovieInformationViewModel(
         movieRecyclerModel.onFavoriteClick = {
 
         }
-
-
     }
 
     private val _movieDetailData = MutableLiveData<MovieDetailResponse>()
@@ -47,11 +40,6 @@ class DetailMovieInformationViewModel(
     val favoriteState: LiveData<Map<MovieResult, Boolean>>
         get() = _favoriteState
 
-    private val _databaseMovieResultList = MutableLiveData<List<MovieResult>>()
-
-    val databaseMovieResultList: LiveData<List<MovieResult>>
-        get() = _databaseMovieResultList
-
     fun getResultDetailMovie(movieID: Int) {
         disposable += movieRepository.repositoryDetailMovie(
             movieID,
@@ -59,10 +47,10 @@ class DetailMovieInformationViewModel(
         ).observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
-                it.genres.forEach { gn ->
-                    movieRecyclerModel.addItems(gn)
+                it.genres.forEach { genre ->
+                    movieRecyclerModel.addItems(genre)
                 }
-                _movieDetailData.postValue(it)
+                _movieDetailData.value = it
                 movieRecyclerModel.notifiedChangedItem()
             }, {
                 it.printStackTrace()
@@ -81,11 +69,12 @@ class DetailMovieInformationViewModel(
             })
     }
 
-    fun onFavoriteButtonClick(movieResult: MovieResult) {
+    private fun onFavoriteButtonClick(movieResult: MovieResult) {
         disposable += movieRepository.repositoryMovieInsertRoomDatabase(movieResult)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                //                Log.d("it mr Parameters", "$movieResult")
                 val data = mutableMapOf<MovieResult, Boolean>()
                 data[movieResult] = true
                 _favoriteState.value = data
@@ -99,6 +88,7 @@ class DetailMovieInformationViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                //                Log.d("it mr Parameters", "$movieResult")
                 val data = mutableMapOf<MovieResult, Boolean>()
                 data[movieResult] = false
                 _favoriteState.value = data
@@ -107,16 +97,9 @@ class DetailMovieInformationViewModel(
             })
     }
 
-    //    fun on
-
-    //여기 도는데 isLike 가 변경이 안됌
-    fun loadFavoriteData() {
-        disposable += movieRepository.repositoryMovieListbyDatabase()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                _databaseMovieResultList.value = it
-                Log.d("$it.", "안녕하세요")
-            }, {})
+    fun favoriteClick() {
+//        when (_favoriteState.value) {
+//            null -> onFavoriteButtonClick(movieDetail)
+//        }
     }
 }
