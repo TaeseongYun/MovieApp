@@ -1,6 +1,5 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data.source
 
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.MovieInterface
@@ -43,4 +42,10 @@ class MovieRepository private constructor(
 
     fun repositoryGetDetailMovie(paramsID: Int) =
         movieLocalDatabaseRemoteData.loadMovieDatabase(paramsID)
+
+    fun repositoryGetListbyDatabase() =
+        movieLocalDatabaseRemoteData.loadMovieDatabaseList()
+
+    fun repositoryDeleteDatabase(paramsID: Int) =
+        movieLocalDatabaseRemoteData.deleteMovieDatabase(paramsID)
 }

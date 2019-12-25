@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.MovieFragment
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.StarFragment
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.TVFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadFragment
 
 @Suppress("CAST_NEVER_SUCCEEDS")
@@ -23,6 +25,13 @@ class MovieMainActivity : AppCompatActivity() {
         MovieFragment()
     }
 
+    private val tvFragment: TVFragment by lazy {
+        TVFragment()
+    }
+
+    private val starFragment: StarFragment by lazy {
+        StarFragment()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,9 +45,11 @@ class MovieMainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.tv_menu -> {
+                    tvFragment.setFragment()
                     true
                 }
                 R.id.star_menu -> {
+                    starFragment.setFragment()
                     true
                 }
 
@@ -66,13 +77,6 @@ class MovieMainActivity : AppCompatActivity() {
             }
         }
         return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.app_like_btn) {
-            FavoriteActivity.getStartActivity(this)
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun Fragment.setFragment() {

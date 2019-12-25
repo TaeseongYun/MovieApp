@@ -51,20 +51,13 @@
             <TextView
                 android:id="@+id/koreanMovieName"
                 style="@style/NowPlaying"
+                android:ems="6"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:layout_below="@+id/originMovieName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="한국영화이름" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentTop="true"
-                android:id="@+id/favorite_btn"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:src="@drawable/ic_favorite_border_black_24dp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

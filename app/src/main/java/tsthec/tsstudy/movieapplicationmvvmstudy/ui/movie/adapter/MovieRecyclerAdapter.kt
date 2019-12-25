@@ -1,12 +1,13 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.ViewGroup
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.adapter.BaseRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.DetailMovieListByDatabaseRecyclerHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
 
 class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?) :
@@ -19,10 +20,10 @@ class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?
         when (this.viewType) {
             ViewType.MOVIE -> PopularMovieRecyclerViewHolder(
                 onClick,
-                onFavoriteClick,
                 context,
                 parent
             )
-            else -> PopularMovieRecyclerViewHolder(onClick, onFavoriteClick, context, parent)
+            ViewType.STAR -> DetailMovieListByDatabaseRecyclerHolder(onClick, context, parent)
+            else -> throw Resources.NotFoundException("Is not have holder!")
         }
 }

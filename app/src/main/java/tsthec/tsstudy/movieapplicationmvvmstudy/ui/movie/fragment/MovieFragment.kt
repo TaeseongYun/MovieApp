@@ -62,7 +62,6 @@ class MovieFragment : Fragment() {
         movieViewModel.loadPopularMovie()
 
         movieViewModel.popularMovieListData.observe(this, Observer {
-
             if(it.second != null)
                 startActivity<DetailMovieActivity>("movieID" to it.second)
         })

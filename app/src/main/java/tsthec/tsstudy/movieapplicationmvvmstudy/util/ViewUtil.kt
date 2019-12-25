@@ -9,4 +9,3 @@ import androidx.recyclerview.widget.RecyclerView
 fun AppCompatActivity.loadFragment(@IdRes frameLayout: Int, fragment: Fragment) {
     supportFragmentManager.beginTransaction().run { this.replace(frameLayout, fragment).commit() }
 }
-

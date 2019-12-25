@@ -1,6 +1,5 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data.source
 
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 
@@ -12,6 +11,11 @@ class MovieLocalDatabaseRemoteData(movieDatabase: MovieDatabase) {
         movieDAO.insertMovieResult(movieResult)
 
     fun loadMovieDatabase(paraID: Int) =
-        movieDAO.getListFavoriteMovie(paraID)
+        movieDAO.getFavoriteMovie(paraID)
 
+    fun loadMovieDatabaseList() =
+        movieDAO.getListFavorite()
+
+    fun deleteMovieDatabase(paraID: Int) =
+        movieDAO.getFavoriteMovieDelete(paraID)
 }

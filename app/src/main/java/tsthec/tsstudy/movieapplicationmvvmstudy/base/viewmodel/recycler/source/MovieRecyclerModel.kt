@@ -13,7 +13,5 @@ interface MovieRecyclerModel {
 
     var onClick: (position: Int) -> Unit
 
-    var onFavoriteClick: (position: Int) -> Unit
-
     fun listReserve()
 }

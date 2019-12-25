@@ -10,7 +10,6 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailMovieBinding
@@ -24,7 +23,6 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieDetailVi
 class DetailMovieActivity : BaseActivity() {
 
     private val binding by binding<ActivityDetailMovieBinding>(R.layout.activity_detail_movie)
-
 
     private val genreRecyclerViewAdapter: MovieGenreRecyclerAdapter by lazy {
         MovieGenreRecyclerAdapter(ViewType.GENRE, this)
@@ -51,13 +49,15 @@ class DetailMovieActivity : BaseActivity() {
 
 
         favorite_btn.setOnClickListener {
-            detailViewModel.favoriteClick()
+            detailViewModel.favoriteClick(getDetailMovie())
         }
 
         detailViewModel.getResultDetailMovie(getDetailMovie().id)
 
+        detailViewModel.getLoadDatabase(getDetailMovie().id)
+
         detailViewModel.favoriteState.observe(this, Observer {
-            it[getDetailMovie()]?.let { it1 -> showFavoriteState(it1) }
+            showFavoriteState(it)
         })
     }
 
@@ -83,8 +83,6 @@ class DetailMovieActivity : BaseActivity() {
         )[DetailMovieInformationViewModel::class.java]
 
         viewBinding()
-
-//        detailViewModel.loadFavoriteData(getDetailMovie().id)
     }
 
     private fun showFavoriteState(isFavorite: Boolean) {

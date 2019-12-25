@@ -9,7 +9,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 
-@Database(entities = [MovieResult::class], version = 1, exportSchema = false)
+@Database(entities = [MovieResult::class], version = 2, exportSchema = false)
 @TypeConverters(value = [IntegerListConverters::class, GenreListConverters::class])
 abstract class MovieDatabase : RoomDatabase() {
 

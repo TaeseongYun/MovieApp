@@ -43,10 +43,6 @@ class MovieNowPlayingViewModel internal constructor(
                         mutableMovieResult[position]
                     )
             }
-
-        movieRecyclerModel.onFavoriteClick = {
-            Log.d("$it", "테스트")
-        }
     }
 
     fun loadPopularMovie() {

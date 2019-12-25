@@ -22,11 +22,11 @@
 
     <string name="authorName">출연자 이름</string>
 
-    <string name="menu_movie_title">영화</string>
+    <string name="menu_movie_title">MOVIE</string>
 
-    <string name="menu_tv_title">티비</string>
+    <string name="menu_tv_title">TV</string>
 
-    <string name="menu_star_title">스타배우</string>
+    <string name="menu_star_title">FAVORITE</string>
 
     <string name="movie_summary">Summary</string>
 

@@ -8,10 +8,4 @@
         android:title="@string/custom_search_menu_title"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/app_like_btn"
-        android:icon="@drawable/ic_favorite_border_black_24dp"
-        android:title="@string/favorite_btn"
-        app:showAsAction="always" />
 </menu>

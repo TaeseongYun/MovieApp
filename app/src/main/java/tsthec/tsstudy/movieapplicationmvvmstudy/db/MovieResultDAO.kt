@@ -10,8 +10,14 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 interface MovieResultDAO {
 
     @Query("Select * from MovieResult where id = :id_")
-    fun getListFavoriteMovie(id_: Int): Single<MovieResult>
+    fun getFavoriteMovie(id_: Int): Single<MovieResult>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovieResult(movieResult: MovieResult): Completable
+
+    @Query("Select * from MOVIERESULT")
+    fun getListFavorite(): Single<List<MovieResult>>
+
+    @Query("Delete from MovieResult Where id = :id_")
+    fun getFavoriteMovieDelete(id_: Int): Completable
 }
