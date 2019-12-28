@@ -25,9 +25,6 @@ class MovieRepository private constructor(
         MovieRemoteDataSource(movieAPI)
     }
 
-    fun repositoryMovieList(apiKey: String, language: String = "ko-KR", page: Int) =
-        movieRemoteDataSource.remoteSourceMovieList(apiKey, language, page)
-
     fun repositoryDetailMovie(movieID: Int, apiKey: String) =
         movieRemoteDataSource.remoteSourceDetailMovie(movieID, apiKey = apiKey)
 
@@ -48,4 +45,7 @@ class MovieRepository private constructor(
 
     fun repositoryDeleteDatabase(paramsID: Int) =
         movieLocalDatabaseRemoteData.deleteMovieDatabase(paramsID)
+
+    fun repositoryLoadPopularTV(apiKey: String, page: Int) =
+        movieRemoteDataSource.remoteSourcePopularTV(apiKey, page)
 }

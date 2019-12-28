@@ -20,6 +20,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.DetailMovieActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieViewModelFactory
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
+//import tsthec.tsstudy.movieapplicationmvvmstudy.util.viewInit
 
 class MovieFragment : Fragment() {
     private val movieAdapter: MovieRecyclerAdapter by lazy {
@@ -45,11 +47,13 @@ class MovieFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        movieViewModel = ViewModelProviders.of(
-            this,
-            moviePopularViewModelFactory
-        )[MovieNowPlayingViewModel::class.java]
-
+//        movieViewModel = ViewModelProviders.of(
+//            this,
+//            moviePopularViewModelFactory
+//        )[MovieNowPlayingViewModel::class.java]
+        movieViewModel = MovieNowPlayingViewModel::class.java.inject(this) {
+            MovieNowPlayingViewModel(movieRepository, movieAdapter, ViewType.MOVIE)
+        }
         return inflater.inflate(R.layout.movie_fragment, container, false)
     }
 
@@ -62,7 +66,7 @@ class MovieFragment : Fragment() {
         movieViewModel.loadPopularMovie()
 
         movieViewModel.popularMovieListData.observe(this, Observer {
-            if(it.second != null)
+            if (it.second != null)
                 startActivity<DetailMovieActivity>("movieID" to it.second)
         })
 
@@ -72,7 +76,7 @@ class MovieFragment : Fragment() {
             addOnScrollListener(addRecyclerViewListener)
         }
     }
-    
+
     override fun onDestroyView() {
         super.onDestroyView()
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)

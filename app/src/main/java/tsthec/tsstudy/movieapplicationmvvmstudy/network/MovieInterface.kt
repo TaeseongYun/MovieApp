@@ -9,12 +9,6 @@ import retrofit2.http.Query
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.*
 
 interface MovieInterface {
-    @GET("movie/now_playing")
-    fun loadMovieListAboutNowPlaying(
-        @Query("api_key") api_key: String,
-        @Query("language") language: String = "ko-KR",
-        @Query("page") page: Int
-    ): Single<MovieResponse>
 
     @GET("movie/{movie_id}")
     fun loadMovieDetailInformation(
@@ -28,7 +22,7 @@ interface MovieInterface {
         @Query("api_key") api_key: String,
         @Query("language") language: String = "ko-KR",
         @Query("page") page: Int
-    ): Single<MoviePopular>
+    ): Single<MovieResponse>
 
     @GET("movie/top_rated")
     fun loadOrderByRatingMovie(
@@ -42,4 +36,11 @@ interface MovieInterface {
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String
     ): Single<CreditsResponse>
+
+    @GET("tv/popular")
+    fun loadPopularTv(
+        @Query("api_key") api_key: String,
+        @Query("language") language: String = "ko-KR",
+        @Query("page") page: Int
+    ): Single<TVResponse>
 }

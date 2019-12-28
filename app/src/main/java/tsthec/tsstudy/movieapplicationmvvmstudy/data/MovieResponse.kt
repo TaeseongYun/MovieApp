@@ -6,18 +6,11 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 data class MovieResponse(
-    val dates: Dates,
     val page: Int,
     val results: List<MovieResult>,
     val total_pages: Int,
     val total_results: Int
 )
-
-data class Dates(
-    val maximum: String,
-    val minimum: String
-)
-
 
 @Parcelize
 @Entity(primaryKeys = ["id"])
