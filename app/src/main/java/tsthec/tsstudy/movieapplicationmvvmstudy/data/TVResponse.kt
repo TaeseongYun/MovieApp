@@ -1,6 +1,8 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class TVResponse(
     val page: Int,
@@ -9,8 +11,9 @@ data class TVResponse(
     val total_results: Int
 )
 
+@Parcelize
 data class TVResult(
-    val backdrop_path: String,
+    val backdrop_path: String?,
     val first_air_date: String,
     val genre_ids: List<Int>,
     val id: Int,
@@ -24,6 +27,7 @@ data class TVResult(
     val popularity: Double,
     @SerializedName("poster_path")
     val posterPath: String,
-    val vote_average: Double,
+    @SerializedName("vote_average")
+    val voteAverage: Double,
     val vote_count: Int
-)
+) : Parcelable

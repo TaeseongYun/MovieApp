@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.movie_fragment.*
@@ -16,12 +17,12 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.d
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.DetailMovieActivity
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieViewModelFactory
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
-//import tsthec.tsstudy.movieapplicationmvvmstudy.util.viewInit
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
 class MovieFragment : Fragment() {
     private val movieAdapter: MovieRecyclerAdapter by lazy {
@@ -70,10 +71,14 @@ class MovieFragment : Fragment() {
                 startActivity<DetailMovieActivity>("movieID" to it.second)
         })
 
+        val controller: LayoutAnimationController =
+            AnimationUtils.loadLayoutAnimation(this.context, R.anim.layoutanimation)
+
         movieRecyclerView.run {
             adapter = movieAdapter
             layoutManager = GridLayoutManager(this.context, 2)
             addOnScrollListener(addRecyclerViewListener)
+            layoutAnimation = controller
         }
     }
 
@@ -82,20 +87,11 @@ class MovieFragment : Fragment() {
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)
     }
 
-    private val addRecyclerViewListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            val totalItemCount = recyclerView.adapter?.itemCount ?: 0
-
-            val visibleItem = recyclerView.childCount
-
-            val firstItemIndex =
-                (recyclerView.layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
-
-            if (!movieViewModel.isLoading && (visibleItem + firstItemIndex) >= totalItemCount - 3)
+    private val addRecyclerViewListener =
+        scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
+            if (!movieViewModel.isLoading && (visibleItem + firstViewItemIndex) >= totalItemCount - 3)
                 movieViewModel.loadPopularMovie()
         }
-    }
 
     private fun viewModelInit() {
         movieViewModel.run {

@@ -39,8 +39,6 @@
     <dimen name="card_view_vertical_margin">4dp</dimen>
     <dimen name="card_view_corner_radius">2dp</dimen>
 
-    <integer name="anim_duration_long">500</integer>
-
     <dimen name="key_line_1">72dp</dimen>
 
     <dimen name="spacing_minus_micro">-2dp</dimen>
@@ -61,4 +59,7 @@
     <dimen name="detail_activity_star_view">30dp</dimen>
 
     <dimen name="detail_card">200dp</dimen>
+
+    <integer name="anim_duration_medium">300</integer>
+    <integer name="anim_duration_long">400</integer>
 </resources>

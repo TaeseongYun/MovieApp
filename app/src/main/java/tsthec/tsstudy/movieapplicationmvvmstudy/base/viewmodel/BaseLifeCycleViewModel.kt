@@ -1,7 +1,5 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel
 
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 

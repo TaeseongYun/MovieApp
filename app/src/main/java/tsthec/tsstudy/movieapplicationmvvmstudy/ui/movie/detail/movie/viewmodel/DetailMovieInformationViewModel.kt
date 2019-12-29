@@ -1,4 +1,4 @@
-package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
+package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

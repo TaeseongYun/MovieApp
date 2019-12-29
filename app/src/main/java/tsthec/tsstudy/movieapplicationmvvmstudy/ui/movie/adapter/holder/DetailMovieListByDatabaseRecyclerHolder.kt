@@ -1,9 +1,13 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import kotlinx.android.synthetic.main.recycler_view_detail.view.*
+import org.jetbrains.anko.activityManager
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder

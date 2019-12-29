@@ -26,13 +26,14 @@ fun <T> createRetrofitFun(
 //Json 받아온 결과를 콘솔창에다 찍어줌
 fun clientOkHttp(): OkHttpClient =
     OkHttpClient.Builder().apply {
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
         addInterceptor(
-            HttpLoggingInterceptor().setLevel(
-                if (BuildConfig.DEBUG) {
+            httpLoggingInterceptor.apply {
+                httpLoggingInterceptor.level = if (BuildConfig.DEBUG) {
                     HttpLoggingInterceptor.Level.BODY
                 } else
                     HttpLoggingInterceptor.Level.NONE
-            )
+            }
         )
         connectTimeout(REQUEST_TIME_OUT, TimeUnit.SECONDS)
         writeTimeout(REQUEST_TIME_OUT, TimeUnit.SECONDS)

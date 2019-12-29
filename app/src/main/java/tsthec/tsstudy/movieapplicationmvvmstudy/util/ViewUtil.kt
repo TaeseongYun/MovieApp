@@ -20,14 +20,39 @@ fun AppCompatActivity.loadFragment(@IdRes frameLayout: Int, fragment: Fragment) 
 fun <T : ViewModel> Class<T>.inject(fragment: Fragment, customKey: String = "", onCreate: () -> T) =
     ViewModelProviders.of(fragment, onCreateViewModel(onCreate)).run {
         if (customKey.isNotEmpty()) {
-            get(customKey, this@inject)
+            this.get(customKey, this@inject)
         } else
             this.get(this@inject)
     }
 
-fun <VM : ViewModel> onCreateViewModel(cls: () -> VM) =
+fun <T : ViewModel> Class<T>.inject(
+    fragment: FragmentActivity,
+    customKey: String = "",
+    onCreate: () -> T
+) =
+    ViewModelProviders.of(fragment, onCreateViewModel(onCreate)).run {
+        if (customKey.isNotEmpty()) {
+            this.get(customKey, this@inject)
+        } else
+            this.get(this@inject)
+    }
+
+fun <T : ViewModel> onCreateViewModel(cls: () -> T) =
     object : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return cls() as T
         }
     }
+
+inline fun scrollListener(
+    crossinline handler: (totalItemCount: Int, visibleItem: Int, firstViewItemIndex: Int) -> Unit
+) = object : RecyclerView.OnScrollListener() {
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        super.onScrolled(recyclerView, dx, dy)
+        val firstViewItemIndex =
+            (recyclerView.layoutManager as GridLayoutManager).findFirstVisibleItemPosition()
+        val visibleItem = recyclerView.childCount
+        val totalItemCount = recyclerView.adapter?.itemCount ?: 0
+        handler(totalItemCount, visibleItem, firstViewItemIndex)
+    }
+}

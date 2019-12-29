@@ -1,7 +1,8 @@
-package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie
+package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,10 +17,12 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailMovieB
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieGenreRecyclerAdapter
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.DetailMovieInformationViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieDetailViewModelFactory
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
 
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DetailMovieActivity : BaseActivity() {
 
     private val binding by binding<ActivityDetailMovieBinding>(R.layout.activity_detail_movie)
@@ -42,10 +45,28 @@ class DetailMovieActivity : BaseActivity() {
 
     private lateinit var detailViewModel: DetailMovieInformationViewModel
 
+    override fun viewInit() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
+        }
+
+        detailViewModel = DetailMovieInformationViewModel::class.java.inject(this) {
+            DetailMovieInformationViewModel(movieRepository, genreRecyclerViewAdapter)
+        }
+//        detailViewModel = ViewModelProviders.of(
+//            this,
+//            detailViewModelFactory
+//        )[DetailMovieInformationViewModel::class.java]
+//
+        viewBinding()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initView()
+        viewInit()
 
 
         favorite_btn.setOnClickListener {
@@ -59,10 +80,12 @@ class DetailMovieActivity : BaseActivity() {
         detailViewModel.favoriteState.observe(this, Observer {
             showFavoriteState(it)
         })
+
     }
 
     private fun getDetailMovie() =
         intent.getParcelableExtra("movieID") as MovieResult
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home)
@@ -70,20 +93,6 @@ class DetailMovieActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun initView() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
-        }
-
-        detailViewModel = ViewModelProviders.of(
-            this,
-            detailViewModelFactory
-        )[DetailMovieInformationViewModel::class.java]
-
-        viewBinding()
-    }
 
     private fun showFavoriteState(isFavorite: Boolean) {
         if (isFavorite)

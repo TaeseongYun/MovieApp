@@ -6,11 +6,11 @@
     <data>
 
         <variable
-            name="movieDetailResult"
-            type="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />
+            name="tvDetailResult"
+            type="tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult" />
 
         <variable
-            name="api"
+            name="API"
             type="tsthec.tsstudy.movieapplicationmvvmstudy.api.API" />
     </data>
 
@@ -19,12 +19,11 @@
         android:layout_height="match_parent"
         android:background="@android:color/black"
         android:fitsSystemWindows="true"
-        tools:context=".ui.movie.detail.movie.DetailMovieActivity">
+        tools:context=".ui.movie.detail.tv.DetailTVActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="300dp">
-
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -32,7 +31,8 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleGravity="top|left"
                 app:expandedTitleTextAppearance="@style/CollapsedExpandedTitleText"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:collapsedTitleTextAppearance="@style/CollapsedExpandedTitleText">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -62,16 +62,15 @@
                         android:src="@drawable/ic_favorite_border_black_24dp" />
                 </RelativeLayout>
 
-
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:layout_scrollFlags="scroll|enterAlways"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    app:layout_scrollFlags="scroll|enterAlways"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:title="@{movieDetailResult.title}" />
-
+                    app:title="@{tvDetailResult.name}" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
+
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -93,7 +92,7 @@
                     app:cardCornerRadius="@dimen/spacing_normal">
 
                     <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
-                        android:id="@+id/movie_img"
+                        android:id="@+id/tv_img"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         tools:src="@drawable/ic_launcher_background" />
@@ -106,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/movie_cardView"
-                    android:text="@{movieDetailResult.title}"
+                    android:text="@{tvDetailResult.name}"
                     android:textSize="@dimen/text_x_large"
                     android:textStyle="bold"
                     tools:text="안녕하세요" />
@@ -121,7 +120,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/rating_tv"
+                        android:id="@+id/rating_tv_TV"
                         style="@style/DetailActivity.TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -137,21 +136,21 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/genre_recyclerView"
+                    android:id="@+id/genre_recyclerView_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/detail_movie_genre_item"
                     android:layout_below="@+id/rating_layout"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_toEndOf="@+id/movie_cardView" />
+                    android:layout_toEndOf="@+id/movie_cardView"
+                    tools:listitem="@layout/detail_movie_genre_item" />
 
                 <TextView
                     android:id="@+id/summaryTV"
                     style="@style/DetailActivity.TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/genre_recyclerView"
+                    android:layout_below="@+id/genre_recyclerView_tv"
                     android:text="@string/movie_summary"
                     android:textSize="@dimen/text_large" />
 
@@ -163,11 +162,10 @@
                     android:layout_below="@+id/summaryTV"
                     android:layout_marginStart="@dimen/spacing_xx_large"
                     android:layout_marginEnd="@dimen/spacing_xx_large"
-                    android:text="@{movieDetailResult.overview}"
+                    android:text="@{tvDetailResult.overview}"
                     tools:text="영화 요약" />
 
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

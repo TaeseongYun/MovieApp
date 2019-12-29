@@ -14,8 +14,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.d
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.DetailMovieActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.PopularTVRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.DetailTVActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieViewModelFactory
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
@@ -44,7 +44,6 @@ class TVFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         tvViewModel = MovieNowPlayingViewModel::class.java.inject(this) {
             MovieNowPlayingViewModel(tvRepository, tvRecyclerAdapter, ViewType.TV)
         }
@@ -66,7 +65,7 @@ class TVFragment : Fragment() {
 
         tvViewModel.popularTvListData.observe(this, Observer {
             if(it.second != null) {
-                startActivity<DetailMovieActivity>("movieID" to it.second)
+                startActivity<DetailTVActivity>("tvID" to it.second)
             }
         })
         super.onViewCreated(view, savedInstanceState)

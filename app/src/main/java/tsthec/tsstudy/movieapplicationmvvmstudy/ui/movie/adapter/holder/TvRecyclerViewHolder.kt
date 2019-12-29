@@ -25,5 +25,4 @@ class TvRecyclerViewHolder(onClick: (Int) -> Unit, context: Context?, parent: Vi
         originMovieName.text = item.originalName
         koreanMovieName.text = item.name
     }
-
 }
