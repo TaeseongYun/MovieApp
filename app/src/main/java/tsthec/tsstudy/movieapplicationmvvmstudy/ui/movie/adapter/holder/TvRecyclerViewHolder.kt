@@ -10,7 +10,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecycl
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 
 class TvRecyclerViewHolder(onClick: (Int) -> Unit, context: Context?, parent: ViewGroup) :
-    BaseRecyclerViewHolder<TVResult>(context, parent, R.layout.recycler_view_detail) {
+    BaseRecyclerViewHolder<TVResult>(context, parent, R.layout.tv_detail_recycler_view_item) {
 
     init {
         itemView.setOnClickListener {
@@ -18,11 +18,11 @@ class TvRecyclerViewHolder(onClick: (Int) -> Unit, context: Context?, parent: Vi
         }
     }
 
-    override fun View.onBind(item: TVResult) {
-        if (item.posterPath.isNotEmpty())
-            movieBackgroundIMG.loadMovieBackground("${API.moviePhoto}${item.posterPath}")
-
-        originMovieName.text = item.originalName
-        koreanMovieName.text = item.name
-    }
+//    override fun View.onBind(item: TVResult) {
+//        if (item.posterPath.isNotEmpty())
+//            movieBackgroundIMG.loadMovieBackground("${API.moviePhoto}${item.posterPath}")
+//
+//        originMovieName.text = item.originalName
+//        koreanMovieName.text = item.name
+//    }
 }

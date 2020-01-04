@@ -1,6 +1,5 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder
 
-import android.app.ActivityOptions
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -25,10 +24,10 @@ class DetailMovieListByDatabaseRecyclerHolder(
         }
     }
 
-    override fun View.onBind(item: MovieResult) {
-        if (item.posterPath.isNotEmpty())
-            movieBackgroundIMG.loadMovieBackground("${API.moviePhoto}${item.posterPath}")
-        originMovieName.text = item.originalTitle
-        koreanMovieName.text = item.title
-    }
+//    override fun View.onBind(item: MovieResult) {
+//        if (item.posterPath.isNotEmpty())
+//            movieBackgroundIMG.loadMovieBackground("${API.moviePhoto}${item.posterPath}")
+//        originMovieName.text = item.originalTitle
+//        koreanMovieName.text = item.title
+//    }
 }

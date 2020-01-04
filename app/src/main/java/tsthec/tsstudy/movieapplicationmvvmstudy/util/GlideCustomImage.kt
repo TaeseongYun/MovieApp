@@ -5,13 +5,12 @@ import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import androidx.constraintlayout.widget.Placeholder
+import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.request.RequestOptions
 import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.CropSquareTransformation
-import jp.wasabeef.glide.transformations.CropTransformation
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 
@@ -20,6 +19,7 @@ class GlideCustomImage @JvmOverloads constructor(
     attrs: AttributeSet,
     defStyleAttr: Int = 0
 ) : ImageView(context, attrs, defStyleAttr) {
+
     fun loadMovieBackground(baseUrl: String, @DrawableRes placeholder: Int = R.drawable.ic_bubble_chart_white_24dp) {
         Glide.with(this)
             .load(baseUrl)
@@ -39,4 +39,6 @@ class GlideCustomImage @JvmOverloads constructor(
             .apply(RequestOptions.placeholderOf(placeholder))
             .into(this)
     }
+
+
 }

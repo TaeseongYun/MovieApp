@@ -2,11 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
         <variable
             name="data"
-            type="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />
+            type="tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult" />
 
         <variable
             name="API"
@@ -59,7 +60,7 @@
                     android:ellipsize="end"
                     android:ems="4"
                     android:maxLines="1"
-                    android:text="@{data.originalTitle}"
+                    android:text="@{data.originalName}"
                     tools:text="오리진 영화이름" />
 
                 <TextView
@@ -71,7 +72,7 @@
                     android:ellipsize="end"
                     android:ems="6"
                     android:maxLines="1"
-                    android:text="@{data.title}"
+                    android:text="@{data.name}"
                     tools:text="한국영화이름" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

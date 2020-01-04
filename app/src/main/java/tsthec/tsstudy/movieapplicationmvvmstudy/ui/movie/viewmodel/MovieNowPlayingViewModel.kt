@@ -15,6 +15,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.M
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.with
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MovieNowPlayingViewModel
@@ -105,8 +106,9 @@ internal constructor(
 
     fun loadPopularTV() {
         disposable += movieRepository.repositoryLoadPopularTV(BuildConfig.MOVIE_API_KEY, ++page)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.io())
+            .with()
             .doOnSubscribe {
                 if (::showProgressBar.isInitialized)
                     showProgressBar()

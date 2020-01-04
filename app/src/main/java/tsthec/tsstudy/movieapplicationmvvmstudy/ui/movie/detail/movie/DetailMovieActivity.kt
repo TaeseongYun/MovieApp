@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_detail_movie.*
+import org.koin.android.ext.android.inject
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
@@ -39,9 +40,10 @@ class DetailMovieActivity : BaseActivity() {
         MovieRepository.getInstance(RetrofitObject.movieAPI, movieDatabase)
     }
 
-    private val movieDatabase: MovieDatabase by lazy {
-        MovieDatabase.getInstance(this)
-    }
+//    private val movieDatabase: MovieDatabase by lazy {
+//        MovieDatabase.getInstance(this)
+//    }
+
 
     private lateinit var detailViewModel: DetailMovieInformationViewModel
 

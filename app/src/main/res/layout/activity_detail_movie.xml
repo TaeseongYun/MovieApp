@@ -140,7 +140,7 @@
                     android:id="@+id/genre_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/detail_movie_genre_item"
+                    tools:listitem="@layout/recycler_detail_item_genre"
                     android:layout_below="@+id/rating_layout"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_normal"
