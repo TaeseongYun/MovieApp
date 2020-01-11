@@ -19,9 +19,13 @@ class DetailMovieListByDatabaseRecyclerHolder(
 ) :
     BaseRecyclerViewHolder<MovieResult>(context, parent, R.layout.recycler_view_detail) {
     init {
-        itemView.setOnClickListener {
+        containerView.setOnClickListener {
             onClick(adapterPosition)
         }
+    }
+
+    override fun onCreateViewIMG(item: Any?) {
+        // Not Now apply everyThing...
     }
 
 //    override fun View.onBind(item: MovieResult) {

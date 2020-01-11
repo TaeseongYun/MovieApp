@@ -1,13 +1,11 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder
 
 import android.content.Context
-import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.recycler_view_detail.view.*
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 class PopularMovieRecyclerViewHolder(
@@ -20,12 +18,18 @@ class PopularMovieRecyclerViewHolder(
     ) {
 
     init {
-        itemView.run {
+        containerView.run {
             setOnClickListener {
                 onClick(adapterPosition)
             }
         }
     }
+
+    override fun onCreateViewIMG(item: Any?) {
+        val castItem = item.cast(item)
+        binding.root.movieBackgroundIMG.loadMovieBackground(API.moviePhoto + castItem?.posterPath)
+    }
+
 
 //    override fun View.onBind(item: MovieResult) {
 //        if (item.posterPath.isNotEmpty())

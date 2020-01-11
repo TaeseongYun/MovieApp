@@ -13,16 +13,15 @@ class TvRecyclerViewHolder(onClick: (Int) -> Unit, context: Context?, parent: Vi
     BaseRecyclerViewHolder<TVResult>(context, parent, R.layout.tv_detail_recycler_view_item) {
 
     init {
-        itemView.setOnClickListener {
+        containerView.setOnClickListener {
             onClick(adapterPosition)
         }
     }
 
-//    override fun View.onBind(item: TVResult) {
-//        if (item.posterPath.isNotEmpty())
-//            movieBackgroundIMG.loadMovieBackground("${API.moviePhoto}${item.posterPath}")
-//
-//        originMovieName.text = item.originalName
-//        koreanMovieName.text = item.name
-//    }
+    override fun onCreateViewIMG(item: Any?) {
+        val castItem = item.cast(item)
+        binding.root
+            .movieBackgroundIMG
+            .loadMovieBackground(API.moviePhoto + castItem?.posterPath)
+    }
 }

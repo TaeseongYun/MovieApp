@@ -11,7 +11,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "tsthec.tsstudy.movieapplicationmvvmstudy"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -96,4 +96,10 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 // Koin AndroidX Experimental features
     implementation "org.koin:koin-androidx-ext:$koin_version"
+}
+androidExtensions {
+
+    //리사이클러 뷰 find 캐싱
+    // 실험실 기능을 활성화합니다.
+    experimental = true
 }

@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.movie_fragment.*
 import org.jetbrains.anko.support.v4.startActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
@@ -58,33 +57,32 @@ class MovieFragment : Fragment() {
         return inflater.inflate(R.layout.movie_fragment, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModelInit()
+    }
 
-        movieViewModel.loadPopularMovie()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        loadMovie()
 
+        startActivityObserve()
+    }
+
+    private fun loadMovie() = movieViewModel.loadPopularMovie()
+
+    private fun startActivityObserve() {
         movieViewModel.popularMovieListData.observe(this, Observer {
             if (it.second != null)
                 startActivity<DetailMovieActivity>("movieID" to it.second)
         })
-
-        val controller: LayoutAnimationController =
-            AnimationUtils.loadLayoutAnimation(this.context, R.anim.layoutanimation)
-
-        movieRecyclerView.run {
-            adapter = movieAdapter
-            layoutManager = GridLayoutManager(this.context, 2)
-            addOnScrollListener(addRecyclerViewListener)
-            layoutAnimation = controller
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)
+        movieViewModel.clear()
     }
 
     private val addRecyclerViewListener =
@@ -102,6 +100,12 @@ class MovieFragment : Fragment() {
             hideProgressBar = {
                 loading_group_progress?.visibility = View.GONE
             }
+        }
+
+        movieRecyclerView.run {
+            adapter = movieAdapter
+            layoutManager = GridLayoutManager(this.context, 2)
+            addOnScrollListener(addRecyclerViewListener)
         }
     }
 }

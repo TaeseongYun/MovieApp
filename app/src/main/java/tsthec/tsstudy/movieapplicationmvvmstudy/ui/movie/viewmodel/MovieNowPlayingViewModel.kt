@@ -2,11 +2,8 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
 import android.content.res.Resources
 import android.util.Log
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
@@ -34,6 +31,7 @@ internal constructor(
 
     var isLoading = false
 
+
     private val mutableMovieResult = mutableListOf<MovieResult>()
 
     private val mutableTvResult = mutableListOf<TVResult>()
@@ -51,7 +49,7 @@ internal constructor(
     init {
         movieRecyclerModel.onClick =
             { position: Int ->
-                when(viewType) {
+                when (viewType) {
                     ViewType.MOVIE -> {
                         _popularMovieListData.value =
                             Pair(
@@ -74,8 +72,7 @@ internal constructor(
 
     fun loadPopularMovie() {
         disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, ++page)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+            .with()
             .doOnSubscribe {
                 // :: -> 코틀린 리플렉션? (공부)
                 if (::showProgressBar.isInitialized) {
@@ -93,7 +90,6 @@ internal constructor(
             .map { mp ->
                 mp.results.forEach { movieResult ->
                     mutableMovieResult.add(movieResult)
-
                     movieRecyclerModel.addItems(movieResult)
                 }
             }
@@ -106,8 +102,6 @@ internal constructor(
 
     fun loadPopularTV() {
         disposable += movieRepository.repositoryLoadPopularTV(BuildConfig.MOVIE_API_KEY, ++page)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(Schedulers.io())
             .with()
             .doOnSubscribe {
                 if (::showProgressBar.isInitialized)
@@ -133,4 +127,6 @@ internal constructor(
                 it.printStackTrace()
             })
     }
+
+    fun clear() = movieRecyclerModel.clearItems()
 }

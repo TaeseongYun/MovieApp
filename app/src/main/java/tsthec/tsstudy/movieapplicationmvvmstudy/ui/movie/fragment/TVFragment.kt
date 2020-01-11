@@ -17,8 +17,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.PopularTVRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.DetailTVActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieViewModelFactory
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
 class TVFragment : Fragment() {
     private val tvRecyclerAdapter: PopularTVRecyclerAdapter by lazy {
@@ -26,10 +26,6 @@ class TVFragment : Fragment() {
     }
 
     private lateinit var tvViewModel: MovieNowPlayingViewModel
-
-    private val tvViewModelFactory: MovieViewModelFactory by lazy {
-        MovieViewModelFactory(tvRepository, tvRecyclerAdapter)
-    }
 
     private val tvRepository: MovieRepository by lazy {
         MovieRepository.getInstance(RetrofitObject.movieAPI, tvDatabase)
@@ -61,15 +57,28 @@ class TVFragment : Fragment() {
         tv_recyclerView.run {
             adapter = tvRecyclerAdapter
             layoutManager = GridLayoutManager(this.context, 2)
+            addOnScrollListener(tvScrollListener)
         }
 
         tvViewModel.popularTvListData.observe(this, Observer {
-            if(it.second != null) {
+            if (it.second != null) {
                 startActivity<DetailTVActivity>("tvID" to it.second)
             }
         })
         super.onViewCreated(view, savedInstanceState)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        tv_recyclerView.removeOnScrollListener(tvScrollListener)
+        tvViewModel.clear()
+    }
+
+    private val tvScrollListener =
+        scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
+            if (!tvViewModel.isLoading && totalItemCount - 3 <= (visibleItem + firstViewItemIndex))
+                tvViewModel.loadPopularTV()
+        }
 
     private fun viewInit() {
         tvViewModel.hideProgressBar = {

@@ -18,7 +18,10 @@ abstract class BaseRecyclerAdapter<in T>
     override lateinit var onClick: (position: Int) -> Unit
 
     override fun onBindViewHolder(holder: BaseRecyclerViewHolder<*>, position: Int) {
-        holder.onBind(list[position])
+        holder.run {
+            onBind(list[position])
+            onCreateViewIMG(list[position])
+        }
     }
 
     override fun addItems(item: Any?) {

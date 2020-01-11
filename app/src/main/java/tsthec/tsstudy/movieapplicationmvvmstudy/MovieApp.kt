@@ -11,7 +11,7 @@ class MovieApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MovieApp)
-            modules(databaseModel)
+            modules(listOf(databaseModel))
         }
     }
 }
