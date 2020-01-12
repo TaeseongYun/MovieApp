@@ -17,9 +17,5 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?
     ): T = DataBindingUtil.inflate(inflater, resId, container, false)
 
-    protected val movieDatabase: MovieDatabase by inject()
-
-    protected val movieAPI: MovieInterface by inject()
-
     protected val movieRepository: MovieRepository by inject()
 }

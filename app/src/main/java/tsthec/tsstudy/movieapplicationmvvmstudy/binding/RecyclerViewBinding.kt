@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.binding
 
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import jp.wasabeef.glide.transformations.CropSquareTransformation
@@ -31,11 +33,15 @@ fun bindingAdapterMovieList(view: RecyclerView, movieList: List<MovieResult>) {
 }
 
 @BindingAdapter("bindPosterImage")
-fun bindingPosterImage(view: GlideCustomImage, posterPath: String) {
+fun bindingPosterImage(view: GlideCustomImage, posterPath: String?) {
     Glide.with(view)
         .load(API.moviePhoto + posterPath)
+        .error(R.drawable.ic_bubble_chart_white_24dp)
         .apply(RequestOptions.placeholderOf(R.drawable.ic_bubble_chart_white_24dp))
+        .override(200,200)// out of memory 방지
         .apply(RequestOptions.bitmapTransform(CropSquareTransformation()))
+        .apply(RequestOptions.skipMemoryCacheOf(true))// cache사용 이라고 하는 코드
+        .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 사용하지 않음
         .transition(DrawableTransitionOptions.withCrossFade(1000))
         .into(view)
 }

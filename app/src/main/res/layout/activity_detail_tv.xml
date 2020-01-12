@@ -143,14 +143,14 @@
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_toEndOf="@+id/movie_cardView"
-                    tools:listitem="@layout/detail_movie_genre_item" />
+                    tools:listitem="@layout/recycler_detail_item_genre" />
 
                 <TextView
                     android:id="@+id/summaryTV"
                     style="@style/DetailActivity.TextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/genre_recyclerView_tv"
+                    android:layout_below="@+id/movie_cardView"
                     android:text="@string/movie_summary"
                     android:textSize="@dimen/text_large" />
 

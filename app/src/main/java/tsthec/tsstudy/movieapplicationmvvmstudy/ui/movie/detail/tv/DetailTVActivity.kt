@@ -2,6 +2,7 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail_movie.toolbar
 import kotlinx.android.synthetic.main.activity_detail_tv.*
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
@@ -48,7 +49,7 @@ class DetailTVActivity : BaseActivity() {
         }
     }
 
-    private fun viewBinding() {
+    override fun viewBinding() {
         with(binding) {
             tvDetailResult = getDetailTV()
             if (!getDetailTV().backdrop_path.isNullOrEmpty())
@@ -75,5 +76,13 @@ class DetailTVActivity : BaseActivity() {
         // 해당 id 값에 따른 디테일값을 알아야 장르를 recyclerView에 추가시켜 줄 수 있다.
         tvViewModel.getDetailTV(getDetailTV().id)
     }
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        Glide.get(this).trimMemory(level)
+    }
 
+    override fun onLowMemory() {
+        super.onLowMemory()
+        Glide.get(this).clearMemory()
+    }
 }
