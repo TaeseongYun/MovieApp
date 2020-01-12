@@ -17,11 +17,4 @@ class TvRecyclerViewHolder(onClick: (Int) -> Unit, context: Context?, parent: Vi
             onClick(adapterPosition)
         }
     }
-
-    override fun onCreateViewIMG(item: Any?) {
-        val castItem = item.cast(item)
-        binding.root
-            .movieBackgroundIMG
-            .loadMovieBackground(API.moviePhoto + castItem?.posterPath)
-    }
 }

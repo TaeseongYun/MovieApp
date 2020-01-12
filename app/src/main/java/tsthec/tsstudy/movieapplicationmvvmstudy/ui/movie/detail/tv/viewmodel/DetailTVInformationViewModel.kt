@@ -25,7 +25,7 @@ class DetailTVInformationViewModel(
                 }
             }
             .subscribe({
-                recyclerModel.notifiedChangedItem()
+//                recyclerModel.notifiedChangedItem()
             }, {
                 it.printStackTrace()
             })

@@ -12,8 +12,10 @@ import org.jetbrains.anko.support.v4.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
+import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.MovieFragmentBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity
@@ -23,22 +25,12 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieViewMode
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
-class MovieFragment : Fragment() {
+class MovieFragment : BaseFragment() {
     private val movieAdapter: MovieRecyclerAdapter by lazy {
         MovieRecyclerAdapter(ViewType.MOVIE, context)
     }
 
-    private val moviePopularViewModelFactory: MovieViewModelFactory by lazy {
-        MovieViewModelFactory(movieRepository, movieAdapter)
-    }
-
-    private val movieRepository: MovieRepository by lazy {
-        MovieRepository.getInstance(RetrofitObject.movieAPI, movieDatabase)
-    }
-
-    private val movieDatabase: MovieDatabase by lazy {
-        MovieDatabase.getInstance(this.context!!)
-    }
+    private lateinit var binding: MovieFragmentBinding
 
     private lateinit var movieViewModel: MovieNowPlayingViewModel
 
@@ -47,14 +39,14 @@ class MovieFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        movieViewModel = ViewModelProviders.of(
-//            this,
-//            moviePopularViewModelFactory
-//        )[MovieNowPlayingViewModel::class.java]
+        binding = binding(inflater, R.layout.movie_fragment, container)
+
         movieViewModel = MovieNowPlayingViewModel::class.java.inject(this) {
             MovieNowPlayingViewModel(movieRepository, movieAdapter, ViewType.MOVIE)
         }
-        return inflater.inflate(R.layout.movie_fragment, container, false)
+        binding.vm = movieViewModel
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

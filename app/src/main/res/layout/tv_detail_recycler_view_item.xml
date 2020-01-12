@@ -8,10 +8,6 @@
         <variable
             name="data"
             type="tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult" />
-
-        <variable
-            name="API"
-            type="tsthec.tsstudy.movieapplicationmvvmstudy.api.API" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

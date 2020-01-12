@@ -24,17 +24,4 @@ class PopularMovieRecyclerViewHolder(
             }
         }
     }
-
-    override fun onCreateViewIMG(item: Any?) {
-        val castItem = item.cast(item)
-        binding.root.movieBackgroundIMG.loadMovieBackground(API.moviePhoto + castItem?.posterPath)
-    }
-
-
-//    override fun View.onBind(item: MovieResult) {
-//        if (item.posterPath.isNotEmpty())
-//            movieBackgroundIMG.loadMovieBackground(API.moviePhoto+item.posterPath)
-//        originMovieName.text = item.originalTitle
-//        koreanMovieName.text = item.title
-//    }
 }

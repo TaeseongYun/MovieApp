@@ -37,7 +37,7 @@ class DetailMovieInformationViewModel(
                 it.printStackTrace()
             })
 
-        Log.d("initTest at out repository", "$movieData")
+//        Log.d("initTest at out repository", "$movieData")
     }
 
     private val _movieCastData = MutableLiveData<CreditsResponse>()

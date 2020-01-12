@@ -13,5 +13,7 @@ interface MovieRecyclerModel {
 
     var onClick: (position: Int) -> Unit
 
+    fun getItemViewType(position: Int): Int
+
     fun listReserve()
 }

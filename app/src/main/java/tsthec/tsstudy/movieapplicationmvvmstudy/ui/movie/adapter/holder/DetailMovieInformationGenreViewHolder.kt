@@ -11,13 +11,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 
 class DetailMovieInformationGenreViewHolder(context: Context?, parent: ViewGroup) :
     BaseRecyclerViewHolder<Genre>(context, parent, R.layout.recycler_detail_item_genre) {
-    override fun onCreateViewIMG(item: Any?) {
-        //Do not AnyThing...
+
+    init {
+        
     }
-
-
-//    override fun View.onBind(item: Genre) {
-//        genre_entry.text = item.name
-//    }
-
 }

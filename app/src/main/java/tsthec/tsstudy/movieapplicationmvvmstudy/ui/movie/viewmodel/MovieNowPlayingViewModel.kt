@@ -31,8 +31,12 @@ internal constructor(
 
     var isLoading = false
 
+    private val _test = mutableListOf<MovieResult>()
 
     private val mutableMovieResult = mutableListOf<MovieResult>()
+
+    val bindingMovieList: List<MovieResult>
+    get() = mutableMovieResult
 
     private val mutableTvResult = mutableListOf<TVResult>()
 
@@ -40,6 +44,9 @@ internal constructor(
 
     val popularMovieListData: LiveData<Pair<List<MovieResult>, MovieResult?>>
         get() = _popularMovieListData
+
+    val test: List<MovieResult>
+    get() = _test
 
     private val _popularTVListData = MutableLiveData<Pair<List<TVResult>, TVResult?>>()
 
@@ -127,6 +134,8 @@ internal constructor(
                 it.printStackTrace()
             })
     }
+
+
 
     fun clear() = movieRecyclerModel.clearItems()
 }

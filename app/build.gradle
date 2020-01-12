@@ -43,6 +43,9 @@ android {
     dataBinding {
         enabled = true
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -81,6 +84,9 @@ dependencies {
 
     //lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
+
+    //databinding
+    kapt "com.android.databinding:compiler:$android_plugin_version"
 
 
     //room

@@ -20,7 +20,6 @@ abstract class BaseRecyclerAdapter<in T>
     override fun onBindViewHolder(holder: BaseRecyclerViewHolder<*>, position: Int) {
         holder.run {
             onBind(list[position])
-            onCreateViewIMG(list[position])
         }
     }
 
