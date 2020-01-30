@@ -15,7 +15,7 @@ interface MovieResultDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovieResult(movieResult: MovieResult): Completable
 
-    @Query("Select * from MOVIERESULT")
+    @Query("Select * from MovieResult")
     fun getListFavorite(): Single<List<MovieResult>>
 
     @Query("Delete from MovieResult Where id = :id_")

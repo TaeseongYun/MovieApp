@@ -15,8 +15,6 @@ abstract class BaseRecyclerAdapter<in T>
         notifyDataSetChanged()
     }
 
-    override lateinit var onClick: (position: Int) -> Unit
-
     override fun onBindViewHolder(holder: BaseRecyclerViewHolder<*>, position: Int) {
         holder.run {
             onBind(list[position])

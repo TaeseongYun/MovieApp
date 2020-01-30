@@ -1,6 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data
 
 import android.os.Parcelable
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -12,13 +13,13 @@ data class TVResponse(
 )
 
 @Parcelize
+@Entity(primaryKeys = ["id"])
 data class TVResult(
     val backdrop_path: String?,
     val first_air_date: String,
     val genre_ids: List<Int>,
     val id: Int,
     val name: String,
-    val origin_country: List<String>,
     @SerializedName("original_language")
     val originalLanguage: String,
     @SerializedName("original_name")

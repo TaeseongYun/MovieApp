@@ -7,14 +7,19 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecycl
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 class DetailMovieListByDatabaseRecyclerHolder(
-    onClick: (Int) -> Unit,
     context: Context?,
-    parent: ViewGroup
+    parent: ViewGroup,
+    private val iShowDetailMovie: IShowMyDataBase?
 ) :
     BaseRecyclerViewHolder<MovieResult>(context, parent, R.layout.recycler_view_detail) {
+
+    interface IShowMyDataBase {
+        fun onClick(position: Int)
+    }
+
     init {
         containerView.setOnClickListener {
-            onClick(adapterPosition)
+            iShowDetailMovie?.onClick(adapterPosition)
         }
     }
 }

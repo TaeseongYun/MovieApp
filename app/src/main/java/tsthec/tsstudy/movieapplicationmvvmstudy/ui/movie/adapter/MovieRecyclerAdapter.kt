@@ -11,7 +11,12 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.DetailMo
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 
-class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?) :
+class MovieRecyclerAdapter(
+    private val viewType: ViewType,
+    val context: Context?,
+    private val iShowDetailMovie: PopularMovieRecyclerViewHolder.IShowDetailMovie? = null,
+    private val iShowMyDatabase: DetailMovieListByDatabaseRecyclerHolder.IShowMyDataBase? = null
+) :
     BaseRecyclerAdapter<MovieResult>() {
 
     override fun onCreateViewHolder(
@@ -20,11 +25,11 @@ class MovieRecyclerAdapter(private val viewType: ViewType, val context: Context?
     ): BaseRecyclerViewHolder<MovieResult> =
         when (this.viewType) {
             ViewType.MOVIE -> PopularMovieRecyclerViewHolder(
-                onClick,
                 context,
-                parent
-            )
-            ViewType.STAR -> DetailMovieListByDatabaseRecyclerHolder(onClick, context, parent)
+                parent,
+                iShowDetailMovie
+                )
+            ViewType.STAR -> DetailMovieListByDatabaseRecyclerHolder(context, parent, iShowMyDatabase)
             else -> throw Resources.NotFoundException("Is not have holder!")
         }
 }

@@ -5,15 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieDetailResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
+import tsthec.tsstudy.movieapplicationmvvmstudy.db.tv.TvResultDAO
 
 
-@Database(entities = [MovieResult::class], version = 2, exportSchema = false)
+@Database(entities = [(MovieResult::class), (TVResult::class)], version = 3, exportSchema = false)
 @TypeConverters(value = [IntegerListConverters::class, GenreListConverters::class])
 abstract class MovieDatabase : RoomDatabase() {
 
-    abstract fun  movieResultDAO(): MovieResultDAO
+    abstract fun movieResultDAO(): MovieResultDAO
+
+    abstract fun tvResultDAO(): TvResultDAO
 
     companion object {
         private const val DB_NAME = "movie_db"

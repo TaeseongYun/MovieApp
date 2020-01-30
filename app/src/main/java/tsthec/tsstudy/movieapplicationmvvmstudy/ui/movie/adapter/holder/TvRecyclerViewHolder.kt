@@ -9,12 +9,16 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 
-class TvRecyclerViewHolder(onClick: (Int) -> Unit, context: Context?, parent: ViewGroup) :
+class TvRecyclerViewHolder(context: Context?, parent: ViewGroup, iShowDetailTv: IShowDetailTv?) :
     BaseRecyclerViewHolder<TVResult>(context, parent, R.layout.tv_detail_recycler_view_item) {
+
+    interface IShowDetailTv {
+        fun onClick(position: Int)
+    }
 
     init {
         containerView.setOnClickListener {
-            onClick(adapterPosition)
+            iShowDetailTv?.onClick(adapterPosition)
         }
     }
 }

@@ -4,45 +4,50 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.tv_fragment_layout.*
-import org.jetbrains.anko.support.v4.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
+import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.TvFragmentLayoutBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.PopularTVRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.DetailTVActivity
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.TvNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
-class TVFragment : BaseFragment() {
+class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
+
     private val tvRecyclerAdapter: PopularTVRecyclerAdapter by lazy {
-        PopularTVRecyclerAdapter(ViewType.TV, this.context)
+        PopularTVRecyclerAdapter(ViewType.TV, this.context, this)
     }
 
-    private lateinit var tvViewModel: MovieNowPlayingViewModel
+    private lateinit var tvViewModel: TvNowPlayingViewModel
+
+    private lateinit var binding: TvFragmentLayoutBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        tvViewModel = MovieNowPlayingViewModel::class.java.inject(this) {
-            MovieNowPlayingViewModel(movieRepository, tvRecyclerAdapter, ViewType.TV)
+        tvViewModel = TvNowPlayingViewModel::class.java.inject(this) {
+            TvNowPlayingViewModel(tvRepository)
         }
 
-        viewInit()
+        binding = binding(inflater, R.layout.tv_fragment_layout, container)
 
-        return inflater.inflate(R.layout.tv_fragment_layout, container, false)
+        binding.lifecycleOwner = this
+        binding.vm = tvViewModel
+        binding.executePendingBindings()
+
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        tvViewModel.loadPopularTV()
 
         tv_recyclerView.run {
             adapter = tvRecyclerAdapter
@@ -50,37 +55,31 @@ class TVFragment : BaseFragment() {
             addOnScrollListener(tvScrollListener)
         }
 
-        tvViewModel.popularTvListData.observe(this, Observer {
-            if (it.second != null) {
-                startActivity<DetailTVActivity>("tvID" to it.second)
-            }
-        })
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         tv_recyclerView.removeOnScrollListener(tvScrollListener)
-        tvViewModel.clear()
+        tvRecyclerAdapter.clearItems()
     }
 
     private val tvScrollListener =
         scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
-            if (!tvViewModel.isLoading && totalItemCount - 3 <= (visibleItem + firstViewItemIndex))
-                tvViewModel.loadPopularTV()
+            if (!tvViewModel.isLoading && totalItemCount - 3 <= (visibleItem + firstViewItemIndex)) {
+                tvRepository.tvPage++
+                tvViewModel.loadMoreTvPage()
+            }
+
         }
 
-    private fun viewInit() {
-        tvViewModel.hideProgressBar = {
-            loading_group.visibility = View.GONE
-        }
-        tvViewModel.showProgressBar = {
-            loading_group.visibility = View.VISIBLE
-        }
-    }
 
     override fun onLowMemory() {
         super.onLowMemory()
         this.context?.let { Glide.get(it).clearMemory() }
+    }
+
+    override fun onClick(position: Int) {
+        DetailTVActivity.getInstance(this.context, tvRecyclerAdapter.getItem(position))
     }
 }

@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import org.koin.android.ext.android.inject
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -17,5 +18,5 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected val movieRepository: MovieRepository by inject()
 
-    protected val movieDatabase: MovieDatabase by inject()
+//    protected val tvRepository: TvRepository by inject()
 }

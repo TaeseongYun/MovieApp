@@ -8,6 +8,8 @@
         <variable
             name="vm"
             type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel" />
+
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,12 +23,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:scrollbars="vertical"
-            bindMovieList="@{vm.bindingMovieList}"
+            bindMovieList="@{vm.movieList}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            bind:listitem="@layout/recycler_view_detail"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            bind:listitem="@layout/recycler_view_detail" />
 
 
         <View
@@ -53,7 +55,7 @@
             android:id="@+id/loading_group_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="@{vm.isLoading ? View.GONE : View.VISIBLE}"
             app:constraint_referenced_ids="movie_loading_background,progressBar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

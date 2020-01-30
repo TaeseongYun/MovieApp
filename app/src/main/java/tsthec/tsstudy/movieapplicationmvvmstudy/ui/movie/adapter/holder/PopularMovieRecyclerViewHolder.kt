@@ -9,18 +9,22 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecycl
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 class PopularMovieRecyclerViewHolder(
-    onClick: (position: Int) -> Unit,
     context: Context?,
-    parent: ViewGroup
+    parent: ViewGroup,
+    private val iShowDetailMovie: IShowDetailMovie?
 ) :
     BaseRecyclerViewHolder<MovieResult>(
         context, parent, R.layout.recycler_view_detail
     ) {
 
+    interface IShowDetailMovie {
+        fun onClick(position: Int)
+    }
+
     init {
         containerView.run {
             setOnClickListener {
-                onClick(adapterPosition)
+                iShowDetailMovie?.onClick(adapterPosition)
             }
         }
     }

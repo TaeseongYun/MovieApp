@@ -16,6 +16,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.MovieFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.StarFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.TVFragment
+//import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.TVFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadFragment
 
 @Suppress("CAST_NEVER_SUCCEEDS")
@@ -42,14 +43,20 @@ class MovieMainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.movie_menu -> {
                     movieFragment.setFragment()
+//                    tvFragment.onDestroy()
+//                    starFragment.onDestroy()
                     true
                 }
                 R.id.tv_menu -> {
                     tvFragment.setFragment()
+//                    movieFragment.onDestroy()
+//                    starFragment.onDestroy()
                     true
                 }
                 R.id.star_menu -> {
                     starFragment.setFragment()
+//                    movieFragment.onDestroy()
+//                    tvFragment.onDestroy()
                     true
                 }
 

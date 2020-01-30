@@ -1,10 +1,16 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail_movie.toolbar
 import kotlinx.android.synthetic.main.activity_detail_tv.*
+import org.jetbrains.anko.image
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.tvView
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
@@ -20,13 +26,20 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
 
 class DetailTVActivity : BaseActivity() {
 
+    companion object {
+        private const val TV = "TV"
+        fun getInstance(context: Context?, tv: Any?) {
+            context?.startActivity<DetailTVActivity>(TV to tv)
+        }
+    }
+
     private val binding by binding<ActivityDetailTvBinding>(R.layout.activity_detail_tv)
 
     private val genreRecyclerViewAdapter: MovieGenreRecyclerAdapter by lazy {
         MovieGenreRecyclerAdapter(ViewType.GENRE, this)
     }
 
-    private val tvRepository: MovieRepository by lazy {
+    private val tvTestRepository: MovieRepository by lazy {
         MovieRepository.getInstance(RetrofitObject.movieAPI, tvDatabase)
     }
 
@@ -45,8 +58,10 @@ class DetailTVActivity : BaseActivity() {
         viewBinding()
 
         tvViewModel = DetailTVInformationViewModel::class.java.inject(this) {
-            DetailTVInformationViewModel(tvRepository, genreRecyclerViewAdapter)
+            DetailTVInformationViewModel(tvTestRepository, genreRecyclerViewAdapter)
         }
+
+        getLoadTVDatabase()
     }
 
     override fun viewBinding() {
@@ -66,7 +81,7 @@ class DetailTVActivity : BaseActivity() {
     }
 
     private fun getDetailTV() =
-        intent.getParcelableExtra("tvID") as TVResult
+        intent.getParcelableExtra(TV) as TVResult
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +90,19 @@ class DetailTVActivity : BaseActivity() {
 
         // 해당 id 값에 따른 디테일값을 알아야 장르를 recyclerView에 추가시켜 줄 수 있다.
         tvViewModel.getDetailTV(getDetailTV().id)
+
+        favorite_btn.setOnClickListener {
+            tvViewModel.loadLikeState(getDetailTV())
+        }
+
+        setFavoriteButton { isLike ->
+            when(isLike) {
+                true -> favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
+                false -> favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+            }
+        }
     }
+
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         Glide.get(this).trimMemory(level)
@@ -85,4 +112,13 @@ class DetailTVActivity : BaseActivity() {
         super.onLowMemory()
         Glide.get(this).clearMemory()
     }
+
+    private inline fun setFavoriteButton(crossinline isClicked: (isLike: Boolean) -> Unit) {
+        tvViewModel.favoriteState.observe(this, Observer {
+            isClicked(it)
+        })
+    }
+
+    fun getLoadTVDatabase() =
+        tvViewModel.getLoadTVDatabase(getDetailTV().id)
 }

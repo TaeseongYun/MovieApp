@@ -4,24 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_fragment.*
-import org.jetbrains.anko.support.v4.startActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.MovieFragmentBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
-class MovieFragment : BaseFragment() {
+class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetailMovie {
+
     private val movieAdapter: MovieRecyclerAdapter by lazy {
-        MovieRecyclerAdapter(ViewType.MOVIE, context)
+        MovieRecyclerAdapter(ViewType.MOVIE, context, iShowDetailMovie = this)
     }
 
     private lateinit var binding: MovieFragmentBinding
@@ -36,10 +37,15 @@ class MovieFragment : BaseFragment() {
         binding = binding(inflater, R.layout.movie_fragment, container)
 
         movieViewModel = MovieNowPlayingViewModel::class.java.inject(this) {
-            MovieNowPlayingViewModel(movieRepository, movieAdapter, ViewType.MOVIE)
+            MovieNowPlayingViewModel(movieRepository
+//                ViewType.MOVIE
+            )
         }
-        binding.vm = movieViewModel
+
+
         binding.lifecycleOwner = this
+        binding.vm = movieViewModel
+        binding.executePendingBindings()
         return binding.root
     }
 
@@ -48,46 +54,26 @@ class MovieFragment : BaseFragment() {
 
         viewModelInit()
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        loadMovie()
-
-        startActivityObserve()
-    }
-
-    private fun loadMovie() = movieViewModel.loadPopularMovie()
-
-    private fun startActivityObserve() {
-        movieViewModel.popularMovieListData.observe(this, Observer {
-            if (it.second != null)
-                startActivity<DetailMovieActivity>("movieID" to it.second)
-        })
-    }
+//    private fun startActivityObserve() {
+//        movieViewModel.popularMovieListData.observe(this, Observer {
+//            if (it.second != null)
+//                startActivity<DetailMovieActivity>("movieID" to it.second)
+//        })
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)
-        movieViewModel.clear()
+        movieAdapter.clearItems()
     }
 
     private val addRecyclerViewListener =
         scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
             if (!movieViewModel.isLoading && (visibleItem + firstViewItemIndex) >= totalItemCount - 3)
-                movieViewModel.loadPopularMovie()
+                movieViewModel.loadMorePopularMovie(2)
         }
 
     private fun viewModelInit() {
-        movieViewModel.run {
-            showProgressBar = {
-                loading_group_progress?.visibility = View.VISIBLE
-            }
-
-            hideProgressBar = {
-                loading_group_progress?.visibility = View.GONE
-            }
-        }
-
         movieRecyclerView.run {
             adapter = movieAdapter
             layoutManager = GridLayoutManager(this.context, 2)
@@ -99,4 +85,9 @@ class MovieFragment : BaseFragment() {
         super.onLowMemory()
         this.context?.let { Glide.get(it).clearMemory() }
     }
+
+    override fun onClick(position: Int) {
+        DetailMovieActivity.getInstance(context, movieAdapter.getItem(position))
+    }
+
 }

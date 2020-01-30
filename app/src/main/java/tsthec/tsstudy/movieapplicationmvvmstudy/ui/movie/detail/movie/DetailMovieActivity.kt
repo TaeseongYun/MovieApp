@@ -1,11 +1,13 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie
 
+import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail_movie.*
+import org.jetbrains.anko.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
@@ -20,6 +22,12 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class DetailMovieActivity : BaseActivity() {
 
+    companion object {
+        private const val MOVIE = "movie"
+        fun getInstance(context: Context?, movie: Any?) {
+            context?.startActivity<DetailMovieActivity>(MOVIE to movie)
+        }
+    }
     private val binding by binding<ActivityDetailMovieBinding>(R.layout.activity_detail_movie)
 
     private val genreRecyclerViewAdapter: MovieGenreRecyclerAdapter by lazy {
@@ -54,14 +62,16 @@ class DetailMovieActivity : BaseActivity() {
             detailViewModel.favoriteClick(getDetailMovie())
         }
 
-
-        detailViewModel.favoriteState.observe(this, Observer {
-            showFavoriteState(it)
-        })
+        showFavoriteState {
+            when(it) {
+                true -> favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
+                false -> favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+            }
+        }
     }
 
     private fun getDetailMovie() =
-        intent.getParcelableExtra("movieID") as MovieResult
+        intent.getParcelableExtra(MOVIE) as MovieResult
 
     private fun loadDatabaes() =
         detailViewModel.getLoadDatabase(getDetailMovie().id)
@@ -72,12 +82,10 @@ class DetailMovieActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
-    private fun showFavoriteState(isFavorite: Boolean) {
-        if (isFavorite)
-            favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
-        else
-            favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+    private inline fun showFavoriteState(crossinline isFavorite:( Boolean) -> Unit) {
+        detailViewModel.favoriteState.observe(this, Observer {
+            isFavorite(it)
+        })
     }
 
     override fun viewBinding() {

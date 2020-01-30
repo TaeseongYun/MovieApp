@@ -1,141 +1,57 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
-import android.content.res.Resources
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.with
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class MovieNowPlayingViewModel
-internal constructor(
-    private val movieRepository: MovieRepository,
-    private val movieRecyclerModel: MovieRecyclerModel,
-    private val viewType: ViewType
+class MovieNowPlayingViewModel(
+    private val movieRepository: MovieRepository
 ) :
     BaseLifeCycleViewModel() {
 
-    lateinit var showProgressBar: () -> Unit
-
-    lateinit var hideProgressBar: () -> Unit
-
-    private var page = 0
-
-    var isLoading = false
-
-    private val _test = mutableListOf<MovieResult>()
-
-    private val mutableMovieResult = mutableListOf<MovieResult>()
-
-    val bindingMovieList: List<MovieResult>
-    get() = mutableMovieResult
-
-    private val mutableTvResult = mutableListOf<TVResult>()
-
-    private val _popularMovieListData = MutableLiveData<Pair<List<MovieResult>, MovieResult?>>()
-
-    val popularMovieListData: LiveData<Pair<List<MovieResult>, MovieResult?>>
-        get() = _popularMovieListData
-
-    val test: List<MovieResult>
-    get() = _test
-
-    private val _popularTVListData = MutableLiveData<Pair<List<TVResult>, TVResult?>>()
-
-    val popularTvListData: LiveData<Pair<List<TVResult>, TVResult?>>
-        get() = _popularTVListData
+    val movieList = MutableLiveData<List<MovieResult>>()
 
     init {
-        movieRecyclerModel.onClick =
-            { position: Int ->
-                when (viewType) {
-                    ViewType.MOVIE -> {
-                        _popularMovieListData.value =
-                            Pair(
-                                mutableMovieResult,
-                                mutableMovieResult[position]
-                            )
-                    }
-                    ViewType.TV -> {
-                        _popularTVListData.value =
-                            Pair(
-                                mutableTvResult,
-                                mutableTvResult[position]
-                            )
-                    }
-                    else -> throw Resources.NotFoundException("is not have data class")
-                }
-
-            }
-    }
-
-    fun loadPopularMovie() {
-        disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, ++page)
+        disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, 1)
             .with()
             .doOnSubscribe {
                 // :: -> 코틀린 리플렉션? (공부)
-                if (::showProgressBar.isInitialized) {
-                    showProgressBar()
-                }
                 isLoading = true
             }
             .doOnSuccess {
                 isLoading = false
-
-                if (::hideProgressBar.isInitialized) {
-                    hideProgressBar()
-                }
             }
-            .map { mp ->
-                mp.results.forEach { movieResult ->
-                    mutableMovieResult.add(movieResult)
-                    movieRecyclerModel.addItems(movieResult)
-                }
-            }
-            .subscribe({
-                movieRecyclerModel.notifiedChangedItem()
+            .subscribe({ movieResponse ->
+                movieList.value = movieResponse.results
             }, {
                 Log.e("error", it.message)
             })
     }
 
-    fun loadPopularTV() {
-        disposable += movieRepository.repositoryLoadPopularTV(BuildConfig.MOVIE_API_KEY, ++page)
+
+    internal var page = 1
+
+    fun loadMorePopularMovie(page: Int) {
+        disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, page)
             .with()
             .doOnSubscribe {
-                if (::showProgressBar.isInitialized)
-                    showProgressBar()
+                // :: -> 코틀린 리플렉션? (공부)
                 isLoading = true
             }
             .doOnSuccess {
                 isLoading = false
-                if (::hideProgressBar.isInitialized)
-                    hideProgressBar()
             }
-            // map -> 데이터를 가공해서 리턴
-            .map { tvPopular ->
-                tvPopular.results.forEach { tvResult ->
-                    mutableTvResult.add(tvResult)
-
-                    movieRecyclerModel.addItems(tvResult)
-                }
-            }
-            .subscribe({
-                movieRecyclerModel.notifiedChangedItem()
+            .subscribe({movieResponse: MovieResponse ->
+                movieList.value = movieResponse.results
             }, {
-                it.printStackTrace()
+                Log.e("error", it.message)
             })
     }
-
-
-
-    fun clear() = movieRecyclerModel.clearItems()
 }

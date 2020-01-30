@@ -9,11 +9,15 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.d
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 
-class PopularTVRecyclerAdapter(private val viewType: ViewType, val context: Context?) :
+class PopularTVRecyclerAdapter(
+    private val viewType: ViewType,
+    val context: Context?,
+    private val iShowDetailTv: TvRecyclerViewHolder.IShowDetailTv? = null
+) :
     BaseRecyclerAdapter<TVResult>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder<*> =
         when (this.viewType) {
-            ViewType.TV -> TvRecyclerViewHolder(onClick, context, parent)
+            ViewType.TV -> TvRecyclerViewHolder(context, parent, iShowDetailTv)
             else -> throw Resources.NotFoundException("is not TV holder")
         }
 }

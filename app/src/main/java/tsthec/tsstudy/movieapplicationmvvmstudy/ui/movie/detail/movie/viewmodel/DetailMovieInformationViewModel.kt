@@ -36,14 +36,7 @@ class DetailMovieInformationViewModel(
             }, {
                 it.printStackTrace()
             })
-
-//        Log.d("initTest at out repository", "$movieData")
     }
-
-    private val _movieCastData = MutableLiveData<CreditsResponse>()
-
-    val movieCastData: LiveData<CreditsResponse>
-        get() = _movieCastData
 
     private val _favoriteState = MutableLiveData<Boolean>()
 
@@ -71,7 +64,6 @@ class DetailMovieInformationViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                //                Log.d("it mr Parameters", "$movieResult")
                 movieData[movieResult] = true
                 _favoriteState.value = true
             }, {

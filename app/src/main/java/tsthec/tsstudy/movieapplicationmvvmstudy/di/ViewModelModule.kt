@@ -1,0 +1,9 @@
+package tsthec.tsstudy.movieapplicationmvvmstudy.di
+
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
+
+val viewModelModule = module {
+    viewModel { MovieNowPlayingViewModel(get()) }
+}
