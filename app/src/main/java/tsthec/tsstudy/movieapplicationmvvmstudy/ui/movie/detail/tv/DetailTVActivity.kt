@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_detail_tv.*
 import org.jetbrains.anko.image
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.tvView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
@@ -39,15 +40,7 @@ class DetailTVActivity : BaseActivity() {
         MovieGenreRecyclerAdapter(ViewType.GENRE, this)
     }
 
-    private val tvTestRepository: MovieRepository by lazy {
-        MovieRepository.getInstance(RetrofitObject.movieAPI, tvDatabase)
-    }
-
-    private val tvDatabase: MovieDatabase by lazy {
-        MovieDatabase.getInstance(this)
-    }
-
-    private lateinit var tvViewModel: DetailTVInformationViewModel
+    private val tvViewModel by viewModel<DetailTVInformationViewModel>()
 
     override fun viewInit() {
         setSupportActionBar(toolbar)
@@ -56,10 +49,6 @@ class DetailTVActivity : BaseActivity() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
         }
         viewBinding()
-
-        tvViewModel = DetailTVInformationViewModel::class.java.inject(this) {
-            DetailTVInformationViewModel(tvTestRepository, genreRecyclerViewAdapter)
-        }
 
         getLoadTVDatabase()
     }
@@ -77,6 +66,8 @@ class DetailTVActivity : BaseActivity() {
                     orientation = LinearLayoutManager.HORIZONTAL
                 }
             }
+            lifecycleOwner = this@DetailTVActivity
+            executePendingBindings()
         }
     }
 
@@ -96,21 +87,11 @@ class DetailTVActivity : BaseActivity() {
         }
 
         setFavoriteButton { isLike ->
-            when(isLike) {
+            when (isLike) {
                 true -> favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
                 false -> favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
             }
         }
-    }
-
-    override fun onTrimMemory(level: Int) {
-        super.onTrimMemory(level)
-        Glide.get(this).trimMemory(level)
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        Glide.get(this).clearMemory()
     }
 
     private inline fun setFavoriteButton(crossinline isClicked: (isLike: Boolean) -> Unit) {
@@ -119,6 +100,6 @@ class DetailTVActivity : BaseActivity() {
         })
     }
 
-    fun getLoadTVDatabase() =
+    private fun getLoadTVDatabase() =
         tvViewModel.getLoadTVDatabase(getDetailTV().id)
 }

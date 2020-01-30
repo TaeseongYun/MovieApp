@@ -16,7 +16,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun viewBinding()
 
-    protected val movieRepository: MovieRepository by inject()
+//    protected val movieRepository: MovieRepository by inject()
 
 //    protected val tvRepository: TvRepository by inject()
 }

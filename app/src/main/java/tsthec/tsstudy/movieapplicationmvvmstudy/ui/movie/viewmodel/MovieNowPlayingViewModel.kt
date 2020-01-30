@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
@@ -48,7 +47,7 @@ class MovieNowPlayingViewModel(
             .doOnSuccess {
                 isLoading = false
             }
-            .subscribe({movieResponse: MovieResponse ->
+            .subscribe({movieResponse ->
                 movieList.value = movieResponse.results
             }, {
                 Log.e("error", it.message)

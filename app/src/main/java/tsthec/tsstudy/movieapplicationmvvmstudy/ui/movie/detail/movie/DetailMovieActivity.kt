@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import org.jetbrains.anko.startActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
@@ -34,7 +35,7 @@ class DetailMovieActivity : BaseActivity() {
         MovieGenreRecyclerAdapter(ViewType.GENRE, this)
     }
 
-    private lateinit var detailViewModel: DetailMovieInformationViewModel
+    private val detailViewModel by viewModel<DetailMovieInformationViewModel>()
 
     override fun viewInit() {
         setSupportActionBar(toolbar)
@@ -43,9 +44,9 @@ class DetailMovieActivity : BaseActivity() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
         }
 
-        detailViewModel = DetailMovieInformationViewModel::class.java.inject(this) {
-            DetailMovieInformationViewModel(movieRepository, genreRecyclerViewAdapter)
-        }
+//        detailViewModel = DetailMovieInformationViewModel::class.java.inject(this) {
+//            DetailMovieInformationViewModel(movieRepository, genreRecyclerViewAdapter)
+//        }
 
         viewBinding()
         loadDatabaes()
@@ -92,6 +93,7 @@ class DetailMovieActivity : BaseActivity() {
         with(binding) {
             movieDetailResult = getDetailMovie()
             api = API
+            vm = detailViewModel
             if (!getDetailMovie().backdrop_path.isNullOrEmpty())
                 glideToolbar.loadMovieBackground(API.moviePhoto + getDetailMovie().backdrop_path)
             movie_img.loadMovieBackground(API.moviePhoto + getDetailMovie().posterPath)
@@ -102,16 +104,8 @@ class DetailMovieActivity : BaseActivity() {
                     orientation = LinearLayoutManager.HORIZONTAL
                 }
             }
+            lifecycleOwner = this@DetailMovieActivity
+            executePendingBindings()
         }
-    }
-
-    override fun onTrimMemory(level: Int) {
-        super.onTrimMemory(level)
-        Glide.get(this).trimMemory(level)
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        Glide.get(this).clearMemory()
     }
 }

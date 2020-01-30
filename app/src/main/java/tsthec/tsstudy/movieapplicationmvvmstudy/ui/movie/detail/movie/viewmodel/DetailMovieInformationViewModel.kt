@@ -9,19 +9,21 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.CreditsResponse
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 
 class DetailMovieInformationViewModel(
-    private val movieRepository: MovieRepository,
-    private val movieRecyclerModel: MovieRecyclerModel
+    private val movieRepository: MovieRepository
 ) :
     BaseLifeCycleViewModel() {
 
     private val movieData = mutableMapOf<MovieResult, Boolean>()
 
+
+    val genreLiveData = MutableLiveData<List<Genre>>()
 
     init {
         disposable += movieRepository.repositoryGetListbyDatabase()
@@ -50,10 +52,7 @@ class DetailMovieInformationViewModel(
         ).observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
-                it.genres.forEach { genre ->
-                    movieRecyclerModel.addItems(genre)
-                }
-                movieRecyclerModel.notifiedChangedItem()
+                genreLiveData.value = it.genres
             }, {
                 it.printStackTrace()
             })

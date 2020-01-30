@@ -54,12 +54,6 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
         viewModelInit()
     }
-//    private fun startActivityObserve() {
-//        movieViewModel.popularMovieListData.observe(this, Observer {
-//            if (it.second != null)
-//                startActivity<DetailMovieActivity>("movieID" to it.second)
-//        })
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

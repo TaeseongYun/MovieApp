@@ -8,17 +8,19 @@ import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class DetailTVInformationViewModel(
-    private val tvRepository: MovieRepository,
-    private val recyclerModel: MovieRecyclerModel
+    private val tvRepository: MovieRepository
 ) : BaseLifeCycleViewModel() {
 
     private val tvMutableMap = mutableMapOf<TVResult, Boolean>()
+
+    val tvGenreMutableLiveData = MutableLiveData<List<Genre>>()
 
     init {
         disposable += tvRepository.repositoryGetListbyDatabase()
@@ -33,6 +35,7 @@ class DetailTVInformationViewModel(
                     LogUtil.d("$tvMutableMap")
                 }, { it.printStackTrace() }
             )
+
     }
 
     private val _favoriteState = MutableLiveData<Boolean>()
@@ -66,13 +69,8 @@ class DetailTVInformationViewModel(
             apiKey = BuildConfig.MOVIE_API_KEY
         ).observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .map {
-                it.genres.forEach { genre ->
-                    recyclerModel.addItems(genre)
-                }
-            }
             .subscribe({
-                recyclerModel.notifiedChangedItem()
+                tvGenreMutableLiveData.value = it.genres
             }, {
                 it.printStackTrace()
             })

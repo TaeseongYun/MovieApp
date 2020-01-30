@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+<variable
+    name="vm"
+    type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.viewmodel.DetailTVInformationViewModel" />
         <variable
             name="tvDetailResult"
             type="tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult" />
@@ -142,6 +144,7 @@
                     android:layout_below="@+id/rating_layout"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_normal"
+                    bindGenreList="@{vm.tvGenreMutableLiveData}"
                     android:layout_toEndOf="@+id/movie_cardView"
                     tools:listitem="@layout/recycler_detail_item_genre" />
 

@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="vm"
+            type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel" />
+
+        <variable
             name="movieDetailResult"
             type="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />
 
@@ -65,9 +69,9 @@
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:layout_scrollFlags="scroll|enterAlways"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    app:layout_scrollFlags="scroll|enterAlways"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:title="@{movieDetailResult.title}" />
 
@@ -138,13 +142,14 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/genre_recyclerView"
+                    bindGenreList="@{vm.genreLiveData}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/recycler_detail_item_genre"
                     android:layout_below="@+id/rating_layout"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_toEndOf="@+id/movie_cardView" />
+                    android:layout_toEndOf="@+id/movie_cardView"
+                    tools:listitem="@layout/recycler_detail_item_genre" />
 
                 <TextView
                     android:id="@+id/summaryTV"
