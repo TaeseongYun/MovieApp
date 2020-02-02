@@ -5,23 +5,21 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding.BaseBindingActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailMovieBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieGenreRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class DetailMovieActivity : BaseActivity() {
+class DetailMovieActivity : BaseBindingActivity() {
 
     companion object {
         private const val MOVIE = "movie"
@@ -38,19 +36,10 @@ class DetailMovieActivity : BaseActivity() {
     private val detailViewModel by viewModel<DetailMovieInformationViewModel>()
 
     override fun viewInit() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
-        }
-
-//        detailViewModel = DetailMovieInformationViewModel::class.java.inject(this) {
-//            DetailMovieInformationViewModel(movieRepository, genreRecyclerViewAdapter)
-//        }
-
         viewBinding()
         loadDatabaes()
         detailViewModel.getResultDetailMovie(getDetailMovie().id)
+        back_activity.setOnClickListener { finish() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +86,6 @@ class DetailMovieActivity : BaseActivity() {
             if (!getDetailMovie().backdrop_path.isNullOrEmpty())
                 glideToolbar.loadMovieBackground(API.moviePhoto + getDetailMovie().backdrop_path)
             movie_img.loadMovieBackground(API.moviePhoto + getDetailMovie().posterPath)
-            rating_tv.text = getDetailMovie().voteAverage.toString()
             genre_recyclerView.run {
                 adapter = genreRecyclerViewAdapter
                 layoutManager = LinearLayoutManager(this.context).apply {

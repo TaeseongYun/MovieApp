@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovi
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
 class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetailMovie {
@@ -27,7 +28,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     private lateinit var binding: MovieFragmentBinding
 
-    private lateinit var movieViewModel: MovieNowPlayingViewModel
+    private val movieViewModel by viewModel<MovieNowPlayingViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,18 +37,16 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     ): View? {
         binding = binding(inflater, R.layout.movie_fragment, container)
 
-        movieViewModel = MovieNowPlayingViewModel::class.java.inject(this) {
-            MovieNowPlayingViewModel(movieRepository
-//                ViewType.MOVIE
-            )
-        }
-
-
         binding.lifecycleOwner = this
         binding.vm = movieViewModel
         binding.executePendingBindings()
         return binding.root
     }
+
+//    override fun onAttach(context: Context) {
+//
+//        super.onAttach(context)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,13 +57,19 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     override fun onDestroyView() {
         super.onDestroyView()
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)
-        movieAdapter.clearItems()
+    }
+
+    override fun onAttach(context: Context) {
+        if(movieRepository.nextPage > 2)
+            movieRepository.nextPage = 1
+        super.onAttach(context)
     }
 
     private val addRecyclerViewListener =
         scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
-            if (!movieViewModel.isLoading && (visibleItem + firstViewItemIndex) >= totalItemCount - 3)
-                movieViewModel.loadMorePopularMovie(2)
+            LogUtil.d("isLoading State -> ${movieViewModel._isLoadingMutable.value}")
+            if (movieViewModel._isLoadingMutable.value != true && (visibleItem + firstViewItemIndex) >= totalItemCount - 3)
+                movieViewModel.loadMorePopularMovie(++movieRepository.nextPage)
         }
 
     private fun viewModelInit() {
@@ -83,5 +88,4 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     override fun onClick(position: Int) {
         DetailMovieActivity.getInstance(context, movieAdapter.getItem(position))
     }
-
 }

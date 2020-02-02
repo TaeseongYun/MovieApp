@@ -16,21 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movieRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scrollbars="vertical"
-            bindMovieList="@{vm.movieList}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            bind:listitem="@layout/recycler_view_detail" />
-
-
         <View
             android:id="@+id/movie_loading_background"
             android:layout_width="0dp"
@@ -39,7 +24,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -55,8 +40,20 @@
             android:id="@+id/loading_group_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{vm.isLoading ? View.GONE : View.VISIBLE}"
+            android:visibility="@{vm._isLoadingMutable ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="movie_loading_background,progressBar" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movieRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical"
+            bindMovieList="@{vm.movieList}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:listitem="@layout/recycler_view_detail" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

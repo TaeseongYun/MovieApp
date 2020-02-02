@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.TvNowPlayingViewModel" />
+            type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel" />
 
         <import type="android.view.View" />
     </data>
@@ -36,7 +36,7 @@
             android:id="@+id/loading_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{vm.isLoading ? View.GONE : View.VISIBLE}"
+            android:visibility="@{vm._isLoadingMutable ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="loading_progressBar,loading_view" />
 
         <androidx.recyclerview.widget.RecyclerView

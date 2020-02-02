@@ -15,7 +15,8 @@ fun bindingAdapterMovieList(view: RecyclerView, movieList: List<MovieResult>?) {
     val movieAdapter = view.adapter as? MovieRecyclerAdapter
     movieList?.let {
         it.forEach { movieResult ->
-            movieAdapter?.addItems(movieResult)
+            if (movieAdapter?.list?.contains(movieResult) != true)
+                movieAdapter?.addItems(movieResult)
         }
     }
     movieAdapter?.notifyDataSetChanged()
@@ -27,7 +28,8 @@ fun bindingAdapterTvList(view: RecyclerView, tvList: List<TVResult>?) {
 
     tvList?.let {
         it.forEach { tvResult ->
-            tvAdapter?.addItems(tvResult)
+            if (tvAdapter?.list?.contains(tvResult) != true)
+                tvAdapter?.addItems(tvResult)
         }
     }
     tvAdapter?.notifyDataSetChanged()

@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
+import tsthec.tsstudy.movieapplicationmvvmstudy.db.convert.GenreListConverters
+import tsthec.tsstudy.movieapplicationmvvmstudy.db.convert.IntegerListConverters
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.tv.TvResultDAO
 
 

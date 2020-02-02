@@ -6,5 +6,5 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
 
 val repositoryModule = module {
     single { MovieRepository.getInstance(get(), get()) }
-    single { TvRepository.getInstance(get()) }
+    single { TvRepository.getInstance(get(), get()) }
 }

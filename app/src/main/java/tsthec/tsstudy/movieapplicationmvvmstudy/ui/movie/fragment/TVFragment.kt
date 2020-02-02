@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.tv_fragment_layout.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
@@ -14,8 +16,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.TvFragmentLayoutBind
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.PopularTVRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.DetailTVActivity
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.TvNowPlayingViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.inject
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
 class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
@@ -24,7 +26,7 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
         PopularTVRecyclerAdapter(ViewType.TV, this.context, this)
     }
 
-    private lateinit var tvViewModel: TvNowPlayingViewModel
+    private  val tvViewModel by viewModel<MovieNowPlayingViewModel>()
 
     private lateinit var binding: TvFragmentLayoutBinding
 
@@ -33,9 +35,6 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        tvViewModel = TvNowPlayingViewModel::class.java.inject(this) {
-            TvNowPlayingViewModel(tvRepository)
-        }
 
         binding = binding(inflater, R.layout.tv_fragment_layout, container)
 
@@ -58,17 +57,22 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(tvRepository.nextPage > 1)
+            tvRepository.nextPage = 1
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         tv_recyclerView.removeOnScrollListener(tvScrollListener)
-        tvRecyclerAdapter.clearItems()
     }
 
     private val tvScrollListener =
         scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
-            if (!tvViewModel.isLoading && totalItemCount - 3 <= (visibleItem + firstViewItemIndex)) {
-                tvRepository.tvPage++
-                tvViewModel.loadMoreTvPage()
+            LogUtil.d("tvViewModel isLoadg -> ${tvViewModel._isLoadingMutable.value}")
+            if (tvViewModel._isLoadingMutable.value != true && totalItemCount - 3 <= (visibleItem + firstViewItemIndex)) {
+                tvViewModel.loadMoreTvPage(++tvRepository.nextPage)
             }
 
         }

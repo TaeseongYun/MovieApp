@@ -9,10 +9,10 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 @Dao
 interface TvResultDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTv(tvResult: TVResult): Completable
+    fun insertTv(tvResult: TVResult)
 
     @Query("Delete from TVResult where id = :id_ ")
-    fun getFavoriteTvDelete(id_: Int): Completable
+    fun getFavoriteTvDelete(id_: Int)
 
     @Query("Select * from TVResult")
     fun getTvListFavorite(): Single<List<TVResult>>

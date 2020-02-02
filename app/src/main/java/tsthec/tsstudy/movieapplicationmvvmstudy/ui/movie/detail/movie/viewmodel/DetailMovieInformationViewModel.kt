@@ -7,8 +7,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.CreditsResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
@@ -59,28 +57,21 @@ class DetailMovieInformationViewModel(
     }
 
     private fun onFavoriteButtonClick(movieResult: MovieResult) {
-        disposable += movieRepository.repositoryMovieInsertRoomDatabase(movieResult)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                movieData[movieResult] = true
-                _favoriteState.value = true
-            }, {
-                it.printStackTrace()
-            })
+        databaseSubject.onNext(
+            Pair(
+                { movieRepository.repositoryMovieInsertRoomDatabase(movieResult) },
+                { _favoriteState.value = true }
+            )
+        )
     }
 
     private fun onNotFavoriteButtonClick(movieResult: MovieResult) {
-        disposable += movieRepository.repositoryDeleteDatabase(movieResult.id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                //                Log.d("it mr Parameters", "$movieResult")
-                movieData.remove(movieResult)
-                _favoriteState.value = false
-            }, {
-                it.printStackTrace()
-            })
+        databaseSubject.onNext(
+            Pair(
+                { movieRepository.repositoryDeleteDatabase(movieResult.id) },
+                { _favoriteState.value = false }
+            )
+        )
     }
 
     fun favoriteClick(movieResult: MovieResult) {

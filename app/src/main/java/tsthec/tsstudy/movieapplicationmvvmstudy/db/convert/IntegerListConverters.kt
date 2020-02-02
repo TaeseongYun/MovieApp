@@ -1,11 +1,11 @@
-package tsthec.tsstudy.movieapplicationmvvmstudy.db
+package tsthec.tsstudy.movieapplicationmvvmstudy.db.convert
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 
-open class IntegerListConverters {
+class IntegerListConverters {
     @TypeConverter
     fun fromString(value: String): List<Int>? {
         val listType = object : TypeToken<List<Int>>() {}.type

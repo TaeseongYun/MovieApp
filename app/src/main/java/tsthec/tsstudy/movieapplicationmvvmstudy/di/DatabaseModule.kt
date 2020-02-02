@@ -6,5 +6,5 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 
 val databaseModel = module {
     single { MovieDatabase.getInstance(androidApplication()) }
-    single(createdAtStart = false) { get<MovieDatabase>().movieResultDAO() }
+    single { get<MovieDatabase>().movieResultDAO() }
 }

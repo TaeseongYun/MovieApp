@@ -5,11 +5,11 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecycl
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
 
 @Suppress("UNCHECKED_CAST")
-abstract class BaseRecyclerAdapter<in T>
+abstract class BaseRecyclerAdapter<T>
     : RecyclerView.Adapter<BaseRecyclerViewHolder<*>>(),
     MovieRecyclerModel {
 
-    private val list = mutableListOf<T>()
+    internal val list = mutableListOf<T>()
 
     override fun notifiedChangedItem() {
         notifyDataSetChanged()
@@ -33,5 +33,5 @@ abstract class BaseRecyclerAdapter<in T>
 
     override fun getItemCount(): Int = list.size
 
-    override fun listReserve() = list.reverse()
+//    override fun listReserve() = list.reverse()
 }

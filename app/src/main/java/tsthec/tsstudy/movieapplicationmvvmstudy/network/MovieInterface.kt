@@ -24,30 +24,4 @@ interface MovieInterface {
         @Query("page") page: Int
     ): Single<MovieResponse>
 
-    @GET("movie/top_rated")
-    fun loadOrderByRatingMovie(
-        @Query("api_key") api_key: String,
-        @Query("language") language: String = "ko-KR",
-        @Query("page") page: Int
-    ): Single<MovieRatingList>
-
-    @GET("movie/{movie_id}/credits")
-    fun loadCreditCastMovie(
-        @Path("movie_id") movieId: Int,
-        @Query("api_key") apiKey: String
-    ): Single<CreditsResponse>
-
-    @GET("tv/popular")
-    fun loadPopularTv(
-        @Query("api_key") api_key: String,
-        @Query("language") language: String = "ko-KR",
-        @Query("page") page: Int
-    ): Single<TVResponse>
-
-    @GET("tv/{tv_id}")
-    fun getDetailTv(
-        @Path("tv_id") tvID: Int,
-        @Query("api_key") api_key: String,
-        @Query("language") language: String = "ko-KR"
-    ): Single<TvDetailResponse>
 }

@@ -1,4 +1,4 @@
-package tsthec.tsstudy.movieapplicationmvvmstudy.db
+package tsthec.tsstudy.movieapplicationmvvmstudy.db.convert
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

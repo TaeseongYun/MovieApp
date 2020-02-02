@@ -10,8 +10,4 @@ interface MovieRecyclerModel {
     fun getItemCount(): Int
 
     fun clearItems()
-
-//    fun getItemViewType(position: Int): Int
-
-    fun listReserve()
 }

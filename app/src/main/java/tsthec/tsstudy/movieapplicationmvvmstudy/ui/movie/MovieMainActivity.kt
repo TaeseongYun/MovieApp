@@ -3,24 +3,33 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie
 
 import android.app.SearchManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.SearchView
-import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.MovieFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.StarFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.TVFragment
-//import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.TVFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadFragment
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
+import java.lang.Thread.sleep
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Suppress("CAST_NEVER_SUCCEEDS")
-class MovieMainActivity : AppCompatActivity() {
+class MovieMainActivity : BaseActivity() {
+
+    //백버튼을 눌렀을 때 pair first 값과 second 두 개의 값을 emit 했을 때 2000(2초) 보다 적으면 finish()
+    private val backKeyPressSubject = BehaviorSubject.create<Pair<Double, Double>>()
 
     private val movieFragment: MovieFragment by lazy {
         MovieFragment()
@@ -33,6 +42,7 @@ class MovieMainActivity : AppCompatActivity() {
     private val starFragment: StarFragment by lazy {
         StarFragment()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,20 +53,14 @@ class MovieMainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.movie_menu -> {
                     movieFragment.setFragment()
-//                    tvFragment.onDestroy()
-//                    starFragment.onDestroy()
                     true
                 }
                 R.id.tv_menu -> {
                     tvFragment.setFragment()
-//                    movieFragment.onDestroy()
-//                    starFragment.onDestroy()
                     true
                 }
                 R.id.star_menu -> {
                     starFragment.setFragment()
-//                    movieFragment.onDestroy()
-//                    tvFragment.onDestroy()
                     true
                 }
 
@@ -84,6 +88,10 @@ class MovieMainActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
     private fun Fragment.setFragment() {

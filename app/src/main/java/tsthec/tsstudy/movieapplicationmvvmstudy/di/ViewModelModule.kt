@@ -7,7 +7,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.viewmodel.Det
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 
 val viewModelModule = module {
-    viewModel { MovieNowPlayingViewModel(get()) }
+    viewModel { MovieNowPlayingViewModel(get(), get()) }
     viewModel { DetailMovieInformationViewModel(get()) }
     viewModel { DetailTVInformationViewModel(get()) }
 }

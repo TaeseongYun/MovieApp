@@ -25,6 +25,4 @@ abstract class BaseFragment : Fragment() {
     protected val movieRepository: MovieRepository by inject()
 
     protected val tvRepository: TvRepository by inject()
-
-//    protected val movieViewModel by viewModel<MovieNowPlayingViewModel> { parametersOf(movieRepository)}
 }
