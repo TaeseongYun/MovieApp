@@ -11,3 +11,23 @@
 
 - behaviorSubject를 이용하면서 livedata는 백그라운드 스레드에서 동작하지 못하는다는 점을 알게되었다. Room과는 정반대 Room은 메인 스레드에서 동작하지 못함.
 
+## object 키워드와 companion object 키워드 차이
+
+object와 companion object 의 차이점은 object 는 extend나 implement가 불가능하고 companion object는 가능하다.
+object는 클래스 생성과 동시에 객체가 생성. companion object는 키워드 제시하면 static class가 생성 됌.
+
+companion-object 네이밍 이용
+![companion-object-name](img/companion-object-name-test.png)
+
+![companion-object-name](img/companion-object-name-test2.png)
+
+companion-object 네이밍 X
+![companion-object-non-name](img/companion-object-no-name.png)
+
+![companion-object-non-name2](img/companion-object-decode-java.png)
+
+object decode 결과
+
+![object-decode](img/object-keyword.png)
+
+

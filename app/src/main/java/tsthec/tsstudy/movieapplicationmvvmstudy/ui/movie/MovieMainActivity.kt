@@ -25,7 +25,6 @@ import java.util.concurrent.TimeUnit
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 class MovieMainActivity : BaseActivity() {
-
     init {
         val source1: Observable<Any> =
             Observable.interval(100L, TimeUnit.MILLISECONDS)
@@ -121,4 +120,8 @@ class MovieMainActivity : BaseActivity() {
     private fun Fragment.setFragment() {
         loadFragment(R.id.frameLayout, this)
     }
+}
+
+object Test {
+    val hello = "This is Test"
 }
