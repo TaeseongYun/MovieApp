@@ -31,3 +31,9 @@ object decode 결과
 ![object-decode](img/object-keyword.png)
 
 
+## Koin
+
+koin 클래스 보게되면서 알게된점.
+
+single 에는 특정 변수에 값을 지정하지 않으면 람다(vararg)로 매개변수가 여러개 올수 있는데 그중 내가 get()이라는 함수를 사용하면 해당 매개변수에 일치하는 클래스를 찾아서 반환해줌.
+

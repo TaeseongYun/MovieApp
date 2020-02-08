@@ -11,9 +11,9 @@ import kotlinx.android.synthetic.main.tv_fragment_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.TvFragmentLayoutBinding
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.PopularTVRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.DetailTVActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
@@ -22,8 +22,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
 class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
 
-    private val tvRecyclerAdapter: PopularTVRecyclerAdapter by lazy {
-        PopularTVRecyclerAdapter(ViewType.TV, this.context, this)
+    private val tvRecyclerAdapter: MainRecyclerAdapter by lazy {
+        MainRecyclerAdapter(AdapterViewType.DataType.TV, iShowDetailTV =  this)
     }
 
     private  val tvViewModel by viewModel<MovieNowPlayingViewModel>()
@@ -65,6 +65,7 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        tvRecyclerAdapter.clearItems()
         tv_recyclerView.removeOnScrollListener(tvScrollListener)
     }
 

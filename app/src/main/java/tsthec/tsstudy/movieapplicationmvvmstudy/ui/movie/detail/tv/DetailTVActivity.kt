@@ -10,13 +10,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding.BaseBindingActivity
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailTvBinding
-import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
-import tsthec.tsstudy.movieapplicationmvvmstudy.network.RetrofitObject
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieGenreRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.viewmodel.DetailTVInformationViewModel
 
 
@@ -31,8 +28,8 @@ class DetailTVActivity : BaseBindingActivity() {
 
     private val binding by binding<ActivityDetailTvBinding>(R.layout.activity_detail_tv)
 
-    private val genreRecyclerViewAdapter: MovieGenreRecyclerAdapter by lazy {
-        MovieGenreRecyclerAdapter(ViewType.GENRE, this)
+    private val genreRecyclerViewAdapter: MainRecyclerAdapter by lazy {
+        MainRecyclerAdapter(AdapterViewType.DataType.GENRE)
     }
 
     private val tvViewModel by viewModel<DetailTVInformationViewModel>()

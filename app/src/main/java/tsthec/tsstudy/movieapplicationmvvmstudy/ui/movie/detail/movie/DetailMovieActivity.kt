@@ -11,10 +11,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding.BaseBindingActivity
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailMovieBinding
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieGenreRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel
 
 
@@ -29,8 +29,8 @@ class DetailMovieActivity : BaseBindingActivity() {
     }
     private val binding by binding<ActivityDetailMovieBinding>(R.layout.activity_detail_movie)
 
-    private val genreRecyclerViewAdapter: MovieGenreRecyclerAdapter by lazy {
-        MovieGenreRecyclerAdapter(ViewType.GENRE, this)
+    private val genreRecyclerViewAdapter: MainRecyclerAdapter by lazy {
+        MainRecyclerAdapter(AdapterViewType.DataType.GENRE)
     }
 
     private val detailViewModel by viewModel<DetailMovieInformationViewModel>()

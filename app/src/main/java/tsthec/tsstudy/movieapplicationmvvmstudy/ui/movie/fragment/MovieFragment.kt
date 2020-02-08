@@ -11,10 +11,10 @@ import kotlinx.android.synthetic.main.movie_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.ViewType
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.MovieFragmentBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MovieRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
@@ -22,8 +22,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
 class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetailMovie {
 
-    private val movieAdapter: MovieRecyclerAdapter by lazy {
-        MovieRecyclerAdapter(ViewType.MOVIE, context, iShowDetailMovie = this)
+    private val movieAdapter: MainRecyclerAdapter by lazy {
+        MainRecyclerAdapter(AdapterViewType.DataType.MOVIE,iShowDetailMovie = this)
     }
 
     private lateinit var binding: MovieFragmentBinding
@@ -43,11 +43,6 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
         return binding.root
     }
 
-//    override fun onAttach(context: Context) {
-//
-//        super.onAttach(context)
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -56,6 +51,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     override fun onDestroyView() {
         super.onDestroyView()
+        movieAdapter.clearItems()
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)
     }
 

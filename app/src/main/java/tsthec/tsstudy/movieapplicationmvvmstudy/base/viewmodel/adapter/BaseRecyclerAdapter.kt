@@ -3,35 +3,36 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.adapter
 import androidx.recyclerview.widget.RecyclerView
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.MovieRecyclerModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 
-@Suppress("UNCHECKED_CAST")
-abstract class BaseRecyclerAdapter<T>
-    : RecyclerView.Adapter<BaseRecyclerViewHolder<*>>(),
+abstract class BaseRecyclerAdapter<T> :
+    RecyclerView.Adapter<BaseRecyclerViewHolder<*>>(),
     MovieRecyclerModel {
 
-    internal val list = mutableListOf<T>()
-
-    override fun notifiedChangedItem() {
-        notifyDataSetChanged()
-    }
+    protected val list = mutableListOf<T>()
 
     override fun onBindViewHolder(holder: BaseRecyclerViewHolder<*>, position: Int) {
-        holder.run {
-            onBind(list[position])
-        }
+        createBindViewHolder(holder, position)
     }
 
-    override fun addItems(item: Any?) {
-        list.add(item as T)
+    abstract fun createBindViewHolder(holder: BaseRecyclerViewHolder<*>, position: Int)
+
+
+    override fun addItems(dataType: AdapterViewType.DataType, item: List<Any?>?) {
+       item?.forEach {
+           addItem(dataType, it)
+       }
     }
 
     override fun clearItems() {
         list.clear()
     }
 
-    override fun getItem(position: Int): Any? = list[position]
+    override lateinit var notifiedChangedItem: () -> Unit
+
+    override fun removeAt(position: Int) {
+        list.removeAt(position)
+    }
 
     override fun getItemCount(): Int = list.size
-
-//    override fun listReserve() = list.reverse()
 }

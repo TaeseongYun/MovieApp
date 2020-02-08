@@ -6,6 +6,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
@@ -19,10 +20,10 @@ class MovieNowPlayingViewModel(
 ) :
     BaseLifeCycleViewModel() {
 
-    val movieList = MutableLiveData<List<MovieResult>>()
+    val movieList = MutableLiveData<MovieResponse>()
 
-    val tvList: MutableLiveData<List<TVResult>> by lazy {
-        MutableLiveData<List<TVResult>>()
+    val tvList: MutableLiveData<TVResponse> by lazy {
+        MutableLiveData<TVResponse>()
     }
 
     init {
@@ -33,7 +34,7 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = true
             }
             .subscribe({
-                movieList.value = it.results
+                movieList.value = it
                 _isLoadingMutable.value = false
             }, {
                 Log.e("error", it.message)
@@ -45,7 +46,7 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = true
             }
             .subscribe({
-                tvList.value = it.results
+                tvList.value = it
                 _isLoadingMutable.value = false
             }, {
                 it.printStackTrace()
@@ -60,7 +61,7 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = true
             }
             .subscribe({
-                movieList.value = it.results
+                movieList.value = it
                 _isLoadingMutable.value = false
             }, {
                 Log.e("error", it.message)
@@ -74,7 +75,7 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = true
             }
             .subscribe({
-                tvList.value = it.results
+                tvList.value = it
                 _isLoadingMutable.value = false
             }, {
                 it.printStackTrace()
