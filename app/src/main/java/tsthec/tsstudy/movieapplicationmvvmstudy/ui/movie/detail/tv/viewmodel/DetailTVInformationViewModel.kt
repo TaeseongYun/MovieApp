@@ -41,7 +41,7 @@ class DetailTVInformationViewModel(
     }
 
 
-    private fun onFavoriteButtonClicked(tvResult: TVResult) {
+    private fun onFavoriteButtonClicked(tvResult: TVResult?) {
         databaseSubject.onNext(
             Pair(
                 { tvRepository.repositoryInputDatabase(tvResult) },
@@ -50,16 +50,16 @@ class DetailTVInformationViewModel(
         )
     }
 
-    private fun onDeleteFavoriteButtonClicked(tvResult: TVResult) {
+    private fun onDeleteFavoriteButtonClicked(tvResult: TVResult?) {
         databaseSubject.onNext(
             Pair(
-                { tvRepository.repositoryDeleteDatabase(tvResult.id) },
+                { tvRepository.repositoryDeleteDatabase(tvResult?.id) },
                 { _favoriteState.value = false }
             )
         )
     }
 
-    fun getDetailTV(tvID: Int) {
+    fun getDetailTV(tvID: Int?) {
         disposable += tvRepository.repositoryDetailTV(
             apiKey = BuildConfig.MOVIE_API_KEY,
             tvID = tvID
@@ -72,7 +72,7 @@ class DetailTVInformationViewModel(
             })
     }
 
-    fun loadLikeState(tvResult: TVResult) {
+    fun loadLikeState(tvResult: TVResult?) {
         when (tvMutableMap[tvResult]) {
             true -> {
                 onDeleteFavoriteButtonClicked(tvResult)
@@ -83,7 +83,7 @@ class DetailTVInformationViewModel(
         }
     }
 
-    fun getLoadTVDatabase(paramsId: Int) {
+    fun getLoadTVDatabase(paramsId: Int?) {
         disposable += tvRepository.repositoryGetDetailDatabase(paramsId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())

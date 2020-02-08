@@ -16,4 +16,6 @@ interface MovieRecyclerModel {
     fun clearItems()
 
     fun removeAt(position: Int)
+
+    fun List<Any?>.checkList(viewType: AdapterViewType.ViewType): Boolean
 }

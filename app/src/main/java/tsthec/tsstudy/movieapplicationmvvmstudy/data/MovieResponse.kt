@@ -16,6 +16,7 @@ data class MovieResponse(
 @Entity(primaryKeys = ["id"])
 data class MovieResult(
     val adult: Boolean,
+    val isFavorite: Boolean = false,
     val backdrop_path: String?,
     val genre_ids: List<Int>,
     val id: Int,

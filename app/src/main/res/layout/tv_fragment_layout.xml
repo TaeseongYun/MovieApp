@@ -45,6 +45,7 @@
             android:layout_height="match_parent"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
+            android:layoutAnimation="@anim/layout_animation"
             bindTvList="@{vm.tvList}"
             tools:listitem="@layout/recycler_view_detail" />
 

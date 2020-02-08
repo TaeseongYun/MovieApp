@@ -12,7 +12,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.db.convert.IntegerListConverters
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.tv.TvResultDAO
 
 
-@Database(entities = [(MovieResult::class), (TVResult::class)], version = 3, exportSchema = false)
+@Database(entities = [(MovieResult::class), (TVResult::class)], version = 4, exportSchema = false)
 @TypeConverters(value = [IntegerListConverters::class, GenreListConverters::class])
 abstract class MovieDatabase : RoomDatabase() {
 

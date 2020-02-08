@@ -10,6 +10,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAda
 fun bindingAdapterMovieList(view: RecyclerView, movieList: MovieResponse?) {
     val movieAdapter = view.adapter as? MainRecyclerAdapter
 
+
     movieList?.let {
         movieAdapter?.addItems(AdapterViewType.DataType.MOVIE, it.results)
     }

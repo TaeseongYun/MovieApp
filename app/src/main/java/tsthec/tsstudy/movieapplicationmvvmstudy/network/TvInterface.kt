@@ -17,7 +17,7 @@ interface TvInterface {
 
     @GET("tv/{tv_id}")
     fun getDetailTv(
-        @Path("tv_id") tvID: Int,
+        @Path("tv_id") tvID: Int?,
         @Query("api_key") api_key: String,
         @Query("language") language: String = "ko-KR"
     ): Single<TvDetailResponse>

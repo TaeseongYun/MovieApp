@@ -32,7 +32,7 @@ class MovieRepository private constructor(
         MovieRemoteDataSource(movieAPI)
     }
 
-    fun repositoryDetailMovie(movieID: Int, apiKey: String) =
+    fun repositoryDetailMovie(movieID: Int?, apiKey: String) =
         movieRemoteDataSource.remoteSourceDetailMovie(movieID, apiKey = apiKey)
 
     fun repositoryPopularMovie(apiKey: String, loadPage: Int) =
@@ -41,7 +41,7 @@ class MovieRepository private constructor(
     fun repositoryMovieInsertRoomDatabase(movieResult: MovieResult) =
         movieLocalDatabaseRemoteData.inputMovieResult(movieResult)
 
-    fun repositoryGetDetailMovie(paramsID: Int) =
+    fun repositoryGetDetailMovie(paramsID: Int?) =
         movieLocalDatabaseRemoteData.loadMovieDatabase(paramsID)
 
     fun repositoryGetListbyDatabase() =

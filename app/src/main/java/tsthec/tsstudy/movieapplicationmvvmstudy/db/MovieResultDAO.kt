@@ -8,7 +8,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 @Dao
 interface MovieResultDAO {
     @Query("Select * from MovieResult where id = :id_")
-    fun getFavoriteMovie(id_: Int): Single<MovieResult>
+    fun getFavoriteMovie(id_: Int?): Single<MovieResult>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovieResult(movieResult: MovieResult)

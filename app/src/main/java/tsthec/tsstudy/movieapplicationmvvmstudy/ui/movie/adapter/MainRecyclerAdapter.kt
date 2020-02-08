@@ -45,4 +45,15 @@ class MainRecyclerAdapter(
     }
 
     override fun getItem(position: Int): Any? = list[position]?.item
+
+    override fun addItems(dataType: AdapterViewType.DataType, item: List<Any?>?) {
+        item?.forEach {
+            if (!list.checkList(AdapterViewType.ViewType(dataType, it)))
+                addItem(dataType, it)
+        }
+    }
+
+    //중복 추가 방지
+    override fun List<Any?>.checkList(viewType: AdapterViewType.ViewType): Boolean =
+        this.contains(viewType)
 }

@@ -65,13 +65,11 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        tvRecyclerAdapter.clearItems()
         tv_recyclerView.removeOnScrollListener(tvScrollListener)
     }
 
     private val tvScrollListener =
         scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
-            LogUtil.d("tvViewModel isLoadg -> ${tvViewModel._isLoadingMutable.value}")
             if (tvViewModel._isLoadingMutable.value != true && totalItemCount - 3 <= (visibleItem + firstViewItemIndex)) {
                 tvViewModel.loadMoreTvPage(++tvRepository.nextPage)
             }

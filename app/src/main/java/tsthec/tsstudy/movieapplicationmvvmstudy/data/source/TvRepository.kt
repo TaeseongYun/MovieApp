@@ -30,16 +30,16 @@ class TvRepository(private val tvAPI: TvInterface, private val tvRoomDatabase: M
     fun repositoryPopularTV(apiKey: String, loadPage: Int) =
         tvRemoteDataSource.remoteSourcePopularTV(apiKey, loadPage)
 
-    fun repositoryDetailTV(apiKey: String, tvID: Int) =
+    fun repositoryDetailTV(apiKey: String, tvID: Int?) =
         tvRemoteDataSource.remoteSourceDetailTv(tvID, apiKey)
 
-    fun repositoryGetDetailDatabase(paramsID: Int) =
+    fun repositoryGetDetailDatabase(paramsID: Int?) =
         tvLocalDataBaseRemoteData.loadTVDatabase(paramsID)
 
-    fun repositoryInputDatabase(tvResult: TVResult) =
+    fun repositoryInputDatabase(tvResult: TVResult?) =
         tvLocalDataBaseRemoteData.inputTvResult(tvResult)
 
-    fun repositoryDeleteDatabase(paramsID: Int) =
+    fun repositoryDeleteDatabase(paramsID: Int?) =
         tvLocalDataBaseRemoteData.deleteTvDatabase(paramsID)
 
     fun repositoryGetFavoriteList() = tvLocalDataBaseRemoteData.getLoadTvList()

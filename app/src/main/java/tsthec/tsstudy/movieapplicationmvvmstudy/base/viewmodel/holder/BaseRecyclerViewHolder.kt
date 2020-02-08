@@ -22,7 +22,7 @@ abstract class BaseRecyclerViewHolder<in T : Any?>(
         binding.run {
             setVariable(BR.data, item as T)
             setVariable(BR.API, API)
-//            executePendingBindings()
+            executePendingBindings()
         }
     }
 }

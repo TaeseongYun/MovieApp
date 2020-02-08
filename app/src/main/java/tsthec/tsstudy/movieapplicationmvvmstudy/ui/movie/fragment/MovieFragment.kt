@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LayoutAnimationController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_fragment.*
@@ -51,7 +52,6 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     override fun onDestroyView() {
         super.onDestroyView()
-        movieAdapter.clearItems()
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)
     }
 

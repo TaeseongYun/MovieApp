@@ -13,10 +13,10 @@ class MovieLocalDatabaseRemoteData(movieDatabase: MovieDatabase) {
     fun inputMovieResult(movieResult: MovieResult)=
         movieDAO.insertMovieResult(movieResult)
 
-    fun loadMovieDatabase(paraID: Int) =
+    fun loadMovieDatabase(paraID: Int?) =
         movieDAO.getFavoriteMovie(paraID)
 
-    fun loadTVDatabase(paraID: Int) =
+    fun loadTVDatabase(paraID: Int?) =
         tvDAO.getFavoriteTV(paraID)
 
     fun loadMovieDatabaseList() =
@@ -25,9 +25,9 @@ class MovieLocalDatabaseRemoteData(movieDatabase: MovieDatabase) {
     fun deleteMovieDatabase(paraID: Int) =
         movieDAO.getFavoriteMovieDelete(paraID)
 
-    fun inputTvResult(tvResult: TVResult) = tvDAO.insertTv(tvResult)
+    fun inputTvResult(tvResult: TVResult?) = tvDAO.insertTv(tvResult)
 
-    fun deleteTvDatabase(paraID: Int) = tvDAO.getFavoriteTvDelete(paraID)
+    fun deleteTvDatabase(paraID: Int?) = tvDAO.getFavoriteTvDelete(paraID)
 
     fun getLoadTvList() = tvDAO.getTvListFavorite()
 }

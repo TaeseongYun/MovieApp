@@ -16,6 +16,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.network.MovieInterface
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 
 abstract class BaseFragment : Fragment() {
+
     protected inline fun <reified T : ViewDataBinding> binding(
         inflater: LayoutInflater,
         resId: Int,

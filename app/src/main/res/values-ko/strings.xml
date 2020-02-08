@@ -31,4 +31,9 @@
     <string name="movie_summary">요약 줄거리</string>
 
     <string name="favorite_btn">favorite</string>
+
+    <string-array name="type_list">
+        <item>영화</item>
+        <item>티비</item>
+    </string-array>
 </resources>

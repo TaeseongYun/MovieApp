@@ -9,20 +9,13 @@ abstract class BaseRecyclerAdapter<T> :
     RecyclerView.Adapter<BaseRecyclerViewHolder<*>>(),
     MovieRecyclerModel {
 
-    protected val list = mutableListOf<T>()
+    internal val list = mutableListOf<T>()
 
     override fun onBindViewHolder(holder: BaseRecyclerViewHolder<*>, position: Int) {
         createBindViewHolder(holder, position)
     }
 
     abstract fun createBindViewHolder(holder: BaseRecyclerViewHolder<*>, position: Int)
-
-
-    override fun addItems(dataType: AdapterViewType.DataType, item: List<Any?>?) {
-       item?.forEach {
-           addItem(dataType, it)
-       }
-    }
 
     override fun clearItems() {
         list.clear()

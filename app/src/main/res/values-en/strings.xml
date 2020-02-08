@@ -31,4 +31,10 @@
     <string name="movie_summary">Summary</string>
 
     <string name="favorite_btn">favorite</string>
+
+    <string-array name="type_list">
+        <item>MOVIE</item>
+        <item>TV</item>
+    </string-array>
+
 </resources>
