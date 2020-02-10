@@ -15,6 +15,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 abstract class BaseActivity : AppCompatActivity() {
     protected val disposable = CompositeDisposable()
 
+    protected val backKeyPressed = BehaviorSubject.createDefault(0L)
+
     override fun onDestroy() {
         super.onDestroy()
         disposable.clear()

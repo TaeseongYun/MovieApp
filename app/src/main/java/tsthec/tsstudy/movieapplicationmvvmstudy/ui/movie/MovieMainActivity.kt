@@ -6,16 +6,28 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import io.reactivex.Observable
+import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DefaultObserver
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.observers.ResourceObserver
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subscribers.DefaultSubscriber
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.MovieFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.StarFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.TVFragment
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
@@ -42,7 +54,7 @@ class MovieMainActivity : BaseActivity() {
 //    }
 
     //백버튼을 눌렀을 때 pair first 값과 second 두 개의 값을 emit 했을 때 2000(2초) 보다 적으면 finish()
-    private val backKeyPressSubject = BehaviorSubject.create<Pair<Double, Double>>()
+//    private val backKeyPressSubject = BehaviorSubject.create<Pair<Double, Double>>()
 
     private val movieFragment: MovieFragment by lazy {
         MovieFragment()
@@ -56,9 +68,26 @@ class MovieMainActivity : BaseActivity() {
         StarFragment()
     }
 
+    private val searchViewModel by viewModel<SearchViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        disposable += backKeyPressed.toFlowable(BackpressureStrategy.BUFFER)
+            .buffer(2, 1)
+            .map { it[0] to it[1] }
+            .map { it.second - it.first < 2000L }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({boolean ->
+                if (boolean) {
+                    finish()
+                } else {
+                    toast("뒤로가기 버튼을 한번 더 누르면 종료됩니다.")
+                }
+            }, {
+                it.printStackTrace()
+            })
 
         movieFragment.setFragment()
 
@@ -80,6 +109,11 @@ class MovieMainActivity : BaseActivity() {
                 else -> false
             }
         }
+
+        searchViewModel.onShowProgressBar = {
+            frameLayout.visibility = View.GONE
+            loading_progress.visibility = View.VISIBLE
+        }
     }
 
 
@@ -89,11 +123,15 @@ class MovieMainActivity : BaseActivity() {
             (menu?.findItem(R.id.app_bar_search)?.actionView as SearchView).run {
                 queryHint = getString(R.string.query_string_hint)
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
+                    override fun onQueryTextSubmit(query: String): Boolean {
+                        searchViewModel.nextSearch(query)
+                        searchViewModel.loadResult(1)
                         return false
                     }
 
-                    override fun onQueryTextChange(newText: String?): Boolean {
+                    override fun onQueryTextChange(newText: String): Boolean {
+                        searchViewModel.nextSearch(newText)
+                        searchViewModel.loadResult(1)
                         return false
                     }
 
@@ -104,10 +142,20 @@ class MovieMainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        backKeyPressed.onNext(System.currentTimeMillis())
     }
 
     private fun Fragment.setFragment() {
         loadFragment(R.id.frameLayout, this)
+    }
+
+    override fun onStop() {
+        LogUtil.d("onStop Called")
+        super.onStop()
+    }
+
+    override fun onPause() {
+        LogUtil.d("onPause Called")
+        super.onPause()
     }
 }

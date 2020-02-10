@@ -36,3 +36,10 @@ fun bindingAdapterGenreList(view: RecyclerView, genreList: List<Genre>?) {
     }
     genreAdapter?.notifyDataSetChanged()
 }
+
+@BindingAdapter("bindSearchResult")
+fun bindingAdapterSearchList(view: RecyclerView, searchResultList: List<SearchResult>?) {
+    val searchResultAdapter = view.adapter as? MainRecyclerAdapter
+
+
+}

@@ -16,6 +16,12 @@ abstract class BaseLifeCycleViewModel : ViewModel() {
 
     val databaseSubject = BehaviorSubject.create<Pair<() -> Unit, () -> Unit>>()
 
+    /*
+    BehaviorSubject -> subscribe 즉 구독자가 구독을 하면 제일 마지막에 들어온 데이터(onNext)를 발행한다.
+     */
+
+    val searchKeywordSubject = BehaviorSubject.create<String>()
+
     init {
         disposable += databaseSubject.observeOn(Schedulers.io())
             //map 형태로 첫 번쨰 매개변수는 Schedulers.io() 즉 백그라운드 스레드 에서 실행 why? db는 메인 스레드에서 실행 x

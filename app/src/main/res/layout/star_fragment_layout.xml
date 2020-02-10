@@ -2,6 +2,19 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.StarViewModel" />
+
+        <variable
+            name="isMovie"
+            type="Boolean" />
+
+        <import type="android.view.View" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,6 +31,7 @@
                 app:layout_scrollFlags="enterAlways|scroll|snap">
 
                 <Spinner
+                    android:id="@+id/spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -27,9 +41,17 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/room_recyclerView"
+            android:id="@+id/roomMovie_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="@{isMovie ? View.VISIBLE : View.GONE}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/roomTV_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{isMovie ? View.GONE : View.VISIBLE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

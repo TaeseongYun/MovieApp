@@ -7,6 +7,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecycl
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.DetailMovieInformationGenreViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.SearchMultiInformationViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 
 class MainRecyclerAdapter(
@@ -20,6 +21,7 @@ class MainRecyclerAdapter(
         private val MOVIE = AdapterViewType.DataType.MOVIE
         private val TV = AdapterViewType.DataType.TV
         private val GENRE = AdapterViewType.DataType.GENRE
+        private val SEARCH = AdapterViewType.DataType.SEARCH
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder<*> =
@@ -27,6 +29,7 @@ class MainRecyclerAdapter(
             MOVIE -> PopularMovieRecyclerViewHolder(parent, iShowDetailMovie)
             TV -> TvRecyclerViewHolder(parent, iShowDetailTV)
             GENRE -> DetailMovieInformationGenreViewHolder(parent)
+            SEARCH -> SearchMultiInformationViewHolder(parent)
             else -> throw Resources.NotFoundException("is not found class viewType -> ")
         }
 

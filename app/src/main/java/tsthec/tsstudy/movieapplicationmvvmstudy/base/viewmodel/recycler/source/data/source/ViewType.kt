@@ -4,7 +4,8 @@ sealed class AdapterViewType {
     enum class DataType{
         MOVIE,
         TV,
-        GENRE
+        GENRE,
+        SEARCH
     }
     data class ViewType(val type: DataType, val item: Any?): AdapterViewType()
 }
