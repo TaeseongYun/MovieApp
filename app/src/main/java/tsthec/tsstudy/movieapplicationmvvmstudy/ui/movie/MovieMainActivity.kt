@@ -15,6 +15,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DefaultObserver
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.observers.ResourceObserver
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subscribers.DefaultSubscriber
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,9 +38,35 @@ import java.util.concurrent.TimeUnit
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 class MovieMainActivity : BaseActivity() {
-//    init {
+
+    init {
+
+        val mapTestList = listOf("1", "2", "3", "4")
+
+//        val observable = Observable.fromIterable(mapTestList)
 //        val listData = listOf("1", "2", "3", "5")
-//
+        val observable = Observable.fromIterable(mapTestList).flatMap {
+            Observable.just<String>("$it<> + $it<->")
+        }
+
+        val singleTest = Single.fromObservable(observable)
+
+        disposable += observable
+            .subscribeOn(Schedulers.io())
+//            .map {
+//                when (it.substring(0..0)) {
+//                    "1" -> 1
+//                    "2" -> 2
+//                    "3" -> 3
+//                    "4" -> 4
+//                    else -> 5
+//                }
+//            }
+            .subscribe({ LogUtil.d(it.toString()) }, {})
+    }
+//    .subscribe(
+//    { LogUtil.d(it) },
+//    {})
 //        val source = Observable.concat(
 //            Observable.timer(100L, TimeUnit.MILLISECONDS).map { listData[0] },
 //            Observable.timer(100L, TimeUnit.MILLISECONDS).map { listData[1] },
@@ -51,10 +78,7 @@ class MovieMainActivity : BaseActivity() {
 //            LogUtil.d(it)
 //        }
 //        sleep(6000)
-//    }
 
-    //백버튼을 눌렀을 때 pair first 값과 second 두 개의 값을 emit 했을 때 2000(2초) 보다 적으면 finish()
-//    private val backKeyPressSubject = BehaviorSubject.create<Pair<Double, Double>>()
 
     private val movieFragment: MovieFragment by lazy {
         MovieFragment()
@@ -68,7 +92,7 @@ class MovieMainActivity : BaseActivity() {
         StarFragment()
     }
 
-    private val searchViewModel by viewModel<SearchViewModel>()
+//    private val searchViewModel by viewModel<SearchViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +103,7 @@ class MovieMainActivity : BaseActivity() {
             .map { it[0] to it[1] }
             .map { it.second - it.first < 2000L }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({boolean ->
+            .subscribe({ boolean ->
                 if (boolean) {
                     finish()
                 } else {
@@ -110,10 +134,10 @@ class MovieMainActivity : BaseActivity() {
             }
         }
 
-        searchViewModel.onShowProgressBar = {
-            frameLayout.visibility = View.GONE
-            loading_progress.visibility = View.VISIBLE
-        }
+//        searchViewModel.onShowProgressBar = {
+//            frameLayout.visibility = View.GONE
+//            loading_progress.visibility = View.VISIBLE
+//        }
     }
 
 
@@ -124,14 +148,14 @@ class MovieMainActivity : BaseActivity() {
                 queryHint = getString(R.string.query_string_hint)
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
-                        searchViewModel.nextSearch(query)
-                        searchViewModel.loadResult(1)
+//                        searchViewModel.nextSearch(query)
+//                        searchViewModel.loadResult(1)
                         return false
                     }
 
                     override fun onQueryTextChange(newText: String): Boolean {
-                        searchViewModel.nextSearch(newText)
-                        searchViewModel.loadResult(1)
+//                        searchViewModel.nextSearch(newText)
+//                        searchViewModel.loadResult(1)
                         return false
                     }
 

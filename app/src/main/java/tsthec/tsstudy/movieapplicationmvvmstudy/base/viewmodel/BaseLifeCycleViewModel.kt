@@ -7,6 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 abstract class BaseLifeCycleViewModel : ViewModel() {
@@ -40,6 +41,7 @@ abstract class BaseLifeCycleViewModel : ViewModel() {
 
     override fun onCleared() {
         disposable.clear()
+        LogUtil.d("뷰모델 onCleared 호출")
         super.onCleared()
     }
 }

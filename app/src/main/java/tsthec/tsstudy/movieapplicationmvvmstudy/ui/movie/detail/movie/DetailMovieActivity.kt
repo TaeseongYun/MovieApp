@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,9 +22,50 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailMovieBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 
 class DetailMovieActivity : BaseBindingActivity<MovieResult>(), IActivityFinish {
+
+    init {
+        val testSubject = BehaviorSubject.createDefault(1)
+
+        disposable += testSubject
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                LogUtil.d("3 - This is $it")
+            }, {
+                it.printStackTrace()
+            })
+
+        testSubject.onNext(4)
+
+        testSubject.onNext(5)
+
+        disposable += testSubject
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                LogUtil.d("1 - This is $it")
+            }, {
+                it.printStackTrace()
+            })
+
+        testSubject.onNext(2)
+
+        testSubject.onNext(7)
+
+        disposable += testSubject
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                LogUtil.d("2 - This is $it")
+            }, {
+                it.printStackTrace()
+            })
+    }
 
     companion object {
         private const val MOVIE = "movie"
@@ -92,6 +137,21 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>(), IActivityFinish 
 
     override fun activityFinish() {
         finish()
+    }
+
+    override fun onPause() {
+        LogUtil.d("onPause Called")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        LogUtil.d("onStop Called")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        LogUtil.d("onDestroy Called")
+        super.onDestroy()
     }
 
     override fun getDetail(intent: Intent): MovieResult? =

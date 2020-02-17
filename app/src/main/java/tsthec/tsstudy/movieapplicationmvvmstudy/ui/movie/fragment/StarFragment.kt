@@ -27,7 +27,6 @@ class StarFragment : BaseFragment() {
 
         return binding.root
     }
-//        inflater.inflate(R.layout.star_fragment_layout, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

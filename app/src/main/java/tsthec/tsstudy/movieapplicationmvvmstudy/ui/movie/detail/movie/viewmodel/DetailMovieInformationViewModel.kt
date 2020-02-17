@@ -12,6 +12,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.binding.IFavoriteClick
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 
@@ -22,7 +23,7 @@ class DetailMovieInformationViewModel(
 
     private val movieData = mutableMapOf<MovieResult, Boolean>()
 
-
+var testCount = 2
     val genreLiveData = MutableLiveData<List<Genre>>()
 
     init {
@@ -110,7 +111,7 @@ class DetailMovieInformationViewModel(
             null, false -> favoriteBehaviorSubject.onNext(
                 Pair(
                     { movieRepository.repositoryMovieInsertRoomDatabase(movieResultData) },
-                    { _favoriteState.value = true}
+                    { _favoriteState.value = true }
                 )
             )
         }

@@ -11,5 +11,5 @@ val viewModelModule = module {
     viewModel { MovieNowPlayingViewModel(get(), get()) }
     viewModel { DetailMovieInformationViewModel(get()) }
     viewModel { DetailTVInformationViewModel(get()) }
-    viewModel { SearchViewModel(get()) }
+//    viewModel { SearchViewModel(get()) }
 }
