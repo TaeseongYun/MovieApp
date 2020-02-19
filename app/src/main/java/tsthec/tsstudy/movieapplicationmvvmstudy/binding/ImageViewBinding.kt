@@ -51,15 +51,6 @@ fun bindingPosterImage(view: GlideCustomImage, posterPath: String?) {
 }
 //
 
-interface IActivityFinish {
-    fun activityFinish()
-}
-
-@BindingAdapter("clickFinishBtn")
-fun bindingClickFinish(view: ImageView, activityFin: IActivityFinish) {
-    view.setOnClickListener { activityFin.activityFinish() }
-}
-
 interface IFavoriteClick {
     fun favoriteButtonEvent(
         favoriteBehaviorSubject: BehaviorSubject<Pair<() -> Unit, () -> Unit>>,

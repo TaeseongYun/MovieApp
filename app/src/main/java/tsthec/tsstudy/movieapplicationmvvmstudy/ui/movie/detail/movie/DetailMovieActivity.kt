@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,7 +16,6 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding.BaseBindingActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
-import tsthec.tsstudy.movieapplicationmvvmstudy.binding.IActivityFinish
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailMovieBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
@@ -26,7 +24,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 
-class DetailMovieActivity : BaseBindingActivity<MovieResult>(), IActivityFinish {
+class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
 
     init {
         val testSubject = BehaviorSubject.createDefault(1)
@@ -99,6 +97,8 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>(), IActivityFinish 
                 false -> favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
             }
         }
+
+        button.setOnClickListener { detailViewModel.nextWord(ed_text.text.toString()) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -112,7 +112,6 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>(), IActivityFinish 
             movieDetailResult = getDetail(intent)
             api = API
             vm = detailViewModel
-            iActivityFinish = this@DetailMovieActivity
             if (!getDetail(intent)?.backdrop_path.isNullOrEmpty())
                 glideToolbar.loadMovieBackground(API.moviePhoto + getDetail(intent)?.backdrop_path)
             movie_img.loadMovieBackground(API.moviePhoto + getDetail(intent)?.posterPath)
@@ -125,6 +124,9 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>(), IActivityFinish 
             lifecycleOwner = this@DetailMovieActivity
             executePendingBindings()
         }
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun loadDatabase() = detailViewModel.getLoadDatabase(getDetail(intent)?.id)
@@ -133,10 +135,6 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>(), IActivityFinish 
         detailViewModel.favoriteState.observe(this, Observer {
             isLike(it)
         })
-    }
-
-    override fun activityFinish() {
-        finish()
     }
 
     override fun onPause() {

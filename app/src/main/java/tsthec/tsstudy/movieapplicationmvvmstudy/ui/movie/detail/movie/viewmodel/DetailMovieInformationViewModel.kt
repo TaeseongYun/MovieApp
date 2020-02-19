@@ -23,19 +23,30 @@ class DetailMovieInformationViewModel(
 
     private val movieData = mutableMapOf<MovieResult, Boolean>()
 
-var testCount = 2
     val genreLiveData = MutableLiveData<List<Genre>>()
+
+    var testWord = ""
 
     init {
         disposable += movieRepository.repositoryGetListbyDatabase()
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ movieResultList ->
                 Log.d("init DatabaseList", "$movieResultList")
                 movieResultList.forEach {
                     movieData[it] = true
                 }
                 Log.d("init Test", "$movieData")
+            }, {
+                it.printStackTrace()
+            })
+
+        disposable += testKeyword
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                testWord = it
+                LogUtil.d("What is testWord $testWord")
             }, {
                 it.printStackTrace()
             })
@@ -58,32 +69,6 @@ var testCount = 2
                 it.printStackTrace()
             })
     }
-
-//    private fun onFavoriteButtonClick(movieResult: MovieResult) {
-//        databaseSubject.onNext(
-//            Pair(
-//                { movieRepository.repositoryMovieInsertRoomDatabase(movieResult) },
-//                { _favoriteState.value = true }
-//            )
-//        )
-//    }
-//
-//    private fun onNotFavoriteButtonClick(movieResult: MovieResult) {
-//        databaseSubject.onNext(
-//            Pair(
-//                { movieRepository.repositoryDeleteDatabase(movieResult.id) },
-//                { _favoriteState.value = false }
-//            )
-//        )
-//    }
-//
-//    fun favoriteClick(movieResult: MovieResult) {
-//        when (movieData[movieResult]) {
-//            true -> onNotFavoriteButtonClick(movieResult)
-//
-//            false, null -> onFavoriteButtonClick(movieResult)
-//        }
-//    }
 
     fun getLoadDatabase(parasID: Int?) {
         disposable += movieRepository.repositoryGetDetailMovie(parasID)
@@ -117,4 +102,7 @@ var testCount = 2
         }
     }
 
+    fun nextWord(word: String) {
+        testKeyword.onNext(word)
+    }
 }
