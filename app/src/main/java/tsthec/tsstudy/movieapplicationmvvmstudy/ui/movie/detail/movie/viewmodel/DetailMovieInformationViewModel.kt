@@ -26,7 +26,7 @@ class DetailMovieInformationViewModel(
     val genreLiveData = MutableLiveData<List<Genre>>()
 
     var testWord = ""
-
+    
     init {
         disposable += movieRepository.repositoryGetListbyDatabase()
             .subscribeOn(Schedulers.io())

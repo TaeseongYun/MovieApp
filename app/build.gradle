@@ -98,6 +98,9 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 // Koin AndroidX Experimental features
     implementation "org.koin:koin-androidx-ext:$koin_version"
+
+    //ktx
+    implementation "androidx.activity:activity-ktx:$ktx_version"
 }
 androidExtensions {
 

@@ -3,11 +3,10 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding
 import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.lifecycle.ViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 
-abstract class BaseBindingActivity<out T> : BaseActivity() {
+abstract class BaseBindingActivity<out T: Any> : BaseActivity() {
     protected inline fun <reified T : ViewDataBinding> binding(resId: Int): Lazy<T> =
         lazy { DataBindingUtil.setContentView<T>(this, resId) }
 
@@ -17,7 +16,7 @@ abstract class BaseBindingActivity<out T> : BaseActivity() {
 
     abstract fun loadDatabase()
 
-    abstract fun setFavoriteButton(isLike:(Boolean) -> Unit)
+    abstract fun setFavoriteButton(isLike: (Boolean) -> Unit)
 
     abstract fun getDetail(intent: Intent): T?
 }
