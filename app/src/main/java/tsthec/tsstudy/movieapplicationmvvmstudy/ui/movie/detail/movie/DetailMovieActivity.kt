@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -22,6 +24,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAda
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
+import java.util.concurrent.TimeUnit
 
 
 class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
@@ -37,6 +40,16 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
             }, {
                 it.printStackTrace()
             })
+
+        disposable += Observable.interval(1000L, TimeUnit.MICROSECONDS)
+            .zipWith(
+                Observable.just("Hello"), BiFunction<Long, String, String> { _, t2 -> t2 }
+            )
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                LogUtil.d("This is $it")
+            }, { it.printStackTrace() })
 
         testSubject.onNext(4)
 

@@ -37,3 +37,28 @@ koin 클래스 보게되면서 알게된점.
 
 single 에는 특정 변수에 값을 지정하지 않으면 람다(vararg)로 매개변수가 여러개 올수 있는데 그중 내가 get()이라는 함수를 사용하면 해당 매개변수에 일치하는 클래스를 찾아서 반환해줌.
 
+## Android ktx
+
+Android ktx 란 kotlin으로 되어있는 확장 프로그램 세트이다. 쉽게 예를 들어 보겠다. 주로 이용하는 앱 데이터 캐싱하는 클래스 SharedPreferences를 예를 들어 보겠다.
+
+로그인 세션을 저장시키려면 로그인 세션을 SharedPreferences에 저장하는데 이용하는데는 다음과 같이 구현한다.
+
+sharedPreferences
+            .edit()  // create an Editor
+            .putBoolean("key", value)
+            .apply() // write to disk asynchronously
+
+이럴 때 사용하는게 ktx 이다 ktx를 사용하면 다음과 같이 사용할 수 있다.
+
+// SharedPreferences.edit extension function signature from Android KTX - Core
+    // inline fun SharedPreferences.edit(
+    //         commit: Boolean = false,
+    //         action: SharedPreferences.Editor.() -> Unit)
+
+    // Commit a new value asynchronously
+    sharedPreferences.edit { putBoolean("key", value) }
+
+    // Commit a new value synchronously
+    sharedPreferences.edit(commit = true) { putBoolean("key", value) }
+
+

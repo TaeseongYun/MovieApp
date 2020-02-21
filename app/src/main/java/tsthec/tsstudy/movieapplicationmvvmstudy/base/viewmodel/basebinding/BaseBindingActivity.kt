@@ -3,7 +3,6 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding
 import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
 
 abstract class BaseBindingActivity<out T: Any> : BaseActivity() {
