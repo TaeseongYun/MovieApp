@@ -9,7 +9,6 @@
             name="vm"
             type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel" />
 
-        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +35,7 @@
             android:id="@+id/loading_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{vm._isLoadingMutable ? View.VISIBLE : View.GONE}"
+            app:visibleIf="@{vm.isLoading}"
             app:constraint_referenced_ids="loading_progressBar,loading_view" />
 
         <androidx.recyclerview.widget.RecyclerView

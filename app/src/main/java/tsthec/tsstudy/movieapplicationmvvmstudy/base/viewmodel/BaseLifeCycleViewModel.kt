@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +14,10 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 abstract class BaseLifeCycleViewModel : ViewModel() {
     val disposable = CompositeDisposable()
 
-    val _isLoadingMutable = MutableLiveData<Boolean>(false)
+    internal val _isLoadingMutable = MutableLiveData<Boolean>(false)
+
+    val isLoading: LiveData<Boolean>
+    get() = _isLoadingMutable
 
     val databaseSubject = BehaviorSubject.create<Pair<() -> Unit, () -> Unit>>()
 

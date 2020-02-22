@@ -70,7 +70,7 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
 
     private val tvScrollListener =
         scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
-            if (tvViewModel._isLoadingMutable.value != true && totalItemCount - 3 <= (visibleItem + firstViewItemIndex)) {
+            if (tvViewModel.isLoading.value != true && totalItemCount - 3 <= (visibleItem + firstViewItemIndex)) {
                 tvViewModel.loadMoreTvPage(++tvRepository.nextPage)
             }
 

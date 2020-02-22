@@ -2,18 +2,23 @@
 
 package tsthec.tsstudy.movieapplicationmvvmstudy.util
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 fun AppCompatActivity.loadFragment(@IdRes frameLayout: Int, fragment: Fragment) {
-    supportFragmentManager.beginTransaction().run { this.replace(frameLayout, fragment).commit() }
+    supportFragmentManager.commit {
+        replace(frameLayout, fragment)
+    }
 }
 
 inline fun scrollListener(
@@ -28,3 +33,5 @@ inline fun scrollListener(
         handler(totalItemCount, visibleItem, firstViewItemIndex)
     }
 }
+
+fun Context.toast(text: CharSequence, duration: Int) = Toast.makeText(this, text, duration).show()

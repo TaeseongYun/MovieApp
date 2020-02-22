@@ -3,7 +3,6 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import org.jetbrains.anko.startActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 
 class FavoriteActivity : AppCompatActivity() {
@@ -14,9 +13,9 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
 
-    companion object {
-        fun getStartActivity(context: Context?){
-            context?.startActivity<FavoriteActivity>()
-        }
-    }
+//    companion object {
+//        fun getStartActivity(context: Context?){
+//            context?.startActivity<FavoriteActivity>()
+//        }
+//    }
 }

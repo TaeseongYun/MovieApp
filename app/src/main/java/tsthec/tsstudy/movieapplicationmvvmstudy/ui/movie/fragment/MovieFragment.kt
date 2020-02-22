@@ -63,8 +63,8 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     private val addRecyclerViewListener =
         scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
-            LogUtil.d("isLoading State -> ${movieViewModel._isLoadingMutable.value}")
-            if (movieViewModel._isLoadingMutable.value != true && (visibleItem + firstViewItemIndex) >= totalItemCount - 3)
+            LogUtil.d("isLoading State -> ${movieViewModel.isLoading.value}")
+            if (movieViewModel.isLoading.value != true && (visibleItem + firstViewItemIndex) >= totalItemCount - 3)
                 movieViewModel.loadMorePopularMovie(++movieRepository.nextPage)
         }
 

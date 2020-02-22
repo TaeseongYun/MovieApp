@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +20,6 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subscribers.DefaultSubscriber
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
@@ -32,6 +32,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewMod
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.toast
 import java.lang.Thread.sleep
 import java.util.concurrent.TimeUnit
 
@@ -107,7 +108,7 @@ class MovieMainActivity : BaseActivity() {
                 if (boolean) {
                     finish()
                 } else {
-                    toast("뒤로가기 버튼을 한번 더 누르면 종료됩니다.")
+                    this.toast("뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG)
                 }
             }, {
                 it.printStackTrace()
