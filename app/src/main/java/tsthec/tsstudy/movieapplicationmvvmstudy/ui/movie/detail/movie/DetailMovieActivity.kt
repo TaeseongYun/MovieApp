@@ -81,9 +81,6 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
 
     companion object {
         private const val MOVIE = "detailMovie"
-//        fun getInstance(context: Context?, movie: Any?) {
-//            context?.startActivity<DetailMovieActivity>(MOVIE to movie)
-//        }
     }
 
     private val binding by binding<ActivityDetailMovieBinding>(R.layout.activity_detail_movie)

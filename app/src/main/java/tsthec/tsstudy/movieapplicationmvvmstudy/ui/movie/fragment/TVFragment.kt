@@ -38,7 +38,7 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
 
         binding = binding(inflater, R.layout.tv_fragment_layout, container)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.vm = tvViewModel
         binding.executePendingBindings()
 

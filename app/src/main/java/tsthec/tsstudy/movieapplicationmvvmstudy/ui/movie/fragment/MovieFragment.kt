@@ -43,7 +43,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
         binding = binding(inflater, R.layout.movie_fragment, container)
 
         LogUtil.d("Here is onCreateView")
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.vm = movieViewModel
         binding.executePendingBindings()
         return binding.root
@@ -88,7 +88,6 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     override fun onClick(position: Int) {
         findNavController().navigate(R.id.detailMovieActivity, bundleOf("detailMovie" to movieAdapter.getItem(position)))
-//        DetailMovieActivity.getInstance(context, movieAdapter.getItem(position))
     }
 
     override fun onResume() {
