@@ -11,12 +11,12 @@ interface TvResultDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTv(tvResult: TVResult?)
 
-    @Query("Delete from TVResult where id = :id_ ")
+    @Query("Delete from result where id = :id_ ")
     fun getFavoriteTvDelete(id_: Int?)
 
-    @Query("Select * from TVResult")
+    @Query("Select * from result")
     fun getTvListFavorite(): Single<List<TVResult>>
 
-    @Query("Select * from TVResult where id = :id_")
+    @Query("Select * from result where id = :id_")
     fun getFavoriteTV(id_: Int?): Single<TVResult>
 }

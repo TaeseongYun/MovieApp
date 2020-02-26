@@ -10,6 +10,10 @@ import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -25,16 +29,11 @@ import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.MovieFragment
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.StarFragment
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.TVFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadFragment
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadNavigation
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.toast
-import java.lang.Thread.sleep
-import java.util.concurrent.TimeUnit
 
 
 @Suppress("CAST_NEVER_SUCCEEDS")
@@ -42,7 +41,7 @@ class MovieMainActivity : BaseActivity() {
 
     init {
 
-        val mapTestList = listOf("1", "2", "3", "4")
+        val mapTestList = listOf("1", "2", "3", "4", "5")
 
 //        val observable = Observable.fromIterable(mapTestList)
 //        val listData = listOf("1", "2", "3", "5")
@@ -54,46 +53,12 @@ class MovieMainActivity : BaseActivity() {
 
         disposable += observable
             .subscribeOn(Schedulers.io())
-//            .map {
-//                when (it.substring(0..0)) {
-//                    "1" -> 1
-//                    "2" -> 2
-//                    "3" -> 3
-//                    "4" -> 4
-//                    else -> 5
-//                }
-//            }
+            .buffer(3,4)
             .subscribe({ LogUtil.d(it.toString()) }, {})
     }
-//    .subscribe(
-//    { LogUtil.d(it) },
-//    {})
-//        val source = Observable.concat(
-//            Observable.timer(100L, TimeUnit.MILLISECONDS).map { listData[0] },
-//            Observable.timer(100L, TimeUnit.MILLISECONDS).map { listData[1] },
-//            Observable.timer(300L, TimeUnit.MILLISECONDS).map { listData[2] },
-//            Observable.timer(300L, TimeUnit.MILLISECONDS).map { listData[3] }
-//        ).debounce(200L, TimeUnit.MILLISECONDS)
-//
-//        disposable += source.subscribe {
-//            LogUtil.d(it)
-//        }
-//        sleep(6000)
 
-
-    private val movieFragment: MovieFragment by lazy {
-        MovieFragment()
-    }
-
-    private val tvFragment: TVFragment by lazy {
-        TVFragment()
-    }
-
-    private val starFragment: StarFragment by lazy {
-        StarFragment()
-    }
-
-//    private val searchViewModel by viewModel<SearchViewModel>()
+    private var navFragmentHost: NavHostFragment? = null
+    private val searchViewModel by viewModel<SearchViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,31 +79,11 @@ class MovieMainActivity : BaseActivity() {
                 it.printStackTrace()
             })
 
-        movieFragment.setFragment()
+        navFragmentHost = loadNavigation(R.id.nav_host_fragment)
 
-        bottom_sheet_menu.setOnNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.movie_menu -> {
-                    movieFragment.setFragment()
-                    true
-                }
-                R.id.tv_menu -> {
-                    tvFragment.setFragment()
-                    true
-                }
-                R.id.star_menu -> {
-                    starFragment.setFragment()
-                    true
-                }
-
-                else -> false
-            }
+        navFragmentHost?.let {
+            NavigationUI.setupWithNavController(bottom_sheet_menu, it.navController)
         }
-
-//        searchViewModel.onShowProgressBar = {
-//            frameLayout.visibility = View.GONE
-//            loading_progress.visibility = View.VISIBLE
-//        }
     }
 
 
@@ -168,10 +113,6 @@ class MovieMainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         backKeyPressed.onNext(System.currentTimeMillis())
-    }
-
-    private fun Fragment.setFragment() {
-        loadFragment(R.id.frameLayout, this)
     }
 
     override fun onStop() {

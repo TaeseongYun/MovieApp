@@ -15,11 +15,9 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-fun AppCompatActivity.loadFragment(@IdRes frameLayout: Int, fragment: Fragment) {
-    supportFragmentManager.commit {
-        replace(frameLayout, fragment)
-    }
-}
+inline fun<reified T: Fragment> AppCompatActivity.loadNavigation(@IdRes fragment: Int) =
+    supportFragmentManager.findFragmentById(fragment) as T?
+
 
 inline fun scrollListener(
     crossinline handler: (totalItemCount: Int, visibleItem: Int, firstViewItemIndex: Int) -> Unit

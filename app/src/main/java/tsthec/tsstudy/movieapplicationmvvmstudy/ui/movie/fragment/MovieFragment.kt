@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.LayoutAnimationController
+import androidx.core.os.bundleOf
+import androidx.navigation.NavAction
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_fragment.*
@@ -24,7 +28,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetailMovie {
 
     private val movieAdapter: MainRecyclerAdapter by lazy {
-        MainRecyclerAdapter(AdapterViewType.DataType.MOVIE,iShowDetailMovie = this)
+        MainRecyclerAdapter(AdapterViewType.DataType.MOVIE, iShowDetailMovie = this)
     }
 
     private lateinit var binding: MovieFragmentBinding
@@ -38,6 +42,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     ): View? {
         binding = binding(inflater, R.layout.movie_fragment, container)
 
+        LogUtil.d("Here is onCreateView")
         binding.lifecycleOwner = this
         binding.vm = movieViewModel
         binding.executePendingBindings()
@@ -46,7 +51,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        LogUtil.d("Here is onViewCreated")
         viewModelInit()
     }
 
@@ -56,7 +61,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     }
 
     override fun onAttach(context: Context) {
-        if(movieRepository.nextPage > 2)
+        if (movieRepository.nextPage > 2)
             movieRepository.nextPage = 1
         super.onAttach(context)
     }
@@ -82,6 +87,32 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     }
 
     override fun onClick(position: Int) {
-        DetailMovieActivity.getInstance(context, movieAdapter.getItem(position))
+        findNavController().navigate(R.id.detailMovieActivity, bundleOf("detailMovie" to movieAdapter.getItem(position)))
+//        DetailMovieActivity.getInstance(context, movieAdapter.getItem(position))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LogUtil.d("Here is onResume in Fragment")
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        LogUtil.d("here is setUserVisibleHit")
+    }
+
+    override fun onDestroy() {
+        LogUtil.d("here is onDestroy")
+        super.onDestroy()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        LogUtil.d("here is onCreate")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        LogUtil.d("here is onDetach")
     }
 }

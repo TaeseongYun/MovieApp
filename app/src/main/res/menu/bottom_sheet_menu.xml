@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/movie_menu"
+        android:id="@+id/movie_fragment"
         android:icon="@drawable/ic_movie_black_24dp"
         android:title="@string/menu_movie_title" />
     <item
-        android:id="@+id/tv_menu"
+        android:id="@+id/tv_fragment"
         android:icon="@drawable/ic_live_tv_black_24dp"
         android:title="@string/menu_tv_title" />
 
     <item
-        android:id="@+id/star_menu"
+        android:id="@+id/star_fragment"
         android:icon="@drawable/ic_favorite_border_gray_24dp"
         android:title="@string/menu_star_title" />
 </menu>

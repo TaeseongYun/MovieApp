@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/movie_fragment">
+
+    <fragment
+        android:id="@+id/movie_fragment"
+        android:name="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.MovieFragment"
+        android:label="MovieFragment"
+        tools:layout="@layout/movie_fragment" >
+        <action
+            android:id="@+id/action_movie_fragment_to_detailMovieActivity"
+            app:destination="@id/detailMovieActivity" >
+            <argument
+                android:name="detailMovie"
+                app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult"/>
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/tv_fragment"
+        android:name="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.TVFragment"
+        android:label="TVFragment"
+        tools:layout="@layout/tv_fragment_layout" >
+        <action
+            android:id="@+id/action_tv_fragment_to_detailTVActivity"
+            app:destination="@id/detailTVActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/star_fragment"
+        android:name="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.StarFragment"
+        android:label="StarFragment"
+        tools:layout="@layout/star_fragment_layout" />
+    <activity
+        android:id="@+id/detailMovieActivity"
+        android:name="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity"
+        android:label="DetailMovieActivity"
+        tools:layout="@layout/activity_detail_movie"/>
+
+    <activity
+        android:id="@+id/detailTVActivity"
+        android:name="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.DetailTVActivity"
+        android:label="DetailTVActivity"
+        tools:layout="@layout/activity_detail_tv"/>
+</navigation>

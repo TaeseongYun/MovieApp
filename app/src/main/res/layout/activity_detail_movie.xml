@@ -61,32 +61,32 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/my_rect_shadow" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_marginTop="@dimen/spacing_xxx_large"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ed_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:layout_marginTop="@dimen/spacing_xxx_large"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
+<!--                        <com.google.android.material.textfield.TextInputEditText-->
+<!--                            android:id="@+id/ed_text"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"/>-->
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_marginTop="@dimen/spacing_test_dimen"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ed_text2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:layout_marginTop="@dimen/spacing_test_dimen"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
+<!--                        <com.google.android.material.textfield.TextInputEditText-->
+<!--                            android:id="@+id/ed_text2"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"/>-->
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
-                    <Button
-                        android:id="@+id/button"
-                        android:layout_marginTop="@dimen/spacing_detail_card_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="테스트"/>
+<!--                    <Button-->
+<!--                        android:id="@+id/button"-->
+<!--                        android:layout_marginTop="@dimen/spacing_detail_card_view"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="테스트"/>-->
                 </RelativeLayout>
 
 

@@ -13,7 +13,7 @@ data class TVResponse(
 )
 
 @Parcelize
-@Entity(primaryKeys = ["id"])
+@Entity(primaryKeys = ["id"], tableName = "result")
 data class TVResult(
     val backdrop_path: String?,
     val first_air_date: String,

@@ -14,6 +14,7 @@ import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.experimental.builder.getArguments
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding.BaseBindingActivity
@@ -79,10 +80,10 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
     }
 
     companion object {
-        private const val MOVIE = "movie"
-        fun getInstance(context: Context?, movie: Any?) {
-            context?.startActivity<DetailMovieActivity>(MOVIE to movie)
-        }
+        private const val MOVIE = "detailMovie"
+//        fun getInstance(context: Context?, movie: Any?) {
+//            context?.startActivity<DetailMovieActivity>(MOVIE to movie)
+//        }
     }
 
     private val binding by binding<ActivityDetailMovieBinding>(R.layout.activity_detail_movie)
@@ -105,13 +106,12 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
         viewInit()
 
         setFavoriteButton {
+            LogUtil.d("Come Here $it")
             when (it) {
                 true -> favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
                 false -> favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
             }
         }
-
-        button.setOnClickListener { detailViewModel.nextWord(ed_text.text.toString()) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
