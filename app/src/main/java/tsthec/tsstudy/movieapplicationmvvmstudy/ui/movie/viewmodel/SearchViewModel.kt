@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,9 +15,11 @@ import java.util.concurrent.TimeUnit
 class SearchViewModel(private val searchRepository: MultiSearchRepository) :
     BaseLifeCycleViewModel() {
 
-    val searchResult: MutableLiveData<List<SearchResult>> by lazy {
-        MutableLiveData<List<SearchResult>>()
-    }
+    private val _searchResult: MutableLiveData<List<SearchResult>> =
+        MutableLiveData()
+
+    val searchResult: LiveData<List<SearchResult>>
+        get() = _searchResult
 
     fun nextSearch(keyword: String) {
         searchKeywordSubject.onNext(keyword)
@@ -26,17 +29,20 @@ class SearchViewModel(private val searchRepository: MultiSearchRepository) :
 
     fun loadResult(page: Int) {
         disposable += searchKeywordSubject.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 if (::onShowProgressBar.isInitialized)
                     onShowProgressBar()
             }
             .debounce(200L, TimeUnit.MILLISECONDS)
-            .flatMapSingle {
+            .filter {
+                it.isNotEmpty()
+            }
+            .switchMapSingle {
                 searchRepository.multiSearchRepository(it, page)
             }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                searchResult.value = it.results
+                _searchResult.value = it.results
             }, {
                 it.printStackTrace()
             })

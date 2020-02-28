@@ -5,10 +5,20 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.holder.BaseRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.SearchResult
 
-class SearchMultiInformationViewHolder(parent: ViewGroup) : BaseRecyclerViewHolder<SearchResult>(
-    parent.context,
-    parent,
-    R.layout.tv_detail_recycler_view_item
-) {
+class SearchMultiInformationViewHolder(parent: ViewGroup, private val iSearchItem: ISearchItem?) :
+    BaseRecyclerViewHolder<SearchResult>(
+        parent.context,
+        parent,
+        R.layout.detail_search_item
+    ) {
 
+    interface ISearchItem {
+        fun onClickDetailView(position: Int)
+    }
+
+    init {
+        containerView.setOnClickListener {
+            iSearchItem?.onClickDetailView(adapterPosition)
+        }
+    }
 }

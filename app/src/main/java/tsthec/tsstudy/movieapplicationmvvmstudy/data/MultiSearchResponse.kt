@@ -1,5 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data
 
+import com.google.gson.annotations.SerializedName
+
 data class MultiSearchResponse(
     val page: Int,
     val results: List<SearchResult>,
@@ -17,11 +19,13 @@ data class SearchResult(
     val name: String,
     val origin_country: List<String>,
     val original_language: String,
-    val original_name: String,
+    @SerializedName("original_name")
+    val originalName: String,
     val original_title: String,
     val overview: String,
     val popularity: Double,
-    val poster_path: String,
+    @SerializedName("poster_path")
+    val posterPath: String,
     val release_date: String,
     val title: String,
     val video: Boolean,

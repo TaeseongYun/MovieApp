@@ -17,7 +17,6 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAda
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.DetailTVActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
 class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {

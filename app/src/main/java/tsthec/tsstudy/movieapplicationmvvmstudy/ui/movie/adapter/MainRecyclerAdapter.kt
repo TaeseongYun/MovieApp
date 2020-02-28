@@ -13,7 +13,8 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecycl
 class MainRecyclerAdapter(
     private val dataType: AdapterViewType.DataType,
     private val iShowDetailMovie: PopularMovieRecyclerViewHolder.IShowDetailMovie? = null,
-    private val iShowDetailTV: TvRecyclerViewHolder.IShowDetailTv? = null
+    private val iShowDetailTV: TvRecyclerViewHolder.IShowDetailTv? = null,
+    private val iSearchItem: SearchMultiInformationViewHolder.ISearchItem? = null
 ) :
     BaseRecyclerAdapter<AdapterViewType.ViewType?>() {
 
@@ -29,7 +30,7 @@ class MainRecyclerAdapter(
             MOVIE -> PopularMovieRecyclerViewHolder(parent, iShowDetailMovie)
             TV -> TvRecyclerViewHolder(parent, iShowDetailTV)
             GENRE -> DetailMovieInformationGenreViewHolder(parent)
-            SEARCH -> SearchMultiInformationViewHolder(parent)
+            SEARCH -> SearchMultiInformationViewHolder(parent, iSearchItem)
             else -> throw Resources.NotFoundException("is not found class viewType -> ")
         }
 

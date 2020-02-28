@@ -41,5 +41,9 @@ fun bindingAdapterGenreList(view: RecyclerView, genreList: List<Genre>?) {
 fun bindingAdapterSearchList(view: RecyclerView, searchResultList: List<SearchResult>?) {
     val searchResultAdapter = view.adapter as? MainRecyclerAdapter
 
+    searchResultList?.let {
+        searchResultAdapter?.addItems(AdapterViewType.DataType.SEARCH, it)
+    }
 
+    searchResultAdapter?.notifyDataSetChanged()
 }

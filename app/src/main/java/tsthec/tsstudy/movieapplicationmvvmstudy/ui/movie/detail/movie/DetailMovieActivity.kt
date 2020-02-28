@@ -1,6 +1,5 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,9 +11,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_detail_movie.*
-import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.experimental.builder.getArguments
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding.BaseBindingActivity
@@ -91,7 +88,7 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
 
     private val detailViewModel by viewModel<DetailMovieInformationViewModel>()
 
-    override fun viewInit() {
+    override fun viewINIT() {
         viewBinding()
         loadDatabase()
         detailViewModel.getResultDetailMovie(getDetail(intent)?.id)
@@ -100,7 +97,7 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewInit()
+        viewINIT()
 
         setFavoriteButton {
             LogUtil.d("Come Here $it")

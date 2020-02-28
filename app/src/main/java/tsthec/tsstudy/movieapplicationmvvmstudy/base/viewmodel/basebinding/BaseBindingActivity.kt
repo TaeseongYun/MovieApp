@@ -9,8 +9,6 @@ abstract class BaseBindingActivity<out T: Any> : BaseActivity() {
     protected inline fun <reified T : ViewDataBinding> binding(resId: Int): Lazy<T> =
         lazy { DataBindingUtil.setContentView<T>(this, resId) }
 
-    abstract fun viewInit()
-
     abstract fun viewBinding()
 
     abstract fun loadDatabase()

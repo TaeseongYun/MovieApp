@@ -7,13 +7,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.widget.GridLayout
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -29,6 +33,11 @@ import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
+import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityMainBinding
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.SearchMultiInformationViewHolder
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadNavigation
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
@@ -37,10 +46,9 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.toast
 
 
 @Suppress("CAST_NEVER_SUCCEEDS")
-class MovieMainActivity : BaseActivity() {
+class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISearchItem {
 
     init {
-
         val mapTestList = listOf("1", "2", "3", "4", "5")
 
 //        val observable = Observable.fromIterable(mapTestList)
@@ -53,16 +61,24 @@ class MovieMainActivity : BaseActivity() {
 
         disposable += observable
             .subscribeOn(Schedulers.io())
-            .buffer(3,4)
+            .buffer(3, 4)
             .subscribe({ LogUtil.d(it.toString()) }, {})
     }
 
     private var navFragmentHost: NavHostFragment? = null
+
     private val searchViewModel by viewModel<SearchViewModel>()
+
+    private val binding by bindingBySetContent<ActivityMainBinding>(R.layout.activity_main)
+
+    private val searchRecyclerAdapter: MainRecyclerAdapter by lazy {
+        MainRecyclerAdapter(AdapterViewType.DataType.SEARCH, iSearchItem = this@MovieMainActivity)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        viewINIT()
 
         disposable += backKeyPressed.toFlowable(BackpressureStrategy.BUFFER)
             .buffer(2, 1)
@@ -94,14 +110,12 @@ class MovieMainActivity : BaseActivity() {
                 queryHint = getString(R.string.query_string_hint)
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
-//                        searchViewModel.nextSearch(query)
-//                        searchViewModel.loadResult(1)
+                        searchViewModel.nextSearch(query)
+                        searchViewModel.loadResult(1)
                         return false
                     }
 
                     override fun onQueryTextChange(newText: String): Boolean {
-//                        searchViewModel.nextSearch(newText)
-//                        searchViewModel.loadResult(1)
                         return false
                     }
 
@@ -120,8 +134,25 @@ class MovieMainActivity : BaseActivity() {
         super.onStop()
     }
 
+    override fun viewINIT() {
+        with(binding) {
+            lifecycleOwner = this@MovieMainActivity
+            vm = searchViewModel
+            executePendingBindings()
+        }
+
+        search_recyclerView.run {
+            adapter = searchRecyclerAdapter
+            layoutManager = GridLayoutManager(this@MovieMainActivity, 2)
+        }
+    }
+
     override fun onPause() {
         LogUtil.d("onPause Called")
         super.onPause()
+    }
+
+    override fun onClickDetailView(position: Int) {
+        LogUtil.d("clicked $position!!!")
     }
 }

@@ -8,5 +8,5 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
 val repositoryModule = module {
     single { MovieRepository.getInstance(get(), get()) }
     single { TvRepository.getInstance(get(), get()) }
-//    single { MultiSearchRepository.getInstance(get()) }
+    single { MultiSearchRepository.getInstance(get()) }
 }

@@ -7,7 +7,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MultiSearchResponse
 
 interface SearchInterface {
-    @GET
+    @GET("search/multi")
     fun multiSearch(
         @Query("api_key") apiKey: String = BuildConfig.MOVIE_API_KEY,
         @Query("language") language: String = "ko-KR",

@@ -35,7 +35,7 @@ class DetailTVActivity : BaseBindingActivity<TVResult>() {
 
     private val tvViewModel by viewModel<DetailTVInformationViewModel>()
 
-    override fun viewInit() {
+    override fun viewINIT() {
         setSupportActionBar(toolbar)
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
@@ -71,7 +71,7 @@ class DetailTVActivity : BaseBindingActivity<TVResult>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewInit()
+        viewINIT()
 
         // 해당 id 값에 따른 디테일값을 알아야 장르를 recyclerView에 추가시켜 줄 수 있다.
         tvViewModel.getDetailTV(getDetail(intent)?.id)
