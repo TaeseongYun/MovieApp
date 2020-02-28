@@ -42,8 +42,11 @@ fun bindingAdapterSearchList(view: RecyclerView, searchResultList: List<SearchRe
     val searchResultAdapter = view.adapter as? MainRecyclerAdapter
 
     searchResultList?.let {
+        searchResultAdapter?.clearItems()
         searchResultAdapter?.addItems(AdapterViewType.DataType.SEARCH, it)
     }
+    if(searchResultList.isNullOrEmpty())
+        searchResultAdapter?.clearItems()
 
     searchResultAdapter?.notifyDataSetChanged()
 }

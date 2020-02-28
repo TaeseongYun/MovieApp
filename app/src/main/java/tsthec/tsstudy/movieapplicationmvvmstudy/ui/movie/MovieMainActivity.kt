@@ -116,6 +116,8 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
                     }
 
                     override fun onQueryTextChange(newText: String): Boolean {
+                        searchViewModel.nextSearch(newText)
+                        searchViewModel.loadResult(1)
                         return false
                     }
 
