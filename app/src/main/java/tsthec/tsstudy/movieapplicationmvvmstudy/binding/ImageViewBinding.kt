@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -46,29 +47,6 @@ fun bindingPosterImage(view: GlideCustomImage, posterPath: String?) {
         })
         //.apply(RequestOptions.skipMemoryCacheOf(true))// cache사용 이라고 하는 코드
         .diskCacheStrategy(DiskCacheStrategy.ALL)// 디스크 캐시 사용
-//        .transition(DrawableTransitionOptions.withCrossFade(1000))
+        .transition(DrawableTransitionOptions.withCrossFade(1000))
         .into(view)
-}
-//
-
-interface IFavoriteClick {
-    fun favoriteButtonEvent(
-        favoriteBehaviorSubject: BehaviorSubject<Pair<() -> Unit, () -> Unit>>,
-        movieResultData: MovieResult
-    )
-}
-
-@BindingAdapter("favoriteClick", "favoriteBehavior", "movieResultXmlData")
-fun bindingClickFavoriteButton(
-    view: ImageView,
-    favoriteButtonListener: IFavoriteClick,
-    favoriteBehavior: BehaviorSubject<Pair<() -> Unit, () -> Unit>>,
-    movieResultData: MovieResult
-) {
-    view.setOnClickListener {
-        favoriteButtonListener.favoriteButtonEvent(
-            favoriteBehavior,
-            movieResultData
-        )
-    }
 }

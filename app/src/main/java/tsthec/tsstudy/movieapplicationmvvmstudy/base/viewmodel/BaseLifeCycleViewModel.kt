@@ -11,7 +11,7 @@ import io.reactivex.subjects.PublishSubject
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
-abstract class BaseLifeCycleViewModel : ViewModel() {
+abstract class BaseLifeCycleViewModel<in T: Any?> : ViewModel() {
     val disposable = CompositeDisposable()
 
     internal val _isLoadingMutable = MutableLiveData<Boolean>(false)
@@ -21,6 +21,9 @@ abstract class BaseLifeCycleViewModel : ViewModel() {
 
     val databaseSubject = BehaviorSubject.create<Pair<() -> Unit, () -> Unit>>()
 
+    abstract fun onFavoriteButtonClicked(item: T?)
+
+    abstract fun onDeleteFavoriteButtonClicked(item: T?)
     /*
     BehaviorSubject -> subscribe 즉 구독자가 구독을 하면 제일 마지막에 들어온 데이터(onNext)를 발행한다.
      */

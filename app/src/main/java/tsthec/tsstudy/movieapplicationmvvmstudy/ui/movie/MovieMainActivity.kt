@@ -4,40 +4,24 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
-import android.view.View
-import android.widget.GridLayout
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DefaultObserver
-import io.reactivex.observers.DisposableObserver
-import io.reactivex.observers.ResourceObserver
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subscribers.DefaultSubscriber
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityMainBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.SearchMultiInformationViewHolder
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadNavigation
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
@@ -143,10 +127,10 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
             executePendingBindings()
         }
 
-        search_recyclerView.run {
-            adapter = searchRecyclerAdapter
-            layoutManager = GridLayoutManager(this@MovieMainActivity, 2)
-        }
+//        search_recyclerView.run {
+//            adapter = searchRecyclerAdapter
+//            layoutManager = GridLayoutManager(this@MovieMainActivity, 2)
+//        }
     }
 
     override fun onPause() {

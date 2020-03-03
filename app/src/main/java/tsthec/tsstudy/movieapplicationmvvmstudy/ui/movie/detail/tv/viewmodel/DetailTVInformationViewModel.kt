@@ -14,7 +14,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class DetailTVInformationViewModel(
     private val tvRepository: TvRepository
-) : BaseLifeCycleViewModel() {
+) : BaseLifeCycleViewModel<TVResult>() {
 
     private val tvMutableMap = mutableMapOf<TVResult, Boolean>()
 
@@ -41,19 +41,14 @@ class DetailTVInformationViewModel(
     }
 
 
-    private fun onFavoriteButtonClicked(tvResult: TVResult?) {
-        databaseSubject.onNext(
-            Pair(
-                { tvRepository.repositoryInputDatabase(tvResult) },
-                { _favoriteState.value = true }
-            )
-        )
-    }
+//    override fun onFavoriteButtonClicked(item: TVResult?) {
+//
+//    }
 
-    private fun onDeleteFavoriteButtonClicked(tvResult: TVResult?) {
+    override fun onDeleteFavoriteButtonClicked(item: TVResult?) {
         databaseSubject.onNext(
             Pair(
-                { tvRepository.repositoryDeleteDatabase(tvResult?.id) },
+                { tvRepository.repositoryDeleteDatabase(item?.id) },
                 { _favoriteState.value = false }
             )
         )
@@ -92,5 +87,14 @@ class DetailTVInformationViewModel(
             }, {
                 it.printStackTrace()
             })
+    }
+
+    override fun onFavoriteButtonClicked(item: TVResult?) {
+        databaseSubject.onNext(
+            Pair(
+                { tvRepository.repositoryInputDatabase(item) },
+                { _favoriteState.value = true }
+            )
+        )
     }
 }

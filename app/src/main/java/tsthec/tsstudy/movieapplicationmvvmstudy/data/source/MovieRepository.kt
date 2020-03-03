@@ -38,7 +38,7 @@ class MovieRepository private constructor(
     fun repositoryPopularMovie(apiKey: String, loadPage: Int) =
         movieRemoteDataSource.remoteSourcePopularMovie(apiKey, loadPage)
 
-    fun repositoryMovieInsertRoomDatabase(movieResult: MovieResult) =
+    fun repositoryMovieInsertRoomDatabase(movieResult: MovieResult?) =
         movieLocalDatabaseRemoteData.inputMovieResult(movieResult)
 
     fun repositoryGetDetailMovie(paramsID: Int?) =
@@ -47,6 +47,6 @@ class MovieRepository private constructor(
     fun repositoryGetListbyDatabase() =
         movieLocalDatabaseRemoteData.loadMovieDatabaseList()
 
-    fun repositoryDeleteDatabase(paramsID: Int) =
+    fun repositoryDeleteDatabase(paramsID: Int?) =
         movieLocalDatabaseRemoteData.deleteMovieDatabase(paramsID)
 }

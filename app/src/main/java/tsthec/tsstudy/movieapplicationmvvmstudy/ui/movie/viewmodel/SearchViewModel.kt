@@ -13,7 +13,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import java.util.concurrent.TimeUnit
 
 class SearchViewModel(private val searchRepository: MultiSearchRepository) :
-    BaseLifeCycleViewModel() {
+    BaseLifeCycleViewModel<SearchResult>() {
 
     private val _searchResult: MutableLiveData<List<SearchResult>> =
         MutableLiveData()
@@ -46,5 +46,13 @@ class SearchViewModel(private val searchRepository: MultiSearchRepository) :
             }, {
                 it.printStackTrace()
             })
+    }
+
+    override fun onFavoriteButtonClicked(item: SearchResult?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDeleteFavoriteButtonClicked(item: SearchResult?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

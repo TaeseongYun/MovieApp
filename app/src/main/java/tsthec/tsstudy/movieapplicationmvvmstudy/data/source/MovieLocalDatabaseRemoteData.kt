@@ -10,7 +10,7 @@ class MovieLocalDatabaseRemoteData(movieDatabase: MovieDatabase) {
 
     private val tvDAO = movieDatabase.tvResultDAO()
 
-    fun inputMovieResult(movieResult: MovieResult)=
+    fun inputMovieResult(movieResult: MovieResult?) =
         movieDAO.insertMovieResult(movieResult)
 
     fun loadMovieDatabase(paraID: Int?) =
@@ -22,7 +22,7 @@ class MovieLocalDatabaseRemoteData(movieDatabase: MovieDatabase) {
     fun loadMovieDatabaseList() =
         movieDAO.getListFavorite()
 
-    fun deleteMovieDatabase(paraID: Int) =
+    fun deleteMovieDatabase(paraID: Int?) =
         movieDAO.getFavoriteMovieDelete(paraID)
 
     fun inputTvResult(tvResult: TVResult?) = tvDAO.insertTv(tvResult)

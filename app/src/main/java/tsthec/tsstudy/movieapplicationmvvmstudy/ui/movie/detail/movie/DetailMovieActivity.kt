@@ -106,6 +106,8 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
                 false -> favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
             }
         }
+
+        favorite_btn.setOnClickListener { detailViewModel.loadLikeState(getDetail(intent)) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -14,7 +14,7 @@ fun bindingAdapterMovieList(view: RecyclerView, movieList: MovieResponse?) {
     movieList?.let {
         movieAdapter?.addItems(AdapterViewType.DataType.MOVIE, it.results)
     }
-    movieAdapter?.notifyDataSetChanged()
+    movieAdapter?.notifyItemRangeChanged(movieAdapter.itemCount, movieAdapter.list.size)
 }
 
 @BindingAdapter("bindTvList")
@@ -24,7 +24,8 @@ fun bindingAdapterTvList(view: RecyclerView, tvList: TVResponse?) {
     tvList?.let {
         tvAdapter?.addItems(AdapterViewType.DataType.TV, it.results)
     }
-    tvAdapter?.notifyDataSetChanged()
+    //notifyItemDataChange 호출 하게되면 전체가 깜빡 거리는 현상이 있기 때문에 기존 아이템 카운트 부터 추가 된 사이즈까지.
+    tvAdapter?.notifyItemRangeChanged(tvAdapter.itemCount, tvAdapter.list.size)
 }
 
 @BindingAdapter("bindGenreList")

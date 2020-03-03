@@ -14,7 +14,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 class StarViewModel(
     private val movieRepository: MovieRepository,
     private val tvRepository: TvRepository
-) : BaseLifeCycleViewModel() {
+) : BaseLifeCycleViewModel<Any>() {
 
     val databaseMovieList: MutableLiveData<List<MovieResult>> by lazy {
         MutableLiveData<List<MovieResult>>()
@@ -35,5 +35,11 @@ class StarViewModel(
             }, {
                 it.printStackTrace()
             })
+    }
+
+    override fun onFavoriteButtonClicked(item: Any?) {
+    }
+
+    override fun onDeleteFavoriteButtonClicked(item: Any?) {
     }
 }

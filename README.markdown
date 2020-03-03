@@ -10,6 +10,7 @@
 ## LiveData
 
 - behaviorSubject를 이용하면서 livedata는 백그라운드 스레드에서 동작하지 못하는다는 점을 알게되었다. Room과는 정반대 Room은 메인 스레드에서 동작하지 못함.
+  알고보니 LiveData도 백그라운드에서 동작이 가능하다. 다만 postValue 만 사용 가능 setValue (.value)는 반드시 메인 스레드에서 작동시켜야함.
 
 ## object 키워드와 companion object 키워드 차이
 

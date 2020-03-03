@@ -18,7 +18,7 @@ class MovieNowPlayingViewModel(
     private val movieRepository: MovieRepository,
     private val tvRepository: TvRepository
 ) :
-    BaseLifeCycleViewModel() {
+    BaseLifeCycleViewModel<MovieResult>() {
 
     val movieList = MutableLiveData<MovieResponse>()
 
@@ -80,5 +80,11 @@ class MovieNowPlayingViewModel(
             }, {
                 it.printStackTrace()
             })
+    }
+
+    override fun onFavoriteButtonClicked(item: MovieResult?) {
+    }
+
+    override fun onDeleteFavoriteButtonClicked(item: MovieResult?) {
     }
 }

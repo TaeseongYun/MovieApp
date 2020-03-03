@@ -116,9 +116,6 @@
 
                 <ImageView
                     android:id="@+id/favorite_btn"
-                    favoriteBehavior="@{vm.databaseSubject}"
-                    favoriteClick="@{vm::favoriteButtonEvent}"
-                    movieResultXmlData="@{movieDetailResult}"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="end|bottom"

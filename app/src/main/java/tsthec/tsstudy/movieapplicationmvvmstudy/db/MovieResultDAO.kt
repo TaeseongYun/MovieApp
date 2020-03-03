@@ -11,11 +11,11 @@ interface MovieResultDAO {
     fun getFavoriteMovie(id_: Int?): Single<MovieResult>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovieResult(movieResult: MovieResult)
+    fun insertMovieResult(movieResult: MovieResult?)
 
     @Query("Select * from MovieResult")
     fun getListFavorite(): Single<List<MovieResult>>
 
     @Query("Delete from MovieResult Where id = :id_")
-    fun getFavoriteMovieDelete(id_: Int)
+    fun getFavoriteMovieDelete(id_: Int?)
 }
