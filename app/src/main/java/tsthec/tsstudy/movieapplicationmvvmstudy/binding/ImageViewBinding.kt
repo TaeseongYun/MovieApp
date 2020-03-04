@@ -16,6 +16,7 @@ import jp.wasabeef.glide.transformations.CropSquareTransformation
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
 
 @BindingAdapter("bindPosterImage")
@@ -49,4 +50,15 @@ fun bindingPosterImage(view: GlideCustomImage, posterPath: String?) {
         .diskCacheStrategy(DiskCacheStrategy.ALL)// 디스크 캐시 사용
         .transition(DrawableTransitionOptions.withCrossFade(1000))
         .into(view)
+}
+
+@BindingAdapter("isLiked")
+fun bindingLikeBindingAdapter(view: GlideCustomImage, isLike: Boolean) {
+    if (isLike) view.setImageResource(R.drawable.ic_favorite_black_24dp)
+    else view.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+}
+
+@BindingAdapter( "app:apiResource", "app:tvResult")
+fun bindingBackgroundImageAdapter(view: GlideCustomImage, api: API?, tvResult: TVResult) {
+    view.loadMovieBackground(api?.moviePhoto ?: "N/A" + tvResult.backdrop_path)
 }

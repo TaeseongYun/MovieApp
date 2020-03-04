@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.lifecycle.Observer
+import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -88,9 +89,10 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
 
     private val detailViewModel by viewModel<DetailMovieInformationViewModel>()
 
+    private val detailMovieArgs by navArgs<DetailMovieActivityArgs>()
+
     override fun viewINIT() {
         viewBinding()
-        loadDatabase()
         detailViewModel.getResultDetailMovie(getDetail(intent)?.id)
     }
 
@@ -108,6 +110,8 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
         }
 
         favorite_btn.setOnClickListener { detailViewModel.loadLikeState(getDetail(intent)) }
+
+        LogUtil.d("What is detailMovie -> ${detailMovieArgs.detailMovie}")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -118,7 +122,7 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
 
     override fun viewBinding() {
         with(binding) {
-            movieDetailResult = getDetail(intent)
+            movieDetailResult = detailMovieArgs.detailMovie
             api = API
             vm = detailViewModel
             if (!getDetail(intent)?.backdrop_path.isNullOrEmpty())
@@ -137,8 +141,6 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
-
-    override fun loadDatabase() = detailViewModel.getLoadDatabase(getDetail(intent)?.id)
 
     override fun setFavoriteButton(isLike: (Boolean) -> Unit) {
         detailViewModel.favoriteState.observe(this, Observer {

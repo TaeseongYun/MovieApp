@@ -3,6 +3,7 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -11,7 +12,7 @@ import io.reactivex.subjects.PublishSubject
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
-abstract class BaseLifeCycleViewModel<in T: Any?> : ViewModel() {
+abstract class BaseLifeCycleViewModel<T: Any?> : ViewModel() {
     val disposable = CompositeDisposable()
 
     internal val _isLoadingMutable = MutableLiveData<Boolean>(false)
@@ -20,6 +21,8 @@ abstract class BaseLifeCycleViewModel<in T: Any?> : ViewModel() {
     get() = _isLoadingMutable
 
     val databaseSubject = BehaviorSubject.create<Pair<() -> Unit, () -> Unit>>()
+
+    val uiBehaviorSubject = BehaviorSubject.create<T?>()
 
     abstract fun onFavoriteButtonClicked(item: T?)
 

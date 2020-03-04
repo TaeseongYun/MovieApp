@@ -11,8 +11,6 @@ abstract class BaseBindingActivity<out T: Any> : BaseActivity() {
 
     abstract fun viewBinding()
 
-    abstract fun loadDatabase()
-
     abstract fun setFavoriteButton(isLike: (Boolean) -> Unit)
 
     abstract fun getDetail(intent: Intent): T?

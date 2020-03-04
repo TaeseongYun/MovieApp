@@ -3,9 +3,7 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
-import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.request.RequestOptions
@@ -18,7 +16,7 @@ class GlideCustomImage @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
     defStyleAttr: Int = 0
-) : ImageView(context, attrs, defStyleAttr) {
+) : androidx.appcompat.widget.AppCompatImageView(context, attrs, defStyleAttr) {
 
     fun loadMovieBackground(baseUrl: String, @DrawableRes placeholder: Int = R.drawable.ic_bubble_chart_white_24dp) {
         Glide.with(this)
