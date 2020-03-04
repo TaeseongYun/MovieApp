@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data.source
 
+import io.reactivex.Single
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.TvInterface
@@ -18,6 +19,8 @@ class TvRepository(private val tvAPI: TvInterface, private val tvRoomDatabase: M
                 instance ?: TvRepository(tvAPI, tvRoomDatabase).also { instance = it }
             }
     }
+
+    private val tvCacheHashMap = mutableListOf<TVResult>()
 
     private val tvRemoteDataSource: TvRemoteDataSource by lazy {
         TvRemoteDataSource(tvAPI)
@@ -42,6 +45,6 @@ class TvRepository(private val tvAPI: TvInterface, private val tvRoomDatabase: M
     fun repositoryDeleteDatabase(paramsID: Int?) =
         tvLocalDataBaseRemoteData.deleteTvDatabase(paramsID)
 
-    fun repositoryGetFavoriteList() = tvLocalDataBaseRemoteData.getLoadTvList()
-
+    fun repositoryGetFavoriteList()
+       = tvLocalDataBaseRemoteData.getLoadTvList()
 }

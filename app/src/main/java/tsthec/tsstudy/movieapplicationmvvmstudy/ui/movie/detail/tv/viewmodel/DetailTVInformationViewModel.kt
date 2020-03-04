@@ -46,6 +46,7 @@ class DetailTVInformationViewModel(
 //    }
 
     override fun onDeleteFavoriteButtonClicked(item: TVResult?) {
+        item?.let { tvMutableMap[it] = false }
         databaseSubject.onNext(
             Pair(
                 { tvRepository.repositoryDeleteDatabase(item?.id) },
@@ -90,6 +91,8 @@ class DetailTVInformationViewModel(
     }
 
     override fun onFavoriteButtonClicked(item: TVResult?) {
+        item?.let { tvMutableMap[it] = true }
+//        tvMutableMap[item] = false
         databaseSubject.onNext(
             Pair(
                 { tvRepository.repositoryInputDatabase(item) },
