@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.tv_fragment_layout.*
@@ -15,7 +17,6 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.d
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.TvFragmentLayoutBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.DetailTVActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
@@ -82,6 +83,6 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
     }
 
     override fun onClick(position: Int) {
-        DetailTVActivity.getInstance(this.context, tvRecyclerAdapter.getItem(position))
+        findNavController().navigate(R.id.detailTVActivity, bundleOf("detailTV" to tvRecyclerAdapter.getItem(position)))
     }
 }

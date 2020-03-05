@@ -50,13 +50,10 @@ class DetailTVActivity : BaseBindingActivity<TVResult>() {
 
     override fun viewBinding() {
         with(binding) {
-            tvDetailResult = getDetail(intent)
+            tvDetailResult = detailTvArgs.detailTV
             vm = tvViewModel
             api = API
-//            if (!getDetail(intent)?.backdrop_path.isNullOrEmpty())
-//                glideToolbar.loadMovieBackground("${API.moviePhoto}${getDetail(intent)?.backdrop_path}")
-            tv_img.loadMovieBackground("${API.moviePhoto}${getDetail(intent)?.posterPath}")
-            rating_tv_TV.text = getDetail(intent)?.voteAverage.toString()
+            rating_tv_TV.text = detailTvArgs.detailTV.voteAverage.toString()
             genre_recyclerView_tv.run {
                 adapter = genreRecyclerViewAdapter
                 layoutManager = LinearLayoutManager(this.context).apply {
@@ -68,42 +65,21 @@ class DetailTVActivity : BaseBindingActivity<TVResult>() {
         }
     }
 
-//    override fun loadDatabase() =
-//        tvViewModel.getLoadTVDatabase(getDetail(intent)?.id)
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewINIT()
 
         // 해당 id 값에 따른 디테일값을 알아야 장르를 recyclerView에 추가시켜 줄 수 있다.
-        tvViewModel.getDetailTV(getDetail(intent)?.id)
+        tvViewModel.getDetailTV(detailTvArgs.detailTV.id)
 
         LogUtil.d("getData -> ${detailTvArgs.detailTV}")
         favorite_btn.setOnClickListener {
-            tvViewModel.loadLikeState(getDetail(intent))
+            tvViewModel.loadLikeState(detailTvArgs.detailTV)
         }
 
         back_activity.setOnClickListener { finish() }
-//        setFavoriteButton { isLike ->
-//            when (isLike) {
-//                true -> favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
-//                false -> favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
-//            }
-//        }
-
-//        getDetail(intent)?.let { tvViewModel.loadDefault(it) }
     }
-
-//    override fun setFavoriteButton(isLike: (isLike: Boolean) -> Unit) {
-//        tvViewModel.favoriteState.observe(this, Observer {
-//            isLike(it)
-//        })
-//    }
-
-    override fun getDetail(intent: Intent): TVResult? =
-        intent.getParcelableExtra(TV)
 
     override fun setFavoriteButton(isLike: (Boolean) -> Unit) {
 

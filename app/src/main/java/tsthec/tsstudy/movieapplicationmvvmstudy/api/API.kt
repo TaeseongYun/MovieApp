@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.api
 
-object API{
-    const val moviePhoto = "https://image.tmdb.org/t/p/w342"
+object API {
+    val moviePhoto: String?
+    get() = "https://image.tmdb.org/t/p/w342"
 }

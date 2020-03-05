@@ -1,6 +1,5 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.basebinding
 
-import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
@@ -12,6 +11,4 @@ abstract class BaseBindingActivity<out T: Any> : BaseActivity() {
     abstract fun viewBinding()
 
     abstract fun setFavoriteButton(isLike: (Boolean) -> Unit)
-
-    abstract fun getDetail(intent: Intent): T?
 }

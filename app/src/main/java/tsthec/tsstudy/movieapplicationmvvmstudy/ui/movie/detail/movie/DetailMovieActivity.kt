@@ -77,10 +77,6 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
             })
     }
 
-    companion object {
-        private const val MOVIE = "detailMovie"
-    }
-
     private val binding by binding<ActivityDetailMovieBinding>(R.layout.activity_detail_movie)
 
     private val genreRecyclerViewAdapter: MainRecyclerAdapter by lazy {
@@ -93,7 +89,7 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
 
     override fun viewINIT() {
         viewBinding()
-        detailViewModel.getResultDetailMovie(getDetail(intent)?.id)
+        detailViewModel.getResultDetailMovie(detailMovieArgs.detailMovie.id)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,7 +105,7 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
             }
         }
 
-        favorite_btn.setOnClickListener { detailViewModel.loadLikeState(getDetail(intent)) }
+        favorite_btn.setOnClickListener { detailViewModel.loadLikeState(detailMovieArgs.detailMovie) }
 
         LogUtil.d("What is detailMovie -> ${detailMovieArgs.detailMovie}")
     }
@@ -125,17 +121,14 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
             movieDetailResult = detailMovieArgs.detailMovie
             api = API
             vm = detailViewModel
-            if (!getDetail(intent)?.backdrop_path.isNullOrEmpty())
-                glideToolbar.loadMovieBackground(API.moviePhoto + getDetail(intent)?.backdrop_path)
-            movie_img.loadMovieBackground(API.moviePhoto + getDetail(intent)?.posterPath)
-            genre_recyclerView.run {
-                adapter = genreRecyclerViewAdapter
-                layoutManager = LinearLayoutManager(this.context).apply {
-                    orientation = LinearLayoutManager.HORIZONTAL
-                }
-            }
             lifecycleOwner = this@DetailMovieActivity
             executePendingBindings()
+        }
+        genre_recyclerView.run {
+            adapter = genreRecyclerViewAdapter
+            layoutManager = LinearLayoutManager(this.context).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
+            }
         }
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -162,7 +155,4 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
         LogUtil.d("onDestroy Called")
         super.onDestroy()
     }
-
-    override fun getDetail(intent: Intent): MovieResult? =
-        intent.getParcelableExtra(MOVIE)
 }

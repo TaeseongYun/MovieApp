@@ -116,6 +116,6 @@ dependencies {
 androidExtensions {
 
     //리사이클러 뷰 find 캐싱
-    // 실험실 기능을 활성화합니다.
+    // 실험실 기능을 활성화합니다
     experimental = true
 }

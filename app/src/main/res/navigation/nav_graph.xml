@@ -12,11 +12,10 @@
         tools:layout="@layout/movie_fragment">
         <action
             android:id="@+id/action_movie_fragment_to_detailMovieActivity"
-            app:destination="@id/detailMovieActivity">
-            <argument
-                android:name="detailMovie"
-                app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />
-        </action>
+            app:destination="@id/detailMovieActivity" />
+        <!--            <argument-->
+        <!--                android:name="detailMovi"-->
+        <!--                app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />-->
     </fragment>
 
     <fragment
@@ -26,11 +25,10 @@
         tools:layout="@layout/tv_fragment_layout">
         <action
             android:id="@+id/action_tv_fragment_to_detailTVActivity"
-            app:destination="@id/detailTVActivity">
-            <argument
-                android:name="detailTV"
-                app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult" />
-        </action>
+            app:destination="@id/detailTVActivity" />
+        <!--            <argument-->
+        <!--                android:name="detailTV"-->
+        <!--                app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult" />-->
     </fragment>
 
     <fragment
@@ -38,11 +36,12 @@
         android:name="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment.StarFragment"
         android:label="StarFragment"
         tools:layout="@layout/star_fragment_layout" />
+
     <activity
         android:id="@+id/detailMovieActivity"
         android:name="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity"
         android:label="DetailMovieActivity"
-        tools:layout="@layout/activity_detail_movie" >
+        tools:layout="@layout/activity_detail_movie">
         <argument
             android:name="detailMovie"
             app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />

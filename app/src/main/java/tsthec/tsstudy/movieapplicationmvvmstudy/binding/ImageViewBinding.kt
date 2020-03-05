@@ -58,7 +58,30 @@ fun bindingLikeBindingAdapter(view: GlideCustomImage, isLike: Boolean) {
     else view.setImageResource(R.drawable.ic_favorite_border_black_24dp)
 }
 
-@BindingAdapter( "app:apiResource", "app:tvResult")
-fun bindingBackgroundImageAdapter(view: GlideCustomImage, api: API?, tvResult: TVResult) {
-    view.loadMovieBackground(api?.moviePhoto ?: "N/A" + tvResult.backdrop_path)
+@BindingAdapter("app:apiResource", "app:tvResult")
+fun bindingBackgroundImageAdapter(view: GlideCustomImage, api: API, tvResult: TVResult) {
+    view.loadMovieBackground("${api.moviePhoto}${tvResult.backdrop_path}")
+}
+
+@BindingAdapter("app:apiResource", "app:tvResultPoster")
+fun bindingPosterImageAdapter(view: GlideCustomImage, api: API, tvResult: TVResult) {
+    view.loadMovieBackground("${api.moviePhoto}${tvResult.posterPath}")
+}
+
+@BindingAdapter("app:apiResource", "app:movieResultPoster")
+fun bindingPosterMovieBindingAdapter(
+    view: GlideCustomImage,
+    api: API,
+    movieResult: MovieResult
+) {
+    view.loadMovieBackground("${api.moviePhoto}${movieResult.posterPath}")
+}
+
+@BindingAdapter("app:apiResource", "app:movieResult")
+fun bindingBackgroundMovieBindingAdapter(
+    view: GlideCustomImage,
+    api: API,
+    movieResult: MovieResult
+) {
+    view.loadMovieBackground("${api.moviePhoto}${movieResult.backdrop_path}")
 }
