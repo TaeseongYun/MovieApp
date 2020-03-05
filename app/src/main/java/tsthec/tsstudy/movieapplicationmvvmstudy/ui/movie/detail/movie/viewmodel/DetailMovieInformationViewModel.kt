@@ -7,6 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.IDetailFavoriteState
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
@@ -17,7 +18,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 class DetailMovieInformationViewModel(
     private val movieRepository: MovieRepository
 ) :
-    BaseLifeCycleViewModel<MovieResult>() {
+    BaseLifeCycleViewModel<MovieResult>(), IDetailFavoriteState<MovieResult> {
 
     private val movieData = mutableMapOf<MovieResult, Boolean>()
 
@@ -111,5 +112,14 @@ class DetailMovieInformationViewModel(
                 { _favoriteState.value = false }
             )
         )
+    }
+
+    override fun loadFirstLikeState(item: MovieResult) {
+        disposable += movieRepository.repositoryGetListbyDatabase()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                _favoriteState.value = it.contains(item)
+            }, { it.printStackTrace() })
     }
 }

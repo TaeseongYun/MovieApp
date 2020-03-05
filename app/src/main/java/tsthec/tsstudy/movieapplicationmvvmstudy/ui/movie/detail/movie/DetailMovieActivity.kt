@@ -26,7 +26,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import java.util.concurrent.TimeUnit
 
 
-class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
+class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformationViewModel>() {
 
     init {
         val testSubject = BehaviorSubject.createDefault(1)
@@ -154,5 +154,9 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult>() {
     override fun onDestroy() {
         LogUtil.d("onDestroy Called")
         super.onDestroy()
+    }
+
+    override fun DetailMovieInformationViewModel.initHighOrderFunction() {
+
     }
 }

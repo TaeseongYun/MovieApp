@@ -1,6 +1,5 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data.source
 
-import io.reactivex.Maybe
 import io.reactivex.Single
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
@@ -39,54 +38,29 @@ class TvRepository(private val tvAPI: TvInterface, private val tvRoomDatabase: M
     fun repositoryDetailTV(apiKey: String, tvID: Int?) =
         tvRemoteDataSource.remoteSourceDetailTv(tvID, apiKey)
 
-    fun repositoryGetDetailDatabase(paramsID: Int?) =
-        tvLocalDataBaseRemoteData.loadTVDatabase(paramsID)
-
     fun repositoryInputDatabase(tvResult: TVResult?) {
         tvLocalDataBaseRemoteData.inputTvResult(tvResult)
-
+        tvMutableMap[tvResult] = true
     }
-
 
     fun repositoryDeleteDatabase(tvResult: TVResult?) {
         tvLocalDataBaseRemoteData.deleteTvDatabase(tvResult?.id)
+        tvMutableMap.remove(tvResult)
     }
 
-    private fun getLoadLocalDatabase() = tvLocalDataBaseRemoteData.getLoadTvList()
+    fun cacheClear() = tvMutableMap.clear()
 
+    fun getLoadLocalDatabase() = tvLocalDataBaseRemoteData.getLoadTvList()
 
     fun repositoryGetFavoriteList(item: TVResult?): Single<Boolean> {
-        tvMutableMap[item] = true
         return Single.just(tvMutableMap[item] ?: false)
             .flatMap {
                 getLoadLocalDatabase()
-                    .map { tvResultList ->
-                        tvResultList.find { it == item }?.let {
-                            tvMutableMap[it] = true
-                        }
-//                        if (tvMutableMap.containsKey(item))
-//                            tvMutableMap[item] = false
-
+                    .map {
+                        LogUtil.d(it.toString())
+                        tvMutableMap[item] = it.contains(item)
                         tvMutableMap[item]
                     }
             }
     }
-//        tvLocalDataBaseRemoteData.getLoadTvList().map {
-//            LogUtil.d("왜 두번 돌지?")
-//            LogUtil.d("Tv Repo Database List -> $it")
-//            if (it.isNullOrEmpty())
-//                tvMutableMap[item] = false
-//            else {
-//                it.forEach { t: TVResult ->
-//                    tvMutableMap[t] = true
-//                }
-//            }
-//            tvMutableMap
-//        }
-
-//    fun cacheLoadLocalDatabase(item: TVResult?): Maybe<Boolean> {
-//        return repositoryGetFavoriteList(item).filter { !it.isNullOrEmpty() }.flatMap {
-//            Maybe.just(tvMutableMap[item])
-//        }
-//    }
 }

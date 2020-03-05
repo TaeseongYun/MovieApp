@@ -1,13 +1,9 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_detail_tv.*
-import org.jetbrains.anko.startActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
@@ -17,17 +13,9 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityDetailTvBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.viewmodel.DetailTVInformationViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 
 
-class DetailTVActivity : BaseBindingActivity<TVResult>() {
-
-    companion object {
-        private const val TV = "TV"
-        fun getInstance(context: Context?, tv: Any?) {
-            context?.startActivity<DetailTVActivity>(TV to tv)
-        }
-    }
+class DetailTVActivity : BaseBindingActivity<TVResult, DetailTVInformationViewModel>() {
 
     private val binding by bindingBySetContent<ActivityDetailTvBinding>(R.layout.activity_detail_tv)
 
@@ -46,6 +34,7 @@ class DetailTVActivity : BaseBindingActivity<TVResult>() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
         }
         viewBinding()
+        tvViewModel.initHighOrderFunction()
     }
 
     override fun viewBinding() {
@@ -73,7 +62,6 @@ class DetailTVActivity : BaseBindingActivity<TVResult>() {
         // 해당 id 값에 따른 디테일값을 알아야 장르를 recyclerView에 추가시켜 줄 수 있다.
         tvViewModel.getDetailTV(detailTvArgs.detailTV.id)
 
-        LogUtil.d("getData -> ${detailTvArgs.detailTV}")
         favorite_btn.setOnClickListener {
             tvViewModel.loadLikeState(detailTvArgs.detailTV)
         }
@@ -83,5 +71,11 @@ class DetailTVActivity : BaseBindingActivity<TVResult>() {
 
     override fun setFavoriteButton(isLike: (Boolean) -> Unit) {
 
+    }
+
+    override fun DetailTVInformationViewModel.initHighOrderFunction() {
+        detailTVResult = {
+            detailTvArgs.detailTV
+        }
     }
 }

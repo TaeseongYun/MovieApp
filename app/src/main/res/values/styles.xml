@@ -67,4 +67,11 @@
 
         <item name="colorControlNormal">@color/androidWhite</item>
     </style>
+
+
+    <style name="MyRatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#FFE820</item>
+        <item name="colorControlActivated">#FFE820</item>
+    </style>
+
 </resources>

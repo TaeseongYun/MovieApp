@@ -73,7 +73,6 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
             if (tvViewModel.isLoading.value != true && totalItemCount - 3 <= (visibleItem + firstViewItemIndex)) {
                 tvViewModel.loadMoreTvPage(++tvRepository.nextPage)
             }
-
         }
 
 

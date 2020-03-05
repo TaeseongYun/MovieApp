@@ -55,6 +55,7 @@
                         android:scaleType="fitCenter"
                         app:apiResource="@{api}"
                         app:layout_collapseMode="parallax"
+                        app:layout_collapseParallaxMultiplier="0.1"
                         app:movieResult="@{movieDetailResult}"
                         tools:src="@drawable/ic_launcher_background" />
 
@@ -63,32 +64,24 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/my_rect_shadow" />
 
-                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                        android:layout_marginTop="@dimen/spacing_xxx_large"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content">-->
-                    <!--                        <com.google.android.material.textfield.TextInputEditText-->
-                    <!--                            android:id="@+id/ed_text"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="match_parent"/>-->
-                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/movie_cardView"
+                        android:layout_width="@dimen/detail_card_view"
+                        android:layout_height="@dimen/detail_card_view"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="@dimen/spacing_normal"
+                        app:layout_collapseMode="parallax">
 
-                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                        android:layout_marginTop="@dimen/spacing_test_dimen"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content">-->
-                    <!--                        <com.google.android.material.textfield.TextInputEditText-->
-                    <!--                            android:id="@+id/ed_text2"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="match_parent"/>-->
-                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
-
-                    <!--                    <Button-->
-                    <!--                        android:id="@+id/button"-->
-                    <!--                        android:layout_marginTop="@dimen/spacing_detail_card_view"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:text="테스트"/>-->
+                        <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
+                            android:id="@+id/movie_img"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:apiResource="@{api}"
+                            app:movieResultPoster="@{movieDetailResult}"
+                            tools:src="@drawable/ic_launcher_background" />
+                    </androidx.cardview.widget.CardView>
                 </RelativeLayout>
 
 
@@ -101,22 +94,6 @@
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:titleTextColor="@android:color/transparent" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/movie_cardView"
-                    android:layout_width="@dimen/detail_card_view"
-                    android:layout_height="@dimen/detail_card_view"
-                    android:layout_gravity="center"
-                    app:cardCornerRadius="@dimen/spacing_normal">
-
-                    <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
-                        android:id="@+id/movie_img"
-                        app:apiResource="@{api}"
-                        app:movieResultPoster="@{movieDetailResult}"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_collapseMode="parallax"
-                        tools:src="@drawable/ic_launcher_background" />
-                </androidx.cardview.widget.CardView>
 
                 <ImageView
                     android:id="@+id/favorite_btn"
@@ -135,11 +112,11 @@
                     android:layout_gravity="bottom"
                     android:layout_marginStart="@dimen/spacing_deluxe_large"
                     android:gravity="center"
-                    app:autoSizeTextType="uniform"
                     android:maxLines="1"
                     android:text="@{movieDetailResult.title}"
                     android:textSize="@dimen/text_x_large"
                     android:textStyle="bold"
+                    app:autoSizeTextType="uniform"
                     tools:text="안녕하세요" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -156,29 +133,21 @@
                 android:layout_height="match_parent">
 
 
-                <TextView
-                    android:id="@+id/rating_tv"
-                    style="@style/DetailActivity.TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{Double.toString(movieDetailResult.voteAverage)}"
-                    android:textSize="@dimen/text_large"
-                    tools:text="별점입니다." />
-
-
-                <ImageView
-                    style="@style/DetailActivity.TextView"
-                    android:layout_width="@dimen/detail_activity_star_view"
-                    android:layout_height="@dimen/detail_activity_star_view"
-                    android:layout_toEndOf="@+id/rating_tv"
-                    android:src="@drawable/ic_star_black_24dp" />
+                <tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.widget.MRankingBar
+                    android:layout_width="wrap_content"
+                    android:id="@+id/rating_seekbar"
+                    app:rating="@{movieDetailResult.voteAverage}"
+                    style="?attr/ratingBarStyleSmall"
+                    android:theme="@style/MyRatingBar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/genre_recyclerView"
                     bindGenreList="@{vm.genreLiveData}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rating_tv"
+                    android:layout_below="@+id/rating_seekbar"
                     android:layout_marginStart="@dimen/spacing_large"
                     android:layout_marginTop="@dimen/spacing_normal"
                     tools:listitem="@layout/recycler_detail_item_genre" />
@@ -189,6 +158,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/genre_recyclerView"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_large"
                     android:text="@string/movie_summary"
                     android:textSize="@dimen/text_large" />
 
