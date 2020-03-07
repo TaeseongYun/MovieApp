@@ -17,5 +17,7 @@ interface MovieRecyclerModel {
 
     fun removeAt(position: Int)
 
+    val getList: ArrayList<AdapterViewType.ViewType?>
+
     fun List<Any?>.checkList(viewType: AdapterViewType.ViewType): Boolean
 }

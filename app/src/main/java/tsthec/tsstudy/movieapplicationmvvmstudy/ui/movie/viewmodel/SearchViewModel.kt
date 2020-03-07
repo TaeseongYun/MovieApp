@@ -47,12 +47,4 @@ class SearchViewModel(private val searchRepository: MultiSearchRepository) :
                 it.printStackTrace()
             })
     }
-
-    override fun onFavoriteButtonClicked(item: SearchResult?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onDeleteFavoriteButtonClicked(item: SearchResult?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }

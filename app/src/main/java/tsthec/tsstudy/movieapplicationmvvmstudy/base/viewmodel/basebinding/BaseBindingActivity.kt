@@ -15,7 +15,5 @@ abstract class BaseBindingActivity<out T: Any, VIEW_MODEL: ViewModel> : BaseActi
 
     abstract fun viewBinding()
 
-    abstract fun setFavoriteButton(isLike: (Boolean) -> Unit)
-
     abstract fun VIEW_MODEL.initHighOrderFunction()
 }

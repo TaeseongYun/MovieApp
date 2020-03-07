@@ -34,7 +34,10 @@ class DetailTVActivity : BaseBindingActivity<TVResult, DetailTVInformationViewMo
             setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp)
         }
         viewBinding()
-        tvViewModel.initHighOrderFunction()
+        tvViewModel.run {
+            getDetailTV(detailTvArgs.detailTV.id)
+            initHighOrderFunction()
+        }
     }
 
     override fun viewBinding() {
@@ -59,18 +62,11 @@ class DetailTVActivity : BaseBindingActivity<TVResult, DetailTVInformationViewMo
 
         viewINIT()
 
-        // 해당 id 값에 따른 디테일값을 알아야 장르를 recyclerView에 추가시켜 줄 수 있다.
-        tvViewModel.getDetailTV(detailTvArgs.detailTV.id)
-
         favorite_btn.setOnClickListener {
             tvViewModel.loadLikeState(detailTvArgs.detailTV)
         }
 
         back_activity.setOnClickListener { finish() }
-    }
-
-    override fun setFavoriteButton(isLike: (Boolean) -> Unit) {
-
     }
 
     override fun DetailTVInformationViewModel.initHighOrderFunction() {

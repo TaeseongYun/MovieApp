@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.di
 
+import androidx.lifecycle.SavedStateHandle
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel
@@ -10,7 +11,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.StarViewModel
 
 val viewModelModule = module {
     viewModel { MovieNowPlayingViewModel(get(), get()) }
-    viewModel { DetailMovieInformationViewModel(get()) }
+    viewModel { (handle: SavedStateHandle) -> DetailMovieInformationViewModel(handle, get()) }
     viewModel { DetailTVInformationViewModel(get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { StarViewModel(get(), get()) }

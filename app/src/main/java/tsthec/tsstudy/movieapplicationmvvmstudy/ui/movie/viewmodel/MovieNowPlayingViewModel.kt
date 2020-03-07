@@ -1,30 +1,37 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.with
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MovieNowPlayingViewModel(
     private val movieRepository: MovieRepository,
     private val tvRepository: TvRepository
 ) :
     BaseLifeCycleViewModel<MovieResult>() {
 
-    val movieList = MutableLiveData<MovieResponse>()
+    private val _movieList = MutableLiveData<MovieResponse>()
 
-    val tvList: MutableLiveData<TVResponse> by lazy {
-        MutableLiveData<TVResponse>()
-    }
+    val movieList: LiveData<MovieResponse>
+        get() = _movieList
+
+    private val _tvList = MutableLiveData<TVResponse>()
+
+    val tvList: LiveData<TVResponse>
+        get() = _tvList
 
     init {
         disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, 1)
@@ -34,10 +41,10 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = true
             }
             .subscribe({
-                movieList.value = it
+                _movieList.value = it
                 _isLoadingMutable.value = false
             }, {
-                Log.e("error", it.message)
+                Log.e("error", it.message.toString())
             })
 
         disposable += tvRepository.repositoryPopularTV(BuildConfig.MOVIE_API_KEY, 1)
@@ -46,7 +53,7 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = true
             }
             .subscribe({
-                tvList.value = it
+                _tvList.value = it
                 _isLoadingMutable.value = false
             }, {
                 it.printStackTrace()
@@ -61,10 +68,11 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = true
             }
             .subscribe({
-                movieList.value = it
+                _movieList.value = it
+
                 _isLoadingMutable.value = false
             }, {
-                Log.e("error", it.message)
+                Log.e("error", it.message.toString())
             })
     }
 
@@ -75,16 +83,10 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = true
             }
             .subscribe({
-                tvList.value = it
+                _tvList.value = it
                 _isLoadingMutable.value = false
             }, {
                 it.printStackTrace()
             })
-    }
-
-    override fun onFavoriteButtonClicked(item: MovieResult?) {
-    }
-
-    override fun onDeleteFavoriteButtonClicked(item: MovieResult?) {
     }
 }

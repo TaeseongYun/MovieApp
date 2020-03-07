@@ -15,6 +15,8 @@ class MovieRepository private constructor(
 
     internal var nextPage = defaultPage
 
+    private val movieCacheMap = mutableMapOf<MovieResult?, Boolean>()
+
     companion object {
         private var instance: MovieRepository? = null
 
@@ -38,15 +40,27 @@ class MovieRepository private constructor(
     fun repositoryPopularMovie(apiKey: String, loadPage: Int) =
         movieRemoteDataSource.remoteSourcePopularMovie(apiKey, loadPage)
 
-    fun repositoryMovieInsertRoomDatabase(movieResult: MovieResult?) =
+    fun repositoryMovieInsertRoomDatabase(movieResult: MovieResult?) {
         movieLocalDatabaseRemoteData.inputMovieResult(movieResult)
+        movieCacheMap[movieResult] = true
+    }
 
-    fun repositoryGetDetailMovie(paramsID: Int?) =
-        movieLocalDatabaseRemoteData.loadMovieDatabase(paramsID)
-
-    fun repositoryGetListbyDatabase() =
+    fun repositoryGetListByDatabase() =
         movieLocalDatabaseRemoteData.loadMovieDatabaseList()
 
-    fun repositoryDeleteDatabase(paramsID: Int?) =
-        movieLocalDatabaseRemoteData.deleteMovieDatabase(paramsID)
+    fun loadCacheDatabaseList(movieResult: MovieResult?): Single<Boolean> {
+        return Single.just(movieCacheMap[movieResult] ?: false)
+            .flatMap {
+                repositoryGetListByDatabase().map {
+                    movieCacheMap[movieResult] = it.contains(movieResult)
+                    movieCacheMap[movieResult]
+                }
+            }
+    }
+
+    fun repositoryDeleteDatabase(movieResult: MovieResult?) {
+        movieLocalDatabaseRemoteData.deleteMovieDatabase(movieResult?.id)
+        movieCacheMap.remove(movieResult)
+    }
+
 }

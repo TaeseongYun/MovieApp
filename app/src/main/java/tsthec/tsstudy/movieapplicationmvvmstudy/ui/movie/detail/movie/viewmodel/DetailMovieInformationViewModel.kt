@@ -1,13 +1,12 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.IDetailFavoriteState
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
@@ -16,45 +15,72 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 
 class DetailMovieInformationViewModel(
+    private val handle: SavedStateHandle,
     private val movieRepository: MovieRepository
 ) :
-    BaseLifeCycleViewModel<MovieResult>(), IDetailFavoriteState<MovieResult> {
-
-    private val movieData = mutableMapOf<MovieResult, Boolean>()
+    BaseLifeCycleViewModel<MovieResult>() {
 
     val genreLiveData = MutableLiveData<List<Genre>>()
 
-    var testWord = ""
+    private val GENRE_KEY = "GENRE"
 
-    init {
-        disposable += movieRepository.repositoryGetListbyDatabase()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ movieResultList ->
-                Log.d("init DatabaseList", "$movieResultList")
-                movieResultList.forEach {
-                    movieData[it] = true
-                }
-                Log.d("init Test", "$movieData")
-            }, {
-                it.printStackTrace()
-            })
+    //navigation args
+    lateinit var detailMovieResult: () -> MovieResult
 
-        disposable += testKeyword
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                testWord = it
-                LogUtil.d("What is testWord $testWord")
-            }, {
-                it.printStackTrace()
-            })
-    }
+    var saveGenreState: List<Genre>? = handle[GENRE_KEY]
+        set(value) {
+            handle[GENRE_KEY] = value
+            field = value
+        }
+
+//    var getMovieResult
 
     private val _favoriteState = MutableLiveData<Boolean>()
 
     val favoriteState: LiveData<Boolean>
         get() = _favoriteState
+
+    init {
+        disposable += movieRepository.repositoryGetListByDatabase()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                if (::detailMovieResult.isInitialized)
+                    _favoriteState.value =
+                        it.contains(handle.get("detailMovie") ?: detailMovieResult())
+            }, { it.printStackTrace() })
+
+        disposable += uiBehaviorSubject
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .switchMapSingle { movieResult ->
+                movieRepository.loadCacheDatabaseList(movieResult)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .map { likeState ->
+                if (likeState)
+                    databaseSubject.onNext(
+                        Pair(
+                            { movieRepository.repositoryDeleteDatabase(detailMovieResult()) },
+                            { _favoriteState.value = false }
+                        )
+                    )
+                else
+                    databaseSubject.onNext(
+                        Pair({
+                            movieRepository.repositoryMovieInsertRoomDatabase(detailMovieResult())
+                        }, {
+                            _favoriteState.value = true
+                        })
+                    )
+            }
+            .subscribe({
+                _isLoadingMutable.value = true
+            }, {
+                it.printStackTrace()
+            })
+    }
+
 
     fun getResultDetailMovie(movieID: Int?) {
         disposable += movieRepository.repositoryDetailMovie(
@@ -64,62 +90,18 @@ class DetailMovieInformationViewModel(
             .subscribeOn(Schedulers.io())
             .subscribe({
                 genreLiveData.value = it.genres
+                saveGenreState = genreLiveData.value
             }, {
                 it.printStackTrace()
             })
     }
 
-    fun getLoadDatabase(parasID: Int?) {
-        disposable += movieRepository.repositoryGetDetailMovie(parasID)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.d("DatabaseMovieResult", "$it")
-                _favoriteState.value = movieData.containsKey(it)
-            }, {
-                it.printStackTrace()
-            })
+    fun loadSaveState() {
+        genreLiveData.value = saveGenreState
     }
 
-    fun loadLikeState(movieResult: MovieResult?) {
-        when (movieData[movieResult]) {
-            true -> {
-                onDeleteFavoriteButtonClicked(movieResult)
-            }
-            null, false -> {
-                onFavoriteButtonClicked(movieResult)
-            }
-        }
-    }
-
-    fun nextWord(word: String) {
-        testKeyword.onNext(word)
-    }
-
-    override fun onFavoriteButtonClicked(item: MovieResult?) {
-        databaseSubject.onNext(
-            Pair(
-                { movieRepository.repositoryMovieInsertRoomDatabase(item) },
-                { _favoriteState.value = true }
-            )
-        )
-    }
-
-    override fun onDeleteFavoriteButtonClicked(item: MovieResult?) {
-        databaseSubject.onNext(
-            Pair(
-                { movieRepository.repositoryDeleteDatabase(item?.id) },
-                { _favoriteState.value = false }
-            )
-        )
-    }
-
-    override fun loadFirstLikeState(item: MovieResult) {
-        disposable += movieRepository.repositoryGetListbyDatabase()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                _favoriteState.value = it.contains(item)
-            }, { it.printStackTrace() })
+    fun changeLikeState(movieResult: MovieResult) {
+        LogUtil.d("This is SavedState value -> ${handle.get<Int>("detailMovie")}")
+        uiBehaviorSubject.onNext(movieResult)
     }
 }

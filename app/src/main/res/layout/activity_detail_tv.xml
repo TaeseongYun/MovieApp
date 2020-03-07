@@ -60,7 +60,7 @@
 
                     <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
                         android:id="@+id/favorite_btn"
-                        isLiked="@{vm.favoriteState.booleanValue()}"
+                        isLiked="@{vm.favoriteState}"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentTop="true"

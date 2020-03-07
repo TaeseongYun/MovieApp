@@ -26,20 +26,14 @@ class StarViewModel(
         MutableLiveData<TVResponse>()
     }
 
-    fun loadMovieDataFromDatabase() {
-        disposable += movieRepository.repositoryGetListbyDatabase()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                databaseMovieList.value = it
-            }, {
-                it.printStackTrace()
-            })
-    }
-
-    override fun onFavoriteButtonClicked(item: Any?) {
-    }
-
-    override fun onDeleteFavoriteButtonClicked(item: Any?) {
-    }
+//    fun loadMovieDataFromDatabase() {
+//        disposable += movieRepository.repositoryGetListbyDatabase()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                databaseMovieList.value = it
+//            }, {
+//                it.printStackTrace()
+//            })
+//    }
 }

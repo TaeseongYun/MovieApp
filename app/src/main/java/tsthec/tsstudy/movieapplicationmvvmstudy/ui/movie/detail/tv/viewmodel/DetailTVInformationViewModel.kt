@@ -18,7 +18,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class DetailTVInformationViewModel(
     private val tvRepository: TvRepository
-) : BaseLifeCycleViewModel<TVResult>(), IDetailFavoriteState<TVResult> {
+) : BaseLifeCycleViewModel<TVResult>() {
 
     val tvGenreMutableLiveData = MutableLiveData<List<Genre>>()
 
@@ -48,29 +48,31 @@ class DetailTVInformationViewModel(
         //change like state
         disposable += uiBehaviorSubject.subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .switchMapSingle {
-                if (_favoriteState.value == false || _favoriteState.value == null)
-                    tvRepository.repositoryInputDatabase(it)
-                else
-                    tvRepository.repositoryDeleteDatabase(it)
-                tvRepository.repositoryGetFavoriteList(it)
+            .switchMapSingle { tvResult ->
+                tvRepository.repositoryGetFavoriteList(tvResult)
             }
             .observeOn(AndroidSchedulers.mainThread())
+            .map { likeState ->
+                if (likeState)
+                    databaseSubject.onNext(
+                        Pair(
+                            { tvRepository.repositoryDeleteDatabase(detailTVResult()) },
+                            { _favoriteState.value = false }
+                        )
+                    )
+                else
+                    databaseSubject.onNext(
+                        Pair(
+                            { tvRepository.repositoryInputDatabase(detailTVResult()) },
+                            { _favoriteState.value = true }
+                        )
+                    )
+            }
             .subscribe({
-                LogUtil.d("boolean value is ->$it")
-                _favoriteState.value = it
+                _isLoadingMutable.value = true
             }, {
                 it.printStackTrace()
             })
-    }
-
-    override fun onDeleteFavoriteButtonClicked(item: TVResult?) {
-        databaseSubject.onNext(
-            Pair(
-                { tvRepository.repositoryDeleteDatabase(item) },
-                { _favoriteState.value = false }
-            )
-        )
     }
 
     fun getDetailTV(tvID: Int?) {
@@ -88,23 +90,5 @@ class DetailTVInformationViewModel(
 
     fun loadLikeState(tvResult: TVResult) {
         uiBehaviorSubject.onNext(tvResult)
-    }
-
-    override fun onFavoriteButtonClicked(item: TVResult?) {
-        databaseSubject.onNext(
-            Pair(
-                { tvRepository.repositoryInputDatabase(item) },
-                { _favoriteState.value = true }
-            )
-        )
-    }
-
-    override fun loadFirstLikeState(item: TVResult) {
-        disposable += tvRepository.getLoadLocalDatabase()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                _favoriteState.value = it.contains(item)
-            }, { it.printStackTrace() })
     }
 }

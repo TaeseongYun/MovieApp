@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_fragment.*
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
@@ -29,7 +30,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     private lateinit var binding: MovieFragmentBinding
 
-    private val movieViewModel by viewModel<MovieNowPlayingViewModel>()
+    private val movieViewModel by stateViewModel<MovieNowPlayingViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +65,6 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     private val addRecyclerViewListener =
         scrollListener { totalItemCount, visibleItem, firstViewItemIndex ->
-            LogUtil.d("isLoading State -> ${movieViewModel.isLoading.value}")
             if (movieViewModel.isLoading.value != true && (visibleItem + firstViewItemIndex) >= totalItemCount - 3)
                 movieViewModel.loadMorePopularMovie(++movieRepository.nextPage)
         }
@@ -91,11 +91,6 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
         LogUtil.d("Here is onResume in Fragment")
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        LogUtil.d("here is setUserVisibleHit")
-    }
-
     override fun onDestroy() {
         LogUtil.d("here is onDestroy")
         super.onDestroy()
@@ -109,5 +104,11 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     override fun onDetach() {
         super.onDetach()
         LogUtil.d("here is onDetach")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        LogUtil.d("here is onSaveInstanceState MovieFragment")
+        outState.putInt("detailMovie", 1)
+        super.onSaveInstanceState(outState)
     }
 }

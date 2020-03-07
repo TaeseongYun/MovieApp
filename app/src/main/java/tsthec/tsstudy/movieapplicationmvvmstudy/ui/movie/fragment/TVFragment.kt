@@ -2,6 +2,7 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.tv_fragment_layout.*
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
@@ -18,7 +20,9 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.TvFragmentLayoutBind
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
+import java.util.ArrayList
 
 class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
 
@@ -26,7 +30,7 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
         MainRecyclerAdapter(AdapterViewType.DataType.TV, iShowDetailTV =  this)
     }
 
-    private  val tvViewModel by viewModel<MovieNowPlayingViewModel>()
+    private  val tvViewModel by stateViewModel<MovieNowPlayingViewModel>()
 
     private lateinit var binding: TvFragmentLayoutBinding
 
@@ -42,6 +46,7 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
         binding.vm = tvViewModel
         binding.executePendingBindings()
 
+        LogUtil.d("Now Page in Real TvFragment -> ${savedInstanceState?.get("nowPage")}")
         return binding.root
     }
 

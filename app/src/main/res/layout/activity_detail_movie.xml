@@ -95,14 +95,15 @@
                     app:titleTextColor="@android:color/transparent" />
 
 
-                <ImageView
+                <tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
                     android:id="@+id/favorite_btn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    isLiked="@{vm.favoriteState}"
                     android:layout_gravity="end|bottom"
                     android:layout_marginEnd="@dimen/spacing_normal"
                     android:layout_marginBottom="@dimen/spacing_normal"
-                    android:src="@drawable/ic_favorite_border_black_24dp" />
+                    tools:src="@drawable/ic_favorite_border_black_24dp" />
 
                 <TextView
                     android:id="@+id/movieName_tv"

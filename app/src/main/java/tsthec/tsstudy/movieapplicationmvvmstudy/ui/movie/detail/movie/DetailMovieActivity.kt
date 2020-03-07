@@ -1,8 +1,9 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_detail_movie.*
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
@@ -83,13 +85,25 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
         MainRecyclerAdapter(AdapterViewType.DataType.GENRE)
     }
 
-    private val detailViewModel by viewModel<DetailMovieInformationViewModel>()
+    //savedState 사용을 위한 stateViewModel inject
+    private val detailViewModel by stateViewModel<DetailMovieInformationViewModel>()
 
     private val detailMovieArgs by navArgs<DetailMovieActivityArgs>()
 
     override fun viewINIT() {
         viewBinding()
-        detailViewModel.getResultDetailMovie(detailMovieArgs.detailMovie.id)
+        detailViewModel.run {
+            if (saveGenreState != null) {
+                LogUtil.d("saveGenreState Not NULL")
+                loadSaveState()
+            }
+
+            else {
+                LogUtil.d("saveGenreState  NULL")
+                getResultDetailMovie(detailMovieArgs.detailMovie.id)
+            }
+            initHighOrderFunction()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,15 +111,7 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
 
         viewINIT()
 
-        setFavoriteButton {
-            LogUtil.d("Come Here $it")
-            when (it) {
-                true -> favorite_btn.setImageResource(R.drawable.ic_favorite_black_24dp)
-                false -> favorite_btn.setImageResource(R.drawable.ic_favorite_border_black_24dp)
-            }
-        }
-
-        favorite_btn.setOnClickListener { detailViewModel.loadLikeState(detailMovieArgs.detailMovie) }
+        favorite_btn.setOnClickListener { detailViewModel.changeLikeState(detailMovieArgs.detailMovie) }
 
         LogUtil.d("What is detailMovie -> ${detailMovieArgs.detailMovie}")
     }
@@ -135,12 +141,6 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
-    override fun setFavoriteButton(isLike: (Boolean) -> Unit) {
-        detailViewModel.favoriteState.observe(this, Observer {
-            isLike(it)
-        })
-    }
-
     override fun onPause() {
         LogUtil.d("onPause Called")
         super.onPause()
@@ -157,6 +157,8 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
     }
 
     override fun DetailMovieInformationViewModel.initHighOrderFunction() {
-
+        detailMovieResult = {
+            detailMovieArgs.detailMovie
+        }
     }
 }

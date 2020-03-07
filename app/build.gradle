@@ -110,8 +110,9 @@ dependencies {
     //ktx
     implementation deps.ktx.fragment
     implementation deps.kotlin.ktx
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.0.0'
+    implementation deps.androidx.navigation_fragment
+    implementation deps.androidx.navigation_ui
+    implementation deps.androidx.savedstate
 }
 androidExtensions {
 

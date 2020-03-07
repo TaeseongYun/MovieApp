@@ -47,7 +47,7 @@ class StarFragment : BaseFragment() {
                 }
             }
         }
-        starViewModel.loadMovieDataFromDatabase()
+//        starViewModel.loadMovieDataFromDatabase()
     }
 }
 

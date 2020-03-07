@@ -60,4 +60,7 @@ class MainRecyclerAdapter(
     //중복 추가 방지
     override fun List<Any?>.checkList(viewType: AdapterViewType.ViewType): Boolean =
         this.contains(viewType)
+
+    override val getList: ArrayList<AdapterViewType.ViewType?>
+        get() = list as ArrayList<AdapterViewType.ViewType?>
 }
