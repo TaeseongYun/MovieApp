@@ -62,4 +62,44 @@ sharedPreferences
     // Commit a new value synchronously
     sharedPreferences.edit(commit = true) { putBoolean("key", value) }
 
+## SaveStateHandle 클래스
 
+안드로이드 어플리케이션을 사용하다보면 시스템에 의해서 앱이 죽는 경우가 있다. 그런 경우가 생기면 ViewModel 이라도 같은 데이터를 유지하지 못한다.
+
+ex) count수, 입력한 문자 등..
+
+자세히 알기 위해서 AndroidDeveloper 공식 홈페이지에 나와있는 SavedStateHandler 클래스 내용을 들고 왔다.
+
+```
+A handle to saved state passed down to ViewModel. You should use SavedStateViewModelFactory if you want to receive this object in ViewModel's constructor.
+
+This is a key-value map that will let you write and retrieve objects to and from the saved state.
+
+These values will persist after the process is killed by the system and remain available via the same object.
+
+You can read a value from it via get(String) or observe it via LiveData returned by getLiveData(String).
+
+You can write a value to it via set(String, Object) or setting a value to MutableLiveData returned by getLiveData(String).
+```
+
+쉽게 설명하면 다음과 같다.
+
+- saved state는 ViewModel 로 받을 수 있다. 만약 받길 원하면 ViewModel 생성자에서 제시 하여라.
+
+- saved state 는 map? 형태로 key-value 로 되어 있다.
+
+- 해당 값은 시스템에 의해 종료된 이후에도 같은 오브젝트를 사용할 수 있다.
+
+- get(key: String) -> 값 읽기, getLiveData(key: String) -> MutableLiveData 반환. LiveData를 통해서 사용가능.
+
+- set(key: String, value: Any) -> 값 설정.
+
+
+### 그럼 이제 어떻게 Koin(DI)과 같이 사용?
+
+Koin 홈페이지에 가보면 이미 해당 SavedStateHandler에 대응하는 글이 나와 있었다.
+
+ViewModel에서 SavedStateHanlder 를 사용하게 되면 inject 할 때 viewModel() 에서 stateViewModel()로 바꿔 줘야하고,
+module로 설정하는 곳에선 viewModel{ (handler: SavedStateHandle) -> TestViewModel(handler) } 요런식으로 SavedStateHandle 클래스를 넘겨줘야한다.
+
+그리고 stateViewModel()로 inject 해 줄때 bundle을 넘겨줄 수 있다. -> val myStateVM: MyStateVM by stateViewModel(bundle = myBundle)

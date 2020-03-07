@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.savedstate.SavedStateRegistryOwner
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
@@ -85,35 +86,45 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
         MainRecyclerAdapter(AdapterViewType.DataType.GENRE)
     }
 
-    //savedState 사용을 위한 stateViewModel inject
-    private val detailViewModel by stateViewModel<DetailMovieInformationViewModel>()
 
     private val detailMovieArgs by navArgs<DetailMovieActivityArgs>()
+
+    //savedState 사용을 위한 stateViewModel inject detailMovieArg 를 사용하기 위해 lateinit 으로 설정.
+    private lateinit var detailViewModel: Lazy<DetailMovieInformationViewModel>
+//    stateViewModel<DetailMovieInformationViewModel>()
 
     override fun viewINIT() {
         viewBinding()
         detailViewModel.run {
-            if (saveGenreState != null) {
+            if (value.saveGenreState != null) {
                 LogUtil.d("saveGenreState Not NULL")
-                loadSaveState()
-            }
-
-            else {
+                value.loadSaveState()
+            } else {
                 LogUtil.d("saveGenreState  NULL")
-                getResultDetailMovie(detailMovieArgs.detailMovie.id)
+                value.getResultDetailMovie(detailMovieArgs.detailMovie.id)
             }
-            initHighOrderFunction()
+//            value.initHighOrderFunction()
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //Navigation Arg는 intent가 null이면 에러를 throw 한다.
+        /*
+        @MainThread
+        inline fun <reified Args : NavArgs> Activity.navArgs() = NavArgsLazy(Args::class) {
+            intent?.let { intent ->
+                intent.extras ?: throw IllegalStateException("Activity $this has null extras in $intent")
+            } ?: throw IllegalStateException("Activity $this has a null Intent")
+        }
+         */
+        detailViewModel =
+            stateViewModel(bundle = bundleOf("detailMovie" to detailMovieArgs.detailMovie))
+
         viewINIT()
 
-        favorite_btn.setOnClickListener { detailViewModel.changeLikeState(detailMovieArgs.detailMovie) }
-
-        LogUtil.d("What is detailMovie -> ${detailMovieArgs.detailMovie}")
+        favorite_btn.setOnClickListener { detailViewModel.value.changeLikeState(detailMovieArgs.detailMovie) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -126,7 +137,7 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
         with(binding) {
             movieDetailResult = detailMovieArgs.detailMovie
             api = API
-            vm = detailViewModel
+            vm = detailViewModel.value
             lifecycleOwner = this@DetailMovieActivity
             executePendingBindings()
         }
@@ -157,8 +168,8 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
     }
 
     override fun DetailMovieInformationViewModel.initHighOrderFunction() {
-        detailMovieResult = {
-            detailMovieArgs.detailMovie
-        }
+//        detailMovieResult = {
+//            detailMovieArgs.detailMovie
+//        }
     }
 }

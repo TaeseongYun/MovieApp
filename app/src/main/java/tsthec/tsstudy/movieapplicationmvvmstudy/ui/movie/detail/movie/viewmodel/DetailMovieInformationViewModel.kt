@@ -24,8 +24,7 @@ class DetailMovieInformationViewModel(
 
     private val GENRE_KEY = "GENRE"
 
-    //navigation args
-    lateinit var detailMovieResult: () -> MovieResult
+    private val DETAIL_MOVIE_KEY = "detailMovie"
 
     var saveGenreState: List<Genre>? = handle[GENRE_KEY]
         set(value) {
@@ -33,21 +32,19 @@ class DetailMovieInformationViewModel(
             field = value
         }
 
-//    var getMovieResult
-
     private val _favoriteState = MutableLiveData<Boolean>()
 
     val favoriteState: LiveData<Boolean>
         get() = _favoriteState
 
     init {
+        LogUtil.d("What is DetailMove -> ${handle.get<MovieResult>(DETAIL_MOVIE_KEY)}")
         disposable += movieRepository.repositoryGetListByDatabase()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (::detailMovieResult.isInitialized)
-                    _favoriteState.value =
-                        it.contains(handle.get("detailMovie") ?: detailMovieResult())
+                _favoriteState.value =
+                    it.contains(handle.get<MovieResult>(DETAIL_MOVIE_KEY))
             }, { it.printStackTrace() })
 
         disposable += uiBehaviorSubject
@@ -61,14 +58,24 @@ class DetailMovieInformationViewModel(
                 if (likeState)
                     databaseSubject.onNext(
                         Pair(
-                            { movieRepository.repositoryDeleteDatabase(detailMovieResult()) },
+                            {
+                                movieRepository.repositoryDeleteDatabase(
+                                    handle.get<MovieResult>(
+                                        DETAIL_MOVIE_KEY
+                                    )
+                                )
+                            },
                             { _favoriteState.value = false }
                         )
                     )
                 else
                     databaseSubject.onNext(
                         Pair({
-                            movieRepository.repositoryMovieInsertRoomDatabase(detailMovieResult())
+                            movieRepository.repositoryMovieInsertRoomDatabase(
+                                handle.get<MovieResult>(
+                                    DETAIL_MOVIE_KEY
+                                )
+                            )
                         }, {
                             _favoriteState.value = true
                         })
@@ -101,7 +108,6 @@ class DetailMovieInformationViewModel(
     }
 
     fun changeLikeState(movieResult: MovieResult) {
-        LogUtil.d("This is SavedState value -> ${handle.get<Int>("detailMovie")}")
         uiBehaviorSubject.onNext(movieResult)
     }
 }
