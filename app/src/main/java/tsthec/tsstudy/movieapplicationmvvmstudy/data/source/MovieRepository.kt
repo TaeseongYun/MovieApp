@@ -1,10 +1,12 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data.source
 
 import io.reactivex.Single
+import tsthec.tsstudy.movieapplicationmvvmstudy.api.Language
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.MovieInterface
+import java.util.*
 
 class MovieRepository private constructor(
     private val movieAPI: MovieInterface,
@@ -16,6 +18,8 @@ class MovieRepository private constructor(
     internal var nextPage = defaultPage
 
     private val movieCacheMap = mutableMapOf<MovieResult?, Boolean>()
+
+    private val currentLanguage = Locale.getDefault().language
 
     companion object {
         private var instance: MovieRepository? = null
@@ -35,10 +39,35 @@ class MovieRepository private constructor(
     }
 
     fun repositoryDetailMovie(movieID: Int?, apiKey: String) =
-        movieRemoteDataSource.remoteSourceDetailMovie(movieID, apiKey = apiKey)
+        when (currentLanguage) {
+            "en" -> movieRemoteDataSource.remoteSourceDetailMovie(
+                movieID,
+                apiKey,
+                Language.ENGLISH.language
+            )
+            "ko" -> movieRemoteDataSource.remoteSourceDetailMovie(
+                movieID,
+                apiKey,
+                Language.KOREAN.language
+            )
+            else -> throw IllegalAccessException()
+        }
 
     fun repositoryPopularMovie(apiKey: String, loadPage: Int) =
-        movieRemoteDataSource.remoteSourcePopularMovie(apiKey, loadPage)
+        when (currentLanguage) {
+            "en" -> movieRemoteDataSource.remoteSourcePopularMovie(
+                apiKey,
+                loadPage,
+                Language.ENGLISH.language
+            )
+            "ko" -> movieRemoteDataSource.remoteSourcePopularMovie(
+                apiKey,
+                loadPage,
+                Language.KOREAN.language
+            )
+            else -> throw IllegalAccessException()
+        }
+
 
     fun repositoryMovieInsertRoomDatabase(movieResult: MovieResult?) {
         movieLocalDatabaseRemoteData.inputMovieResult(movieResult)

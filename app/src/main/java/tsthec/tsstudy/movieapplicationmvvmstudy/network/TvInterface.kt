@@ -11,7 +11,7 @@ interface TvInterface {
     @GET("tv/popular")
     fun loadPopularTv(
         @Query("api_key") api_key: String,
-        @Query("language") language: String = "ko-KR",
+        @Query("language") language: String,
         @Query("page") page: Int
     ): Single<TVResponse>
 
@@ -19,6 +19,6 @@ interface TvInterface {
     fun getDetailTv(
         @Path("tv_id") tvID: Int?,
         @Query("api_key") api_key: String,
-        @Query("language") language: String = "ko-KR"
+        @Query("language") language: String
     ): Single<TvDetailResponse>
 }

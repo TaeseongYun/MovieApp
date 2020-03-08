@@ -1,10 +1,12 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.data.source
 
 import io.reactivex.Single
+import tsthec.tsstudy.movieapplicationmvvmstudy.api.Language
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.db.MovieDatabase
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.TvInterface
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
+import java.util.*
 
 class TvRepository(private val tvAPI: TvInterface, private val tvRoomDatabase: MovieDatabase) {
 
@@ -13,6 +15,8 @@ class TvRepository(private val tvAPI: TvInterface, private val tvRoomDatabase: M
     internal var nextPage = defaultPage
 
     private val tvMutableMap = mutableMapOf<TVResult?, Boolean>()
+
+    private val currentLanguage = Locale.getDefault().language
 
     companion object {
         private var instance: TvRepository? = null
@@ -33,10 +37,34 @@ class TvRepository(private val tvAPI: TvInterface, private val tvRoomDatabase: M
     }
 
     fun repositoryPopularTV(apiKey: String, loadPage: Int) =
-        tvRemoteDataSource.remoteSourcePopularTV(apiKey, loadPage)
+        when (currentLanguage) {
+            "en" -> tvRemoteDataSource.remoteSourcePopularTV(
+                apiKey,
+                loadPage,
+                Language.ENGLISH.language
+            )
+            "ko" -> tvRemoteDataSource.remoteSourcePopularTV(
+                apiKey,
+                loadPage,
+                Language.KOREAN.language
+            )
+            else -> throw IllegalAccessError()
+        }
+
 
     fun repositoryDetailTV(apiKey: String, tvID: Int?) =
-        tvRemoteDataSource.remoteSourceDetailTv(tvID, apiKey)
+        when (currentLanguage) {
+            "en" -> tvRemoteDataSource.remoteSourceDetailTv(
+                tvID, apiKey,
+                Language.ENGLISH.language
+            )
+            "ko" -> tvRemoteDataSource.remoteSourceDetailTv(
+                tvID, apiKey,
+                Language.KOREAN.language
+            )
+            else -> throw IllegalAccessError()
+        }
+
 
     fun repositoryInputDatabase(tvResult: TVResult?) {
         tvLocalDataBaseRemoteData.inputTvResult(tvResult)

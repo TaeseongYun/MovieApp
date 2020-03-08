@@ -8,11 +8,6 @@
             name="vm"
             type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.StarViewModel" />
 
-        <variable
-            name="isMovie"
-            type="Boolean" />
-
-        <import type="android.view.View" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -37,6 +32,7 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/spacing_large"
                     android:entries="@array/type_list" />
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,14 +40,16 @@
             android:id="@+id/roomMovie_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{isMovie ? View.VISIBLE : View.GONE}"
+            bindingMovieDatabase="@{vm.movieList}"
+            movieRecyclerVisible="@{vm.isMovie}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/roomTV_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{isMovie ? View.GONE : View.VISIBLE}"
+            tvRecyclerVisible="@{vm.isMovie}"
+            bindingTVDatabase="@{vm.databaseTvList}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

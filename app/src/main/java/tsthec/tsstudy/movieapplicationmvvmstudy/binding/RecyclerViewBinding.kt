@@ -46,8 +46,36 @@ fun bindingAdapterSearchList(view: RecyclerView, searchResultList: List<SearchRe
         searchResultAdapter?.clearItems()
         searchResultAdapter?.addItems(AdapterViewType.DataType.SEARCH, it)
     }
-    if(searchResultList.isNullOrEmpty())
+    if (searchResultList.isNullOrEmpty())
         searchResultAdapter?.clearItems()
 
     searchResultAdapter?.notifyDataSetChanged()
+}
+
+@BindingAdapter("bindingMovieDatabase")
+fun bindingAdapterMovieDatabase(view: RecyclerView, movieResultList: List<MovieResult>?) {
+    val movieDatabaseAdapter = view.adapter as? MainRecyclerAdapter
+
+    movieResultList?.let {
+        movieDatabaseAdapter?.addItems(AdapterViewType.DataType.MOVIE, it)
+    }
+
+    movieDatabaseAdapter?.notifyItemRangeChanged(
+        movieDatabaseAdapter.itemCount,
+        movieResultList?.size ?: -1
+    )
+}
+
+@BindingAdapter("bindingTVDatabase")
+fun bindingAdapterTVDatabase(view: RecyclerView, tvResultList: List<TVResult>?) {
+    val movieDatabaseAdapter = view.adapter as? MainRecyclerAdapter
+
+    tvResultList?.let {
+        movieDatabaseAdapter?.addItems(AdapterViewType.DataType.TV, it)
+    }
+
+    movieDatabaseAdapter?.notifyItemRangeChanged(
+        movieDatabaseAdapter.itemCount,
+        tvResultList?.size ?: -1
+    )
 }

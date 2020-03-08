@@ -14,13 +14,13 @@ interface MovieInterface {
     fun loadMovieDetailInformation(
         @Path("movie_id") movieId: Int?,
         @Query("api_key") api_key: String,
-        @Query("language") language: String = "ko-KR"
+        @Query("language") language: String
     ): Single<MovieDetailResponse>
 
     @GET("movie/popular")
     fun loadPopularMovie(
         @Query("api_key") api_key: String,
-        @Query("language") language: String = "ko-KR",
+        @Query("language") language: String,
         @Query("page") page: Int
     ): Single<MovieResponse>
 
