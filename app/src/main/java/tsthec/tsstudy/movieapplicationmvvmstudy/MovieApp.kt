@@ -18,7 +18,8 @@ class MovieApp : Application() {
                     apiModule,
                     networkModule,
                     repositoryModule,
-                    viewModelModule
+                    viewModelModule,
+                    rxJavaModule
                 )
             )
         }

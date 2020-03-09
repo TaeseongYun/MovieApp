@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.star_fragment_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
@@ -15,6 +14,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.d
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.StarFragmentLayoutBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.StarViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.IAdapterClass
 
 class StarFragment : BaseFragment() {
 
@@ -46,13 +46,14 @@ class StarFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                //NOTHING
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                when (p0?.selectedItemPosition) {
+        spinner.onItemSelectedListener = object : IAdapterClass {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when (parent?.selectedItemPosition) {
                     0 -> {
                         starViewModel.loadMovieDataFromDatabase()
                         viewINIT(0)
@@ -72,9 +73,9 @@ class StarFragment : BaseFragment() {
     ) {
         when (position) {
             0 -> roomMovie_recyclerView.run {
-                    adapter = starMovieRecyclerAdapter
-                    layoutManager = gridLayoutManager
-                }
+                adapter = starMovieRecyclerAdapter
+                layoutManager = gridLayoutManager
+            }
 
             1 -> roomTV_recyclerView.run {
                 adapter = starTVRecyclerAdapter

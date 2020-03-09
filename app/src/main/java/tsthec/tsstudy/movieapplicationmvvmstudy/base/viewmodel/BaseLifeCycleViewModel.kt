@@ -9,6 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
@@ -20,7 +21,7 @@ abstract class BaseLifeCycleViewModel<T : Any?> : ViewModel() {
     val isLoading: LiveData<Boolean>
         get() = _isLoadingMutable
 
-    val databaseSubject = BehaviorSubject.create<Pair<() -> Unit, () -> Unit>>()
+//    val databaseSubject = BehaviorSubject.create<Pair<() -> Unit, () -> Unit>>()
 
     val uiBehaviorSubject = BehaviorSubject.create<T?>()
 
@@ -33,7 +34,7 @@ abstract class BaseLifeCycleViewModel<T : Any?> : ViewModel() {
     val testKeyword = PublishSubject.create<String>()
 
     init {
-        disposable += databaseSubject.observeOn(Schedulers.io())
+        disposable += RxBusCls.listen().observeOn(Schedulers.io())
             //map 형태로 첫 번쨰 매개변수는 Schedulers.io() 즉 백그라운드 스레드 에서 실행 why? db는 메인 스레드에서 실행 x
             .map { (first, second) ->
                 first()

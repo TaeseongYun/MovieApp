@@ -11,6 +11,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.CropSquareTransformation
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.animation.requestListener
 
 class GlideCustomImage @JvmOverloads constructor(
     context: Context,
@@ -23,6 +24,7 @@ class GlideCustomImage @JvmOverloads constructor(
             .load(baseUrl)
             .apply(RequestOptions.placeholderOf(placeholder))
             .apply(RequestOptions.bitmapTransform(CropSquareTransformation()))
+            .listener(this.requestListener())
             .into(this)
     }
 
@@ -37,6 +39,4 @@ class GlideCustomImage @JvmOverloads constructor(
             .apply(RequestOptions.placeholderOf(placeholder))
             .into(this)
     }
-
-
 }

@@ -11,8 +11,14 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.StarViewModel
 
 val viewModelModule = module {
     viewModel { MovieNowPlayingViewModel(get(), get()) }
-    viewModel { (handle: SavedStateHandle) -> DetailMovieInformationViewModel(handle, get()) }
-    viewModel { DetailTVInformationViewModel(get()) }
+    viewModel { (handle: SavedStateHandle) ->
+        DetailMovieInformationViewModel(
+            handle,
+            get(),
+            get()
+        )
+    }
+    viewModel { DetailTVInformationViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { StarViewModel(get(), get()) }
 }

@@ -10,13 +10,15 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleView
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
+import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 
 class DetailMovieInformationViewModel(
     private val handle: SavedStateHandle,
-    private val movieRepository: MovieRepository
+    private val movieRepository: MovieRepository,
+    private val rxEventBusDataSubject: RxBusCls
 ) :
     BaseLifeCycleViewModel<MovieResult>() {
 
@@ -56,7 +58,7 @@ class DetailMovieInformationViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .map { likeState ->
                 if (likeState)
-                    databaseSubject.onNext(
+                    rxEventBusDataSubject.publish(
                         Pair(
                             {
                                 movieRepository.repositoryDeleteDatabase(
@@ -69,7 +71,7 @@ class DetailMovieInformationViewModel(
                         )
                     )
                 else
-                    databaseSubject.onNext(
+                    rxEventBusDataSubject.publish(
                         Pair({
                             movieRepository.repositoryMovieInsertRoomDatabase(
                                 handle.get<MovieResult>(

@@ -15,16 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.movie.detail.tv.DetailTVActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/DetailActivity"/>
         <activity android:name=".ui.movie.FavoriteActivity" />
         <activity
             android:name=".ui.movie.detail.movie.DetailMovieActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/DetailActivity" />
         <activity
-            android:name=".ui.movie.MovieMainActivity"
-            android:screenOrientation="fullSensor">
+            android:name=".ui.movie.MovieMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

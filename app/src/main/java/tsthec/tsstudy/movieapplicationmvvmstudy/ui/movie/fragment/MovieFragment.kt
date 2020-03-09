@@ -2,6 +2,7 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,8 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     private lateinit var binding: MovieFragmentBinding
 
+    private var count = 0
+
     private val movieViewModel by stateViewModel<MovieNowPlayingViewModel>()
 
     override fun onCreateView(
@@ -49,6 +52,16 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         LogUtil.d("Here is onViewCreated")
+
+        savedInstanceState?.let {
+            count = it.getInt("count")
+        }
+        fab.setOnClickListener {
+            ++count
+            LogUtil.d("What is count -> $count")
+        }
+
+        LogUtil.d("what is viewmodel hashcode? -> ${movieViewModel.hashCode()}")
         viewModelInit()
     }
 
@@ -108,7 +121,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     override fun onSaveInstanceState(outState: Bundle) {
         LogUtil.d("here is onSaveInstanceState MovieFragment")
-        outState.putInt("detailMovie", 1)
+        outState.putInt("count", count)
         super.onSaveInstanceState(outState)
     }
 }

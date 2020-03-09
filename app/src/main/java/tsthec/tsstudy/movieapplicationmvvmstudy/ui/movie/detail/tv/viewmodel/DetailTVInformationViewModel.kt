@@ -2,22 +2,20 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
-import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.IDetailFavoriteState
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.NavigationProvider
+import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class DetailTVInformationViewModel(
-    private val tvRepository: TvRepository
+    private val tvRepository: TvRepository,
+    private val rxBusDatabaseSubject: RxBusCls
 ) : BaseLifeCycleViewModel<TVResult>() {
 
     val tvGenreMutableLiveData = MutableLiveData<List<Genre>>()
@@ -54,14 +52,14 @@ class DetailTVInformationViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .map { likeState ->
                 if (likeState)
-                    databaseSubject.onNext(
+                    rxBusDatabaseSubject.publish(
                         Pair(
                             { tvRepository.repositoryDeleteDatabase(detailTVResult()) },
                             { _favoriteState.value = false }
                         )
                     )
                 else
-                    databaseSubject.onNext(
+                    rxBusDatabaseSubject.publish(
                         Pair(
                             { tvRepository.repositoryInputDatabase(detailTVResult()) },
                             { _favoriteState.value = true }

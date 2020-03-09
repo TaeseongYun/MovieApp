@@ -41,6 +41,15 @@
             app:visibleIf="@{vm.isLoading}"
             app:constraint_referenced_ids="movie_loading_background,progressBar" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/movieNameColor"
+            app:backgroundTintMode="screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movieRecyclerView"
             android:layout_width="0dp"
