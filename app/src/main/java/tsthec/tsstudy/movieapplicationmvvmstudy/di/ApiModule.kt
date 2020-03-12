@@ -7,7 +7,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.network.SearchInterface
 import tsthec.tsstudy.movieapplicationmvvmstudy.network.TvInterface
 
 val apiModule = module {
-    single { get<Retrofit>().create(MovieInterface::class.java) }
-    single { get<Retrofit>().create(TvInterface::class.java) }
-    single { get<Retrofit>().create(SearchInterface::class.java) }
+    single { (get() as Retrofit).create(MovieInterface::class.java) }
+    single { (get() as Retrofit).create(TvInterface::class.java) }
+    single { (get() as Retrofit).create(SearchInterface::class.java) }
 }

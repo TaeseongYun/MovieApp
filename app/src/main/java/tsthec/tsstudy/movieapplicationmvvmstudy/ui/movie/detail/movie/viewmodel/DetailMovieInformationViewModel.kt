@@ -24,29 +24,30 @@ class DetailMovieInformationViewModel(
 
     val genreLiveData = MutableLiveData<List<Genre>>()
 
-    private val GENRE_KEY = "GENRE"
-
     private val DETAIL_MOVIE_KEY = "detailMovie"
 
-    var saveGenreState: List<Genre>? = handle[GENRE_KEY]
+    var savedMovieResultID: Int? = handle[DETAIL_MOVIE_KEY]
         set(value) {
-            handle[GENRE_KEY] = value
+            handle[DETAIL_MOVIE_KEY] = value
             field = value
         }
 
     private val _favoriteState = MutableLiveData<Boolean>()
 
+    lateinit var detailMovieResult: () -> MovieResult
+
     val favoriteState: LiveData<Boolean>
         get() = _favoriteState
 
     init {
-        LogUtil.d("What is DetailMove -> ${handle.get<MovieResult>(DETAIL_MOVIE_KEY)}")
+//        LogUtil.d("What is bundle of data -> ${handle.get<MovieResult>(DETAIL_MOVIE_KEY)}")
         disposable += movieRepository.repositoryGetListByDatabase()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _favoriteState.value =
-                    it.contains(handle.get<MovieResult>(DETAIL_MOVIE_KEY))
+                if (::detailMovieResult.isInitialized)
+                    _favoriteState.value =
+                        it.contains(detailMovieResult())
             }, { it.printStackTrace() })
 
         disposable += uiBehaviorSubject
@@ -57,31 +58,30 @@ class DetailMovieInformationViewModel(
             }
             .observeOn(AndroidSchedulers.mainThread())
             .map { likeState ->
-                if (likeState)
-                    rxEventBusDataSubject.publish(
-                        Pair(
-                            {
-                                movieRepository.repositoryDeleteDatabase(
-                                    handle.get<MovieResult>(
-                                        DETAIL_MOVIE_KEY
+                if (::detailMovieResult.isInitialized)
+                    if (likeState)
+                        rxEventBusDataSubject.publish(
+                            Pair(
+                                {
+                                    movieRepository.repositoryDeleteDatabase(
+                                        detailMovieResult()
+//                                handle.get(DETAIL_MOVIE_KEY)
                                     )
-                                )
-                            },
-                            { _favoriteState.value = false }
-                        )
-                    )
-                else
-                    rxEventBusDataSubject.publish(
-                        Pair({
-                            movieRepository.repositoryMovieInsertRoomDatabase(
-                                handle.get<MovieResult>(
-                                    DETAIL_MOVIE_KEY
-                                )
+                                },
+                                { _favoriteState.value = false }
                             )
-                        }, {
-                            _favoriteState.value = true
-                        })
-                    )
+                        )
+                    else
+                        rxEventBusDataSubject.publish(
+                            Pair({
+                                movieRepository.repositoryMovieInsertRoomDatabase(
+                                    detailMovieResult()
+//                                handle.get(DETAIL_MOVIE_KEY)
+                                )
+                            }, {
+                                _favoriteState.value = true
+                            })
+                        )
             }
             .subscribe({
                 _isLoadingMutable.value = true
@@ -92,6 +92,7 @@ class DetailMovieInformationViewModel(
 
 
     fun getResultDetailMovie(movieID: Int?) {
+        savedMovieResultID = movieID
         disposable += movieRepository.repositoryDetailMovie(
             movieID,
             apiKey = BuildConfig.MOVIE_API_KEY
@@ -99,14 +100,9 @@ class DetailMovieInformationViewModel(
             .subscribeOn(Schedulers.io())
             .subscribe({
                 genreLiveData.value = it.genres
-                saveGenreState = genreLiveData.value
             }, {
                 it.printStackTrace()
             })
-    }
-
-    fun loadSaveState() {
-        genreLiveData.value = saveGenreState
     }
 
     fun changeLikeState(movieResult: MovieResult) {

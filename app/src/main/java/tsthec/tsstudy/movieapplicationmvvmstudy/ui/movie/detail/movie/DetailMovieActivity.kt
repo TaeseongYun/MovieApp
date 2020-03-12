@@ -95,15 +95,10 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
 
     override fun viewINIT() {
         viewBinding()
+
         detailViewModel.run {
-            if (value.saveGenreState != null) {
-                LogUtil.d("saveGenreState Not NULL")
-                value.loadSaveState()
-            } else {
-                LogUtil.d("saveGenreState  NULL")
-                value.getResultDetailMovie(detailMovieArgs.detailMovie.id)
-            }
-//            value.initHighOrderFunction()
+            value.getResultDetailMovie(detailMovieArgs.detailMovie.id)
+            value.initHighOrderFunction()
         }
     }
 
@@ -120,7 +115,7 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
         }
          */
         detailViewModel =
-            stateViewModel(bundle = bundleOf("detailMovie" to detailMovieArgs.detailMovie))
+            stateViewModel(bundle = bundleOf("detailMovie" to detailMovieArgs.detailMovie.id))
 
         viewINIT()
 
@@ -168,8 +163,8 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
     }
 
     override fun DetailMovieInformationViewModel.initHighOrderFunction() {
-//        detailMovieResult = {
-//            detailMovieArgs.detailMovie
-//        }
+        detailMovieResult = {
+            detailMovieArgs.detailMovie
+        }
     }
 }
