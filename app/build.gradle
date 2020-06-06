@@ -113,6 +113,8 @@ dependencies {
     implementation deps.androidx.navigation_fragment
     implementation deps.androidx.navigation_ui
     implementation deps.androidx.savedstate
+
+    implementation project(":data")
 }
 androidExtensions {
 

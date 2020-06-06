@@ -1,2 +1,4 @@
 include ':app'
 rootProject.name='MovieApplication(MVVM Study)'
+include ':data'
+include ':data'

@@ -35,43 +35,11 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.toast
 
 class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISearchItem {
 
-    init {
-        val mapTestList = listOf("1", "2", "3", "4", "5")
-        val source = Observable.defer {
-            LogUtil.d("Create Observable")
-            Observable.just(10)
-        }
-
-        disposable += source.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                LogUtil.d("Hello it -> $it")
-            }, {
-                it.printStackTrace()
-            })
-
-//        val observable = Observable.fromIterable(mapTestList)
-//        val listData = listOf("1", "2", "3", "5")
-        val observable = Observable.fromIterable(mapTestList).flatMap {
-            Observable.just<String>("$it<> + $it<->")
-        }
-
-        val singleTest = Single.fromObservable(observable)
-
-        disposable += observable
-            .subscribeOn(Schedulers.io())
-            .buffer(3, 4)
-            .subscribe({ LogUtil.d(it.toString()) }, {})
-    }
-
     private var navFragmentHost: NavHostFragment? = null
 
     private val searchViewModel by viewModel<SearchViewModel>()
 
     private val binding by bindingBySetContent<ActivityMainBinding>(R.layout.activity_main)
-
-    private val searchRecyclerAdapter: MainRecyclerAdapter by lazy {
-        MainRecyclerAdapter(AdapterViewType.DataType.SEARCH, iSearchItem = this@MovieMainActivity)
-    }
 
     private val backKeyPressUtil: BackKeyPressUtil by inject {
         parametersOf(::finish, ::toast, disposable)
@@ -129,11 +97,6 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
             vm = searchViewModel
             executePendingBindings()
         }
-
-//        search_recyclerView.run {
-//            adapter = searchRecyclerAdapter
-//            layoutManager = GridLayoutManager(this@MovieMainActivity, 2)
-//        }
     }
 
     override fun onPause() {
