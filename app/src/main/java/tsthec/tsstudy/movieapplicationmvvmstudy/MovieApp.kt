@@ -13,14 +13,12 @@ class MovieApp : Application() {
         startKoin {
             androidContext(this@MovieApp)
             modules(
-                listOf(
-                    databaseModel,
-                    apiModule,
-                    networkModule,
-                    repositoryModule,
-                    viewModelModule,
-                    rxJavaModule
-                )
+                databaseModel,
+                apiModule,
+                networkModule,
+                repositoryModule,
+                viewModelModule,
+                rxJavaModule
             )
         }
     }
