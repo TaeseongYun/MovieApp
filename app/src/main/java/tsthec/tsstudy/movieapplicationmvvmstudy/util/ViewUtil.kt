@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -15,7 +16,7 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-inline fun<reified T: Fragment> AppCompatActivity.loadNavigation(@IdRes fragment: Int) =
+inline fun <reified T : Fragment> AppCompatActivity.loadNavigation(@IdRes fragment: Int) =
     supportFragmentManager.findFragmentById(fragment) as T?
 
 
@@ -32,4 +33,4 @@ inline fun scrollListener(
     }
 }
 
-fun Context.toast(text: CharSequence, duration: Int) = Toast.makeText(this, text, duration).show()
+fun Context.toast(@StringRes text: Int, duration: Int) = Toast.makeText(this, text, duration).show()

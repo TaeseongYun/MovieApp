@@ -1,9 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.*
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
@@ -32,6 +30,8 @@ class MovieNowPlayingViewModel(
 
     val tvList: LiveData<TVResponse>
         get() = _tvList
+
+    val tvListTest = MediatorLiveData<TVResponse>()
 
     init {
         disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, 1)

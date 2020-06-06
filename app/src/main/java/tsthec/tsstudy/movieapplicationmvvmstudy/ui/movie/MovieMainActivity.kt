@@ -16,7 +16,9 @@ import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
@@ -24,17 +26,28 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityMainBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.SearchMultiInformationViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.util.BackKeyPressUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadNavigation
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.toast
 
 
-@Suppress("CAST_NEVER_SUCCEEDS")
 class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISearchItem {
 
     init {
         val mapTestList = listOf("1", "2", "3", "4", "5")
+        val source = Observable.defer {
+            LogUtil.d("Create Observable")
+            Observable.just(10)
+        }
+
+        disposable += source.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                LogUtil.d("Hello it -> $it")
+            }, {
+                it.printStackTrace()
+            })
 
 //        val observable = Observable.fromIterable(mapTestList)
 //        val listData = listOf("1", "2", "3", "5")
@@ -60,25 +73,14 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
         MainRecyclerAdapter(AdapterViewType.DataType.SEARCH, iSearchItem = this@MovieMainActivity)
     }
 
+    private val backKeyPressUtil: BackKeyPressUtil by inject {
+        parametersOf(::finish, ::toast, disposable)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewINIT()
-
-        disposable += backKeyPressed.toFlowable(BackpressureStrategy.BUFFER)
-            .buffer(2, 1)
-            .map { it[0] to it[1] }
-            .map { it.second - it.first < 2000L }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ boolean ->
-                if (boolean) {
-                    finish()
-                } else {
-                    this.toast("뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG)
-                }
-            }, {
-                it.printStackTrace()
-            })
 
         navFragmentHost = loadNavigation(R.id.nav_host_fragment)
 
@@ -113,7 +115,7 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
     }
 
     override fun onBackPressed() {
-        backKeyPressed.onNext(System.currentTimeMillis())
+        backKeyPressUtil.onBackKeyPress(System.currentTimeMillis())
     }
 
     override fun onStop() {

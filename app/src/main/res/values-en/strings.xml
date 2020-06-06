@@ -37,4 +37,5 @@
         <item>TV</item>
     </string-array>
 
+    <string name="back_key_press">One More Press Back Key, Finish App</string>
 </resources>
