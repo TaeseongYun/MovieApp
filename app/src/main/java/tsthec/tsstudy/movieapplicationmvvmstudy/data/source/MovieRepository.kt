@@ -55,6 +55,8 @@ class MovieRepository private constructor(
 
     fun repositoryPopularMovie(apiKey: String, loadPage: Int) =
         when (currentLanguage) {
+
+            //todo "en", "ko" enum 이나 object로 처리.
             "en" -> movieRemoteDataSource.remoteSourcePopularMovie(
                 apiKey,
                 loadPage,
