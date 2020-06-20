@@ -19,7 +19,7 @@ internal class MovieRepositoryImpl(
 
     private val defaultPage = 1
 
-    internal var nextPage = defaultPage
+    override var nextPage = defaultPage
 
     private val movieCacheMap = mutableMapOf<MovieResult?, Boolean>()
 
@@ -46,7 +46,7 @@ internal class MovieRepositoryImpl(
         movieLocalSourceData.inputMovieResult(movieResult)
     }
 
-    override fun repositoryPopularMovie(apiKey: String, loadPage: Int) {
+    override fun repositoryPopularMovie(apiKey: String, loadPage: Int) =
         when (currentLanguage) {
             Const.ENGLISH -> {
                 movieRemoteSourceData.remoteSourcePopularMovie(apiKey, nextPage, Const.ENGLISH)
@@ -55,10 +55,11 @@ internal class MovieRepositoryImpl(
             Const.KOREAN -> {
                 movieRemoteSourceData.remoteSourcePopularMovie(apiKey, nextPage, Const.KOREAN)
             }
+            else -> throw IllegalArgumentException()
         }
-    }
 
-    override fun repositoryDetailMovie(movieID: Int?, apiKey: String) {
+
+    override fun repositoryDetailMovie(movieID: Int?, apiKey: String) =
         when (currentLanguage) {
             Const.ENGLISH -> {
                 movieRemoteSourceData.remoteSourceDetailMovie(
@@ -75,7 +76,6 @@ internal class MovieRepositoryImpl(
                     Const.KOREAN
                 )
             }
+            else -> throw IllegalArgumentException()
         }
-
-    }
 }

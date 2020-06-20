@@ -2,6 +2,7 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.tsdev.domain.usecase.MovieSingleUseCase
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
@@ -16,7 +17,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.with
 
 class MovieNowPlayingViewModel(
-    private val movieRepository: MovieRepository,
+    private val movieRepository: MovieSingleUseCase<String, MovieResponse>,
     private val tvRepository: TvRepository
 ) :
     BaseLifeCycleViewModel<MovieResult>() {
@@ -34,7 +35,7 @@ class MovieNowPlayingViewModel(
     val tvListTest = MediatorLiveData<TVResponse>()
 
     init {
-        disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, 1)
+        disposable += movieRepository(BuildConfig.MOVIE_API_KEY, 1)
             .with()
             .doOnSubscribe {
                 // :: -> 코틀린 리플렉션? (공부)
@@ -61,7 +62,7 @@ class MovieNowPlayingViewModel(
     }
 
     fun loadMorePopularMovie(page: Int) {
-        disposable += movieRepository.repositoryPopularMovie(BuildConfig.MOVIE_API_KEY, page)
+        disposable += movieRepository(BuildConfig.MOVIE_API_KEY, page)
             .with()
             .doOnSubscribe {
                 // :: -> 코틀린 리플렉션? (공부)

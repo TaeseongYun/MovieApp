@@ -15,5 +15,5 @@ interface MovieLocalSourceData {
 
     fun deleteTvDatabase(paraID: Int?)
 
-    fun getLoadTvList()
+    fun getLoadTvList(): Single<List<TVResult>>
 }

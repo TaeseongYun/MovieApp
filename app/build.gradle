@@ -54,16 +54,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(path: ':data')
-
     implementation deps.kotlin.sdk
     implementation deps.androidx.appcompat
     implementation deps.androidx.constraintlayout
     testImplementation deps.junit
     androidTestImplementation deps.test.junit
     androidTestImplementation deps.test.espresso
-
-
 
 
     //retrofit
@@ -118,6 +114,10 @@ dependencies {
     implementation deps.androidx.navigation_fragment
     implementation deps.androidx.navigation_ui
     implementation deps.androidx.savedstate
+
+    //multi module
+    implementation project(':domain')
+    implementation project(':data')
 }
 androidExtensions {
 

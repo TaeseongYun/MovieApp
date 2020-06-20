@@ -1,6 +1,8 @@
 package com.tsdev.data.di
 
+import com.tsdev.data.BuildConfig
 import com.tsdev.data.network.MovieNetworkInterface
+import com.tsdev.data.network.TvNetworkInterface
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -33,15 +35,16 @@ val networkModule = module {
     }
 
 
-//    single<Interceptor> {
-//        HttpLoggingInterceptor().apply {
-//            level = if (Buildc) {
-//                HttpLoggingInterceptor.Level.BODY
-//            } else {
-//                HttpLoggingInterceptor.Level.NONE
-//            }
-//        }
-//    }
+    single<Interceptor> {
+        HttpLoggingInterceptor().apply {
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
+        }
+    }
 
     single { get<Retrofit>().create(MovieNetworkInterface::class.java) }
+    single { get<Retrofit>().create(TvNetworkInterface::class.java) }
 }

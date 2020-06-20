@@ -37,7 +37,7 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
 
     private var navFragmentHost: NavHostFragment? = null
 
-    private val searchViewModel by viewModel<SearchViewModel>()
+//    private val searchViewModel by viewModel<SearchViewModel>()
 
     private val binding by bindingBySetContent<ActivityMainBinding>(R.layout.activity_main)
 
@@ -65,14 +65,14 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
                 queryHint = getString(R.string.query_string_hint)
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
-                        searchViewModel.nextSearch(query)
-                        searchViewModel.loadResult(1)
+//                        searchViewModel.nextSearch(query)
+//                        searchViewModel.loadResult(1)
                         return false
                     }
 
                     override fun onQueryTextChange(newText: String): Boolean {
-                        searchViewModel.nextSearch(newText)
-                        searchViewModel.loadResult(1)
+//                        searchViewModel.nextSearch(newText)
+//                        searchViewModel.loadResult(1)
                         return false
                     }
 
@@ -94,7 +94,7 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
     override fun viewINIT() {
         with(binding) {
             lifecycleOwner = this@MovieMainActivity
-            vm = searchViewModel
+//            vm = searchViewModel
             executePendingBindings()
         }
     }
