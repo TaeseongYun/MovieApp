@@ -6,7 +6,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.tsdev.data.source.Genre
 import com.tsdev.data.source.MovieDetailResponse
 import com.tsdev.data.source.MovieResult
-import com.tsdev.data.source.repository.MovieRepository
 import com.tsdev.domain.usecase.MovieSingleUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
