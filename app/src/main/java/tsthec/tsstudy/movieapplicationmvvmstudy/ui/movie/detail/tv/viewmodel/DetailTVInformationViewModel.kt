@@ -2,12 +2,12 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.tsdev.data.source.Genre
+import com.tsdev.data.source.TVResult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.Genre
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil

@@ -19,7 +19,6 @@ class MovieApp : Application() {
         startKoin {
             androidContext(this@MovieApp)
             modules(
-                databaseModel,
                 networkModule,
                 viewModelModule,
                 rxJavaModule,

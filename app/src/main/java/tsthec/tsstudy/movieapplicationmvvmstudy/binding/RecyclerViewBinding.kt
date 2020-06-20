@@ -2,8 +2,9 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.binding
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.tsdev.data.source.*
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.*
+import tsthec.tsstudy.movieapplicationmvvmstudy.data.SearchResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 
 @BindingAdapter("bindMovieList")

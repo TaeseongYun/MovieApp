@@ -2,14 +2,12 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.tsdev.data.source.MovieResult
+import com.tsdev.data.source.repository.MovieRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 

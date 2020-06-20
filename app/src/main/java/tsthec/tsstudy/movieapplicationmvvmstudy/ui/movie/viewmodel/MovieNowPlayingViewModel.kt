@@ -5,14 +5,10 @@ import androidx.lifecycle.*
 import com.tsdev.domain.usecase.MovieSingleUseCase
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResponse
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.MovieRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.with
 

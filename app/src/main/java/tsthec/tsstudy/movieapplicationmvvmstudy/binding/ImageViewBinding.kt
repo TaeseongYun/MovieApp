@@ -5,11 +5,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.tsdev.data.source.MovieResult
+import com.tsdev.data.source.TVResult
 import jp.wasabeef.glide.transformations.CropSquareTransformation
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.api.API
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.GlideCustomImage
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.animation.requestListener
 

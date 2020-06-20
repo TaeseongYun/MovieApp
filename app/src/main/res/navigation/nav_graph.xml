@@ -54,6 +54,6 @@
         tools:layout="@layout/activity_detail_tv">
         <argument
             android:name="detailTV"
-            app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult" />
+            app:argType="com.tsdev.data.source.TVResult" />
     </activity>
 </navigation>
