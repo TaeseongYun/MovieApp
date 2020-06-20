@@ -44,7 +44,7 @@
         tools:layout="@layout/activity_detail_movie">
         <argument
             android:name="detailMovie"
-            app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />
+            app:argType="com.tsdev.data.source.MovieResult" />
     </activity>
 
     <activity

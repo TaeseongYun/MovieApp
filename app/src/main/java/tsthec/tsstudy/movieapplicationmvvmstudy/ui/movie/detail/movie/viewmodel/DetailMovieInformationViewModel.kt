@@ -4,20 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.tsdev.data.source.Genre
+import com.tsdev.data.source.MovieDetailResponse
 import com.tsdev.data.source.MovieResult
 import com.tsdev.data.source.repository.MovieRepository
+import com.tsdev.domain.usecase.MovieSingleUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 
 class DetailMovieInformationViewModel(
     private val handle: SavedStateHandle,
-    private val movieRepository: MovieRepository,
+    private val movieRepository: MovieSingleUseCase<String, MovieDetailResponse, MovieResult>,
     private val rxEventBusDataSubject: RxBusCls
 ) :
     BaseLifeCycleViewModel<MovieResult>() {
@@ -40,8 +41,7 @@ class DetailMovieInformationViewModel(
         get() = _favoriteState
 
     init {
-//        LogUtil.d("What is bundle of data -> ${handle.get<MovieResult>(DETAIL_MOVIE_KEY)}")
-        disposable += movieRepository.repositoryGetListByDatabase()
+        disposable += movieRepository.getMovieDatabase()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -54,18 +54,17 @@ class DetailMovieInformationViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .switchMapSingle { movieResult ->
-                movieRepository.loadCacheDatabaseList(movieResult)
+                movieRepository.getMovieDatabaseItem(movieResult)
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .map { likeState ->
+            .map { likeState: Boolean ->
                 if (::detailMovieResult.isInitialized)
                     if (likeState)
                         rxEventBusDataSubject.publish(
                             Pair(
                                 {
-                                    movieRepository.repositoryDeleteDatabase(
+                                    movieRepository.getMovieDeleteDatabase(
                                         detailMovieResult()
-//                                handle.get(DETAIL_MOVIE_KEY)
                                     )
                                 },
                                 { _favoriteState.value = false }
@@ -74,9 +73,8 @@ class DetailMovieInformationViewModel(
                     else
                         rxEventBusDataSubject.publish(
                             Pair({
-                                movieRepository.repositoryMovieInsertRoomDatabase(
+                                movieRepository.insertMovieDatabase(
                                     detailMovieResult()
-//                                handle.get(DETAIL_MOVIE_KEY)
                                 )
                             }, {
                                 _favoriteState.value = true
@@ -93,7 +91,7 @@ class DetailMovieInformationViewModel(
 
     fun getResultDetailMovie(movieID: Int?) {
         savedMovieResultID = movieID
-        disposable += movieRepository.repositoryDetailMovie(
+        disposable += movieRepository.getDetailMovie(
             movieID,
             apiKey = BuildConfig.MOVIE_API_KEY
         ).observeOn(AndroidSchedulers.mainThread())
