@@ -1,41 +1,31 @@
 package com.tsdev.data.source.repository
 
+import com.tsdev.data.constant.Language
 import com.tsdev.data.local.MovieLocalSourceData
 import com.tsdev.data.remote.MovieRemoteSourceData
 import com.tsdev.data.source.MovieResult
 import io.reactivex.Single
-import java.util.*
-
-private object Const {
-    const val ENGLISH = "en"
-
-    const val KOREAN = "ko"
-}
 
 internal class MovieRepositoryImpl(
     private val movieRemoteSourceData: MovieRemoteSourceData,
     private val movieLocalSourceData: MovieLocalSourceData
-) : MovieRepository {
+) : MovieRepository, BaseRepository<MovieResult>() {
 
     private val defaultPage = 1
 
     override var nextPage = defaultPage
 
-    private val movieCacheMap = mutableMapOf<MovieResult?, Boolean>()
-
-    private val currentLanguage = Locale.getDefault().language
-
     override fun repositoryDeleteDatabase(movieResult: MovieResult?) {
         movieLocalSourceData.deleteMovieDatabase(movieResult?.id)
-        movieCacheMap.remove(movieResult)
+        mutableMapItem.remove(movieResult)
     }
 
     override fun loadCacheDatabaseList(movieResult: MovieResult?): Single<Boolean> {
-        return Single.just(movieCacheMap[movieResult] ?: false)
+        return Single.just(mutableMapItem[movieResult] ?: false)
             .flatMap {
                 repositoryGetListByDatabase().map {
-                    movieCacheMap[movieResult] = it.contains(movieResult)
-                    movieCacheMap[movieResult]
+                    mutableMapItem[movieResult] = it.contains(movieResult)
+                    mutableMapItem[movieResult]
                 }
             }
     }
@@ -48,12 +38,12 @@ internal class MovieRepositoryImpl(
 
     override fun repositoryPopularMovie(apiKey: String, loadPage: Int) =
         when (currentLanguage) {
-            Const.ENGLISH -> {
-                movieRemoteSourceData.remoteSourcePopularMovie(apiKey, nextPage, Const.ENGLISH)
+            Language.ENGLISH -> {
+                movieRemoteSourceData.remoteSourcePopularMovie(apiKey, nextPage, Language.ENGLISH)
             }
 
-            Const.KOREAN -> {
-                movieRemoteSourceData.remoteSourcePopularMovie(apiKey, nextPage, Const.KOREAN)
+            Language.KOREAN -> {
+                movieRemoteSourceData.remoteSourcePopularMovie(apiKey, nextPage, Language.KOREAN)
             }
             else -> throw IllegalArgumentException()
         }
@@ -61,19 +51,19 @@ internal class MovieRepositoryImpl(
 
     override fun repositoryDetailMovie(movieID: Int?, apiKey: String) =
         when (currentLanguage) {
-            Const.ENGLISH -> {
+            Language.ENGLISH -> {
                 movieRemoteSourceData.remoteSourceDetailMovie(
                     movieID,
                     apiKey,
-                    Const.ENGLISH
+                    Language.ENGLISH
                 )
             }
 
-            Const.KOREAN -> {
+            Language.KOREAN -> {
                 movieRemoteSourceData.remoteSourceDetailMovie(
                     movieID,
                     apiKey,
-                    Const.KOREAN
+                    Language.KOREAN
                 )
             }
             else -> throw IllegalArgumentException()
