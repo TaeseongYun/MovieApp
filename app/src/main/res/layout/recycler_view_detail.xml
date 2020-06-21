@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />
+            type="com.tsdev.data.source.MovieResult" />
 
         <variable
             name="API"
