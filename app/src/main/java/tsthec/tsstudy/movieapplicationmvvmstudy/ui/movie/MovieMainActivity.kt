@@ -25,11 +25,10 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.d
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.ActivityMainBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.SearchMultiInformationViewHolder
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel
+//import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.BackKeyPressUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.loadNavigation
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
-import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.toast
 
 
@@ -37,7 +36,7 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
 
     private var navFragmentHost: NavHostFragment? = null
 
-    private val searchViewModel by viewModel<SearchViewModel>()
+//    private val searchViewModel by viewModel<SearchViewModel>()
 
     private val binding by bindingBySetContent<ActivityMainBinding>(R.layout.activity_main)
 
@@ -65,14 +64,14 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
                 queryHint = getString(R.string.query_string_hint)
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
-                        searchViewModel.nextSearch(query)
-                        searchViewModel.loadResult(1)
+//                        searchViewModel.nextSearch(query)
+//                        searchViewModel.loadResult(1)
                         return false
                     }
 
                     override fun onQueryTextChange(newText: String): Boolean {
-                        searchViewModel.nextSearch(newText)
-                        searchViewModel.loadResult(1)
+//                        searchViewModel.nextSearch(newText)
+//                        searchViewModel.loadResult(1)
                         return false
                     }
 
@@ -94,7 +93,7 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
     override fun viewINIT() {
         with(binding) {
             lifecycleOwner = this@MovieMainActivity
-            vm = searchViewModel
+//            vm = searchViewModel
             executePendingBindings()
         }
     }

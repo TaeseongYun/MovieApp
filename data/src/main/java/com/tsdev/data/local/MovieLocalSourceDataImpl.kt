@@ -1,6 +1,5 @@
 package com.tsdev.data.local
 
-import com.tsdev.data.db.AppDataBase
 import com.tsdev.data.db.dao.movie.MovieDAO
 import com.tsdev.data.db.dao.tv.TvDAO
 import com.tsdev.data.source.MovieResult

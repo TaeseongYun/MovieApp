@@ -27,10 +27,10 @@ import java.util.ArrayList
 class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
 
     private val tvRecyclerAdapter: MainRecyclerAdapter by lazy {
-        MainRecyclerAdapter(AdapterViewType.DataType.TV, iShowDetailTV =  this)
+        MainRecyclerAdapter(AdapterViewType.DataType.TV, iShowDetailTV = this)
     }
 
-    private  val tvViewModel by stateViewModel<MovieNowPlayingViewModel>()
+    private val tvViewModel by stateViewModel<MovieNowPlayingViewModel>()
 
     private lateinit var binding: TvFragmentLayoutBinding
 
@@ -64,8 +64,9 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(tvRepository.nextPage > 1)
+        if (tvRepository.nextPage > 1) {
             tvRepository.nextPage = 1
+        }
     }
 
     override fun onDestroyView() {
@@ -87,6 +88,9 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
     }
 
     override fun onClick(position: Int) {
-        findNavController().navigate(R.id.detailTVActivity, bundleOf("detailTV" to tvRecyclerAdapter.getItem(position)))
+        findNavController().navigate(
+            R.id.detailTVActivity,
+            bundleOf("detailTV" to tvRecyclerAdapter.getItem(position))
+        )
     }
 }

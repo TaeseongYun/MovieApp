@@ -2,7 +2,6 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_fragment.*
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseFragment
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.data.source.AdapterViewType
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.MovieFragmentBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
-import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivity
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
@@ -72,8 +69,9 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     }
 
     override fun onAttach(context: Context) {
-        if (movieRepository.nextPage > 2)
+        if (movieRepository.nextPage > 2) {
             movieRepository.nextPage = 1
+        }
         super.onAttach(context)
     }
 
@@ -97,7 +95,10 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     }
 
     override fun onClick(position: Int) {
-        findNavController().navigate(R.id.detailMovieActivity, bundleOf("detailMovie" to movieAdapter.getItem(position)))
+        findNavController().navigate(
+            R.id.detailMovieActivity,
+            bundleOf("detailMovie" to movieAdapter.getItem(position))
+        )
     }
 
     override fun onResume() {

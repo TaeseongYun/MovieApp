@@ -2,10 +2,7 @@ package tsthec.tsstudy.movieapplicationmvvmstudy
 
 import android.app.Application
 import com.bumptech.glide.Glide
-import com.tsdev.data.di.localDataSourceModule
-import com.tsdev.data.di.networkModule
-import com.tsdev.data.di.remoteModule
-import com.tsdev.data.di.repositoryModule
+import com.tsdev.data.di.*
 import com.tsdev.domain.di.schedulersProviderModule
 import com.tsdev.domain.di.useCaseModule
 import org.koin.android.ext.koin.androidContext
@@ -20,13 +17,14 @@ class MovieApp : Application() {
             androidContext(this@MovieApp)
             modules(
                 networkModule,
-                viewModelModule,
-                rxJavaModule,
+                apiModule,
                 remoteModule,
                 localDataSourceModule,
+                repositoryModule,
                 useCaseModule,
                 schedulersProviderModule,
-                repositoryModule
+                viewModelModule,
+                rxJavaModule
             )
         }
     }
