@@ -1,9 +1,6 @@
 package com.tsdev.domain.di
 
-import com.tsdev.data.source.MovieResponse
-import com.tsdev.data.source.MovieResult
-import com.tsdev.data.source.TVResult
-import com.tsdev.data.source.TvDetailResponse
+import com.tsdev.data.source.*
 import com.tsdev.domain.usecase.MovieSingleUseCase
 import com.tsdev.domain.usecase.MovieUseCaseImpl
 import com.tsdev.domain.usecase.TvSingleUseCase
@@ -17,5 +14,5 @@ val useCaseModule = module {
             get()
         )
     }
-    single<TvSingleUseCase<String, TvDetailResponse, TVResult>> { TvUseCaseImpl(get(), get()) }
+    single<TvSingleUseCase<String, TVResponse, TVResult>> { TvUseCaseImpl(get(), get()) }
 }

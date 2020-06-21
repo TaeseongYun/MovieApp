@@ -15,6 +15,8 @@ abstract class TvSingleUseCase<in Params, T, S>(private val schedulersProvider: 
 
     abstract fun inputDatabase(tvResult: S?)
 
+    abstract fun deleteDatabase(tvResult: S?)
+
     abstract fun getLoadDatabases(): Single<List<S>>
 
     abstract fun getFavoriteList(item: S?): Single<Boolean>

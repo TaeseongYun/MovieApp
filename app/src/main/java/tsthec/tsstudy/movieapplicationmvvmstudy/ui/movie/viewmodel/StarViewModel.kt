@@ -3,12 +3,12 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.tsdev.data.source.MovieResult
+import com.tsdev.data.source.TVResult
 import com.tsdev.data.source.repository.MovieRepository
+import com.tsdev.data.source.repository.TvRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class StarViewModel(

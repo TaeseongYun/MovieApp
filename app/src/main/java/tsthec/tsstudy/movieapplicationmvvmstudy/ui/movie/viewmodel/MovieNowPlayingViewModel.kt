@@ -2,19 +2,17 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.tsdev.data.source.*
 import com.tsdev.domain.usecase.MovieSingleUseCase
+import com.tsdev.domain.usecase.TvSingleUseCase
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResponse
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResponse
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.with
 
 class MovieNowPlayingViewModel(
-    private val movieRepository: MovieSingleUseCase<String, MovieResponse>,
-    private val tvRepository: TvRepository
+    private val movieRepository: MovieSingleUseCase<String, MovieResponse, MovieResult>,
+    private val tvRepository: TvSingleUseCase<String, TVResponse, TVResult>
 ) :
     BaseLifeCycleViewModel<MovieResult>() {
 
@@ -44,7 +42,7 @@ class MovieNowPlayingViewModel(
                 Log.e("error", it.message.toString())
             })
 
-        disposable += tvRepository.repositoryPopularTV(BuildConfig.MOVIE_API_KEY, 1)
+        disposable += tvRepository(BuildConfig.MOVIE_API_KEY, 1)
             .with()
             .doOnSubscribe {
                 _isLoadingMutable.value = true
@@ -74,7 +72,7 @@ class MovieNowPlayingViewModel(
     }
 
     fun loadMoreTvPage(page: Int) {
-        disposable += tvRepository.repositoryPopularTV(BuildConfig.MOVIE_API_KEY, page)
+        disposable += tvRepository(BuildConfig.MOVIE_API_KEY, page)
             .with()
             .doOnSubscribe {
                 _isLoadingMutable.value = true

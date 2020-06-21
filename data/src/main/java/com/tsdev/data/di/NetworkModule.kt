@@ -23,6 +23,7 @@ val networkModule = module {
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(baseURL)
+            .build()
     }
 
     single {
@@ -45,6 +46,10 @@ val networkModule = module {
         }
     }
 
+
+}
+
+val apiModule = module {
     single { get<Retrofit>().create(MovieNetworkInterface::class.java) }
     single { get<Retrofit>().create(TvNetworkInterface::class.java) }
 }

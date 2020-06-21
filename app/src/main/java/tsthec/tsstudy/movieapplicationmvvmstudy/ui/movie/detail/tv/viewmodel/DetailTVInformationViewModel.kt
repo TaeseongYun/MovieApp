@@ -3,18 +3,19 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.tsdev.data.source.Genre
+import com.tsdev.data.source.TVResponse
 import com.tsdev.data.source.TVResult
+import com.tsdev.domain.usecase.TvSingleUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
-import tsthec.tsstudy.movieapplicationmvvmstudy.data.source.TvRepository
 import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 
 class DetailTVInformationViewModel(
-    private val tvRepository: TvRepository,
+    private val tvRepository: TvSingleUseCase<String, TVResponse, TVResult>,
     private val rxBusDatabaseSubject: RxBusCls
 ) : BaseLifeCycleViewModel<TVResult>() {
 
@@ -32,7 +33,7 @@ class DetailTVInformationViewModel(
         LogUtil.d("What is value -> ${_favoriteState.value}")
 
         //load like State
-        disposable += tvRepository.getLoadLocalDatabase()
+        disposable += tvRepository.getLoadDatabases()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -47,21 +48,21 @@ class DetailTVInformationViewModel(
         disposable += uiBehaviorSubject.subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .switchMapSingle { tvResult ->
-                tvRepository.repositoryGetFavoriteList(tvResult)
+                tvRepository.getFavoriteList(tvResult)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .map { likeState ->
                 if (likeState)
                     rxBusDatabaseSubject.publish(
                         Pair(
-                            { tvRepository.repositoryDeleteDatabase(detailTVResult()) },
+                            { tvRepository.deleteDatabase(detailTVResult()) },
                             { _favoriteState.value = false }
                         )
                     )
                 else
                     rxBusDatabaseSubject.publish(
                         Pair(
-                            { tvRepository.repositoryInputDatabase(detailTVResult()) },
+                            { tvRepository.inputDatabase(detailTVResult()) },
                             { _favoriteState.value = true }
                         )
                     )
@@ -74,7 +75,7 @@ class DetailTVInformationViewModel(
     }
 
     fun getDetailTV(tvID: Int?) {
-        disposable += tvRepository.repositoryDetailTV(
+        disposable += tvRepository.detailTV(
             apiKey = BuildConfig.MOVIE_API_KEY,
             tvID = tvID
         ).observeOn(AndroidSchedulers.mainThread())

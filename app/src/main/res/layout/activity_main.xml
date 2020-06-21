@@ -4,9 +4,6 @@
 
     <data>
 
-        <variable
-            name="vm"
-            type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
