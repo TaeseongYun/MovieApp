@@ -17,4 +17,6 @@ interface TvRepository {
     fun getLoadLocalDatabase(): Single<List<TVResult>>
 
     fun repositoryGetFavoriteList(item: TVResult?): Single<Boolean>
+
+    var nextPage: Int
 }

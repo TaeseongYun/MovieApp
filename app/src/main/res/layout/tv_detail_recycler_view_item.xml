@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="tsthec.tsstudy.movieapplicationmvvmstudy.data.TVResult" />
+            type="com.tsdev.data.source.TVResult" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

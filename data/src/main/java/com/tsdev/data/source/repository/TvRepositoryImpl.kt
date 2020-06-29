@@ -14,6 +14,10 @@ internal class TvRepositoryImpl(
     private val localSourceData: MovieLocalSourceData
 ) : TvRepository, BaseRepository<TVResult>() {
 
+    private val defaultPage = 1
+
+    override var nextPage: Int = defaultPage
+
     override fun repositoryDetailTV(apiKey: String, tvID: Int?): Single<TvDetailResponse> =
         when (currentLanguage) {
             Language.ENGLISH -> {
