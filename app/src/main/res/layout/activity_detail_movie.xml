@@ -103,6 +103,7 @@
                     isLiked="@{vm.favoriteState}"
                     android:layout_gravity="end|bottom"
                     android:layout_marginEnd="@dimen/spacing_normal"
+                    android:onClick="@{() -> vm.changeLikeState(movieDetailResult)}"
                     android:layout_marginBottom="@dimen/spacing_normal"
                     tools:src="@drawable/ic_favorite_border_black_24dp" />
 

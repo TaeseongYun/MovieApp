@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.tsdev.data.source.MovieResult
 import kotlinx.android.synthetic.main.movie_fragment.*
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
@@ -17,6 +18,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.recycler.source.d
 import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.MovieFragmentBinding
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.PopularMovieRecyclerViewHolder
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.DetailMovieActivityArgs
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
@@ -54,10 +56,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
         savedInstanceState?.let {
             count = it.getInt("count")
         }
-        fab.setOnClickListener {
-            ++count
-            LogUtil.d("What is count -> $count")
-        }
+
 
         LogUtil.d("what is viewmodel hashcode? -> ${movieViewModel.hashCode()}")
         viewModelInit()
@@ -96,8 +95,11 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
 
     override fun onClick(position: Int) {
         findNavController().navigate(
-            R.id.detailMovieActivity,
-            bundleOf("detailMovie" to movieAdapter.getItem(position))
+            MovieFragmentDirections.actionMovieFragmentToDetailMovieActivity(
+                movieAdapter.getItem(
+                    position
+                ) as MovieResult
+            )
         )
     }
 

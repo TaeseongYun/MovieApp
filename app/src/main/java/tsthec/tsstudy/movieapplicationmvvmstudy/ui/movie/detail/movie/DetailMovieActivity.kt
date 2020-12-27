@@ -27,54 +27,6 @@ import java.util.concurrent.TimeUnit
 
 class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformationViewModel>() {
 
-    init {
-        val testSubject = BehaviorSubject.createDefault(1)
-
-        disposable += testSubject
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                LogUtil.d("3 - This is $it")
-            }, {
-                it.printStackTrace()
-            })
-
-        disposable += Observable.interval(1000L, TimeUnit.MICROSECONDS)
-            .zipWith(
-                Observable.just("Hello"), BiFunction<Long, String, String> { _, t2 -> t2 }
-            )
-            .subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                LogUtil.d("This is $it")
-            }, { it.printStackTrace() })
-
-        testSubject.onNext(4)
-
-        testSubject.onNext(5)
-
-        disposable += testSubject
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                LogUtil.d("1 - This is $it")
-            }, {
-                it.printStackTrace()
-            })
-
-        testSubject.onNext(2)
-
-        testSubject.onNext(7)
-
-        disposable += testSubject
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                LogUtil.d("2 - This is $it")
-            }, {
-                it.printStackTrace()
-            })
-    }
 
     private val binding by binding<ActivityDetailMovieBinding>(R.layout.activity_detail_movie)
 
@@ -85,16 +37,14 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
 
     private val detailMovieArgs by navArgs<DetailMovieActivityArgs>()
 
-    //savedState 사용을 위한 stateViewModel inject detailMovieArg 를 사용하기 위해 lateinit 으로 설정.
-    private lateinit var detailViewModel: Lazy<DetailMovieInformationViewModel>
-//    stateViewModel<DetailMovieInformationViewModel>()
+    private val detailViewModel by stateViewModel<DetailMovieInformationViewModel>()
 
     override fun viewINIT() {
         viewBinding()
 
         detailViewModel.run {
-            value.getResultDetailMovie(detailMovieArgs.detailMovie.id)
-            value.initHighOrderFunction()
+            getResultDetailMovie(detailMovieArgs.detailMovie.id)
+            initHighOrderFunction()
         }
     }
 
@@ -110,12 +60,8 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
             } ?: throw IllegalStateException("Activity $this has a null Intent")
         }
          */
-        detailViewModel =
-            stateViewModel(bundle = bundleOf("detailMovie" to detailMovieArgs.detailMovie.id))
 
         viewINIT()
-
-        favorite_btn.setOnClickListener { detailViewModel.value.changeLikeState(detailMovieArgs.detailMovie) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -128,11 +74,11 @@ class DetailMovieActivity : BaseBindingActivity<MovieResult, DetailMovieInformat
         with(binding) {
             movieDetailResult = detailMovieArgs.detailMovie
             api = API
-            vm = detailViewModel.value
+            vm = detailViewModel
             lifecycleOwner = this@DetailMovieActivity
             executePendingBindings()
         }
-        genre_recyclerView.run {
+        binding.genreRecyclerView.run {
             adapter = genreRecyclerViewAdapter
             layoutManager = LinearLayoutManager(this.context).apply {
                 orientation = LinearLayoutManager.HORIZONTAL

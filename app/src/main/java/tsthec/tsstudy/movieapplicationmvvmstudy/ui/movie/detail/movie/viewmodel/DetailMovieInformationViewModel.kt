@@ -1,5 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -58,7 +59,7 @@ class DetailMovieInformationViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .map { likeState: Boolean ->
                 if (::detailMovieResult.isInitialized)
-                    if (likeState)
+                    if (likeState) {
                         rxEventBusDataSubject.publish(
                             Pair(
                                 {
@@ -69,7 +70,7 @@ class DetailMovieInformationViewModel(
                                 { _favoriteState.value = false }
                             )
                         )
-                    else
+                    } else {
                         rxEventBusDataSubject.publish(
                             Pair({
                                 movieRepository.insertMovieDatabase(
@@ -79,6 +80,7 @@ class DetailMovieInformationViewModel(
                                 _favoriteState.value = true
                             })
                         )
+                    }
             }
             .subscribe({
                 _isLoadingMutable.value = true
@@ -103,6 +105,7 @@ class DetailMovieInformationViewModel(
     }
 
     fun changeLikeState(movieResult: MovieResult) {
+        Log.e("ViewModel", "Called")
         uiBehaviorSubject.onNext(movieResult)
     }
 }

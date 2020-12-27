@@ -13,9 +13,9 @@
         <action
             android:id="@+id/action_movie_fragment_to_detailMovieActivity"
             app:destination="@id/detailMovieActivity" />
-        <!--            <argument-->
-        <!--                android:name="detailMovi"-->
-        <!--                app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />-->
+        <argument
+            android:name="detailMovie"
+            app:argType="tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult" />
     </fragment>
 
     <fragment
