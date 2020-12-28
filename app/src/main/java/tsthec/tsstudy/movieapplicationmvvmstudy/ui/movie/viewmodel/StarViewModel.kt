@@ -1,8 +1,12 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel
 
+import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.tsdev.data.source.MovieResult
+import com.tsdev.data.source.PROGRAM
+import com.tsdev.data.source.SpinnerData
 import com.tsdev.data.source.TVResult
 import com.tsdev.data.source.repository.MovieRepository
 import com.tsdev.data.source.repository.TvRepository
@@ -18,6 +22,11 @@ class StarViewModel(
 
     private val _databaseMovieList = MutableLiveData<List<MovieResult>>()
 
+    private val _programs = MutableLiveData(SpinnerData(null))
+
+    val program: LiveData<SpinnerData>
+        get() = _programs
+
     val movieList: LiveData<List<MovieResult>>
         get() = _databaseMovieList
 
@@ -31,27 +40,49 @@ class StarViewModel(
     val databaseTvList: LiveData<List<TVResult>>
         get() = _databaseTvList
 
-    fun loadMovieDataFromDatabase() {
+    val fetchSpinner = object : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+        }
+
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            val spinnerData = SpinnerData(parent)
+            when (spinnerData.fetchSpinner().program) {
+                PROGRAM.TV -> {
+                    loadTvDataFromDatabase()
+                }
+                PROGRAM.MOVIE -> {
+                    loadMovieDataFromDatabase()
+                }
+            }
+            _programs.value = spinnerData
+        }
+    }
+
+    private fun loadMovieDataFromDatabase() {
         disposable += movieRepository.repositoryGetListByDatabase()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                _databaseMovieList.value = it
+            .doAfterTerminate {
                 _databaseTvList.value = null
                 _isMovie.value = true
+            }
+            .subscribe({
+                _databaseMovieList.value = it
             }, {
                 it.printStackTrace()
             })
     }
 
-    fun loadTvDataFromDatabase() {
+    private fun loadTvDataFromDatabase() {
         disposable += tvRepository.getLoadLocalDatabase()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+            .doAfterTerminate {
                 _databaseMovieList.value = null
-                _databaseTvList.value = it
                 _isMovie.value = false
+            }
+            .subscribe({
+                _databaseTvList.value = it
             }, {
                 it.printStackTrace()
             })

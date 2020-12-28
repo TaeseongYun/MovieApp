@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -31,25 +32,26 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/spacing_large"
-                    android:entries="@array/type_list" />
+                    android:entries="@array/type_list"
+                    app:onItemSelectedListener="@{vm.fetchSpinner}" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/roomMovie_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             bindingMovieDatabase="@{vm.movieList}"
             movieRecyclerVisible="@{vm.isMovie}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/roomTV_recyclerView"
+            bindingTVDatabase="@{vm.databaseTvList}"
+            tvRecyclerVisible="@{vm.isMovie}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tvRecyclerVisible="@{vm.isMovie}"
-            bindingTVDatabase="@{vm.databaseTvList}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
