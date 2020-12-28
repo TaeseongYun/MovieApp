@@ -4,7 +4,7 @@ import com.tsdev.data.constant.Language
 import com.tsdev.data.local.MovieLocalSourceData
 import com.tsdev.data.remote.MovieRemoteSourceData
 import com.tsdev.data.source.MovieResult
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 internal class MovieRepositoryImpl(
     private val movieRemoteSourceData: MovieRemoteSourceData,

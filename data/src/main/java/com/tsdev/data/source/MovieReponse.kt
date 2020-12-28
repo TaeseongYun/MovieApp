@@ -38,11 +38,11 @@ data class MovieResult(
 
 @Parcelize
 data class MovieDetailResponse(
-    val adult: Boolean,
-    val backdrop_path: String?,
-    val budget: Int,
-    val genres: List<Genre>,
-    val homepage: String,
+    val adult: Boolean = false,
+    val backdrop_path: String? = "",
+    val budget: Int = 0,
+    val genres: List<Genre> = emptyList(),
+    val homepage: String = "",
     val id: Int,
     val imdb_id: String,
     val original_language: String,

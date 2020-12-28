@@ -2,7 +2,7 @@ package com.tsdev.domain.usecase
 
 import com.tsdev.data.source.TvDetailResponse
 import com.tsdev.domain.scheduler.SchedulerProvider
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 abstract class TvSingleUseCase<in Params, T, S>(private val schedulersProvider: SchedulerProvider) {
     protected abstract fun buildUseCase(item: Params, loadPage: Int): Single<T>

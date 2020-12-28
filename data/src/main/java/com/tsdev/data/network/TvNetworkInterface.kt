@@ -2,7 +2,7 @@ package com.tsdev.data.network
 
 import com.tsdev.data.source.TVResponse
 import com.tsdev.data.source.TvDetailResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

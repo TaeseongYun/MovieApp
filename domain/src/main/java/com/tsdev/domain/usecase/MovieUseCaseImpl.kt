@@ -5,7 +5,7 @@ import com.tsdev.data.source.MovieResponse
 import com.tsdev.data.source.MovieResult
 import com.tsdev.data.source.repository.MovieRepository
 import com.tsdev.domain.scheduler.SchedulerProvider
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 internal class MovieUseCaseImpl(
     private val movieRepository: MovieRepository,

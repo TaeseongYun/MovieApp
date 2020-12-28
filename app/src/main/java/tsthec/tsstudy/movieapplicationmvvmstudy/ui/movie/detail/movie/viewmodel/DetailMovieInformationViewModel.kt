@@ -8,12 +8,13 @@ import com.tsdev.data.source.Genre
 import com.tsdev.data.source.MovieDetailResponse
 import com.tsdev.data.source.MovieResult
 import com.tsdev.domain.usecase.MovieSingleUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
+import tsthec.tsstudy.movieapplicationmvvmstudy.constant.Const.ERROR_RESULT
 
 
 class DetailMovieInformationViewModel(
@@ -82,11 +83,9 @@ class DetailMovieInformationViewModel(
                         )
                     }
             }
-            .subscribe({
+            .subscribe {
                 _isLoadingMutable.value = true
-            }, {
-                it.printStackTrace()
-            })
+            }
     }
 
 
@@ -95,13 +94,24 @@ class DetailMovieInformationViewModel(
         disposable += movieRepository.getDetailMovie(
             movieID,
             apiKey = BuildConfig.MOVIE_API_KEY
-        ).observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                genreLiveData.value = it.genres
-            }, {
-                it.printStackTrace()
-            })
+        ).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            //동작이 끝났을 때 호출.
+            .doAfterTerminate {
+                _isLoadingMutable.value = true
+            }
+//            .onErrorReturn {
+//                it.printStackTrace()
+//                MovieDetailResponse()
+//                MovieDetailResponse(false, ERROR_RESULT.first,ERROR_RESULT.second, emptyList(), ERROR_RESULT.first, )
+//            }
+            .subscribe { detailResponse: MovieDetailResponse ->
+                genreLiveData.value = detailResponse.genres
+            }
+    }
+
+    private fun setGenre(movieResult: MovieDetailResponse) {
+        genreLiveData.value = movieResult.genres
     }
 
     fun changeLikeState(movieResult: MovieResult) {

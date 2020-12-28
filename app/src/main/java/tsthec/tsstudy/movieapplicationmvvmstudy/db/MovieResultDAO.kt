@@ -1,8 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.db
 
 import androidx.room.*
-import io.reactivex.Completable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import tsthec.tsstudy.movieapplicationmvvmstudy.data.MovieResult
 
 @Dao

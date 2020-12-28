@@ -6,7 +6,7 @@ import com.tsdev.data.remote.TvRemoteSourceData
 import com.tsdev.data.source.TVResponse
 import com.tsdev.data.source.TVResult
 import com.tsdev.data.source.TvDetailResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import java.lang.IllegalArgumentException
 
 internal class TvRepositoryImpl(

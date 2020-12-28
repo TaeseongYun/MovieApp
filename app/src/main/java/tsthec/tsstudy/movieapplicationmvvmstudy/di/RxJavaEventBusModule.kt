@@ -1,6 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.di
 
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.dsl.module
 import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.BackKeyPressUtil

@@ -4,7 +4,7 @@ import com.tsdev.data.db.dao.movie.MovieDAO
 import com.tsdev.data.db.dao.tv.TvDAO
 import com.tsdev.data.source.MovieResult
 import com.tsdev.data.source.TVResult
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 internal class MovieLocalSourceDataImpl(private val movieDatabase: MovieDAO,
                                         private val tvDataBase: TvDAO) :

@@ -6,8 +6,8 @@ import com.tsdev.data.source.Genre
 import com.tsdev.data.source.TVResponse
 import com.tsdev.data.source.TVResult
 import com.tsdev.domain.usecase.TvSingleUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls

@@ -1,6 +1,7 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.rx
 
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+
 
 object RxBusCls {
     private val databaseSubject = BehaviorSubject.create<Pair<() -> Unit, () -> Unit>>()

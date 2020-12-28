@@ -5,7 +5,7 @@ import com.tsdev.data.source.TVResult
 import com.tsdev.data.source.TvDetailResponse
 import com.tsdev.data.source.repository.TvRepository
 import com.tsdev.domain.scheduler.SchedulerProvider
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 internal class TvUseCaseImpl(
     private val tvRepository: TvRepository,

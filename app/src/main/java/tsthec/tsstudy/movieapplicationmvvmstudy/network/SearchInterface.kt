@@ -1,6 +1,6 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.network
 
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig

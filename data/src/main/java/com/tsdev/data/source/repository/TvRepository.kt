@@ -3,7 +3,7 @@ package com.tsdev.data.source.repository
 import com.tsdev.data.source.TVResponse
 import com.tsdev.data.source.TVResult
 import com.tsdev.data.source.TvDetailResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 interface TvRepository {
     fun repositoryDetailTV(apiKey: String, tvID: Int?): Single<TvDetailResponse>

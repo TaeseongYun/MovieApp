@@ -6,11 +6,6 @@ import androidx.core.os.bundleOf
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tsdev.data.source.MovieResult
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R

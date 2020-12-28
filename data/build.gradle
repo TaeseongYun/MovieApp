@@ -35,7 +35,7 @@ dependencies {
 
     //retrofit
     implementation deps.library.retrofit
-    implementation deps.library.adapter_rxjava2
+    implementation deps.library.adapter_rxjava3
     implementation deps.library.converter_gson
 
     //okhttp
@@ -48,7 +48,7 @@ dependencies {
     //room
     implementation deps.androidx.room_runtime
     kapt deps.kapt.room_compiler
-    implementation deps.androidx.room_rxjava2
+    implementation deps.androidx.room_rxjava3
 
     // Koin AndroidX ViewModel features
     implementation deps.library.koin_viewmodel

@@ -1,6 +1,7 @@
 package com.tsdev.domain.scheduler
 
-import io.reactivex.Scheduler
+import io.reactivex.rxjava3.core.Scheduler
+
 
 interface SchedulerProvider {
     fun io(): Scheduler
