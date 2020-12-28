@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Spinner
 import androidx.recyclerview.widget.GridLayoutManager
+import com.tsdev.data.source.PROGRAM
+import com.tsdev.data.source.SpinnerData
 import kotlinx.android.synthetic.main.star_fragment_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.R
@@ -53,16 +56,16 @@ class StarFragment : BaseFragment() {
                 position: Int,
                 id: Long
             ) {
-                when (parent?.selectedItemPosition) {
-                    0 -> {
+                val spinnerData = SpinnerData(parent)
+                when (spinnerData.fetchSpinner().program) {
+                    PROGRAM.MOVIE -> {
                         starViewModel.loadMovieDataFromDatabase()
-                        viewINIT(0)
                     }
-                    1 -> {
+                    PROGRAM.TV -> {
                         starViewModel.loadTvDataFromDatabase()
-                        viewINIT(1)
                     }
                 }
+                viewINIT(spinnerData.parent?.selectedItemPosition ?: 0)
             }
         }
     }
