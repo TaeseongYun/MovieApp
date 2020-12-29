@@ -23,42 +23,18 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayi
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 
-class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetailMovie {
+class MovieFragment : BaseFragment<MovieFragmentBinding>(R.layout.movie_fragment),
+    PopularMovieRecyclerViewHolder.IShowDetailMovie {
 
     private val movieAdapter: MainRecyclerAdapter by lazy {
         MainRecyclerAdapter(AdapterViewType.DataType.MOVIE, iShowDetailMovie = this)
     }
 
-    private lateinit var binding: MovieFragmentBinding
-
-    private var count = 0
-
     private val movieViewModel by stateViewModel<MovieNowPlayingViewModel>()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = binding(inflater, R.layout.movie_fragment, container)
-
-        LogUtil.d("Here is onCreateView")
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.vm = movieViewModel
-        binding.executePendingBindings()
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        LogUtil.d("Here is onViewCreated")
 
-        savedInstanceState?.let {
-            count = it.getInt("count")
-        }
-
-
-        LogUtil.d("what is viewmodel hashcode? -> ${movieViewModel.hashCode()}")
         viewModelInit()
     }
 
@@ -101,31 +77,5 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
                 ) as MovieResult
             )
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
-        LogUtil.d("Here is onResume in Fragment")
-    }
-
-    override fun onDestroy() {
-        LogUtil.d("here is onDestroy")
-        super.onDestroy()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        LogUtil.d("here is onCreate")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        LogUtil.d("here is onDetach")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        LogUtil.d("here is onSaveInstanceState MovieFragment")
-        outState.putInt("count", count)
-        super.onSaveInstanceState(outState)
     }
 }

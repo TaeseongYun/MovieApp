@@ -24,32 +24,14 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 import java.util.ArrayList
 
-class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
+class TVFragment : BaseFragment<TvFragmentLayoutBinding>(R.layout.tv_fragment_layout),
+    TvRecyclerViewHolder.IShowDetailTv {
 
     private val tvRecyclerAdapter: MainRecyclerAdapter by lazy {
         MainRecyclerAdapter(AdapterViewType.DataType.TV, iShowDetailTV = this)
     }
 
     private val tvViewModel by stateViewModel<MovieNowPlayingViewModel>()
-
-    private lateinit var binding: TvFragmentLayoutBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = binding(inflater, R.layout.tv_fragment_layout, container)
-
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.vm = tvViewModel
-        binding.executePendingBindings()
-
-        LogUtil.d("Now Page in Real TvFragment -> ${savedInstanceState?.get("nowPage")}")
-        return binding.root
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

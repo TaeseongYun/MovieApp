@@ -15,9 +15,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.StarFragmentLayoutBi
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.StarViewModel
 
-class StarFragment : BaseFragment() {
-
-    private lateinit var binding: StarFragmentLayoutBinding
+class StarFragment : BaseFragment<StarFragmentLayoutBinding>(R.layout.star_fragment_layout) {
 
     private val starViewModel by viewModel<StarViewModel>()
 
@@ -27,19 +25,6 @@ class StarFragment : BaseFragment() {
 
     private val starTVRecyclerAdapter: MainRecyclerAdapter by lazy {
         MainRecyclerAdapter(AdapterViewType.DataType.TV)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = binding(inflater, R.layout.star_fragment_layout, container)
-
-        binding.vm = starViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.executePendingBindings()
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
