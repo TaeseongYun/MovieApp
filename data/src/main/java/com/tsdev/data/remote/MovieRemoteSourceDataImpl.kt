@@ -11,21 +11,15 @@ internal class MovieRemoteSourceDataImpl(
 
     override fun remoteSourceDetailMovie(
         movieId: Int?,
-        apiKey: String,
         language: String
     ): Single<MovieDetailResponse> {
-        return movieAPI.loadMovieDetailInformation(
-            movieId,
-            apiKey,
-            language
-        )
+        return movieAPI.loadMovieDetailInformation(movieId, language)
     }
 
     override fun remoteSourcePopularMovie(
-        apiKey: String,
         page: Int,
         language: String
     ): Single<MovieResponse> {
-        return movieAPI.loadPopularMovie(apiKey, language, page)
+        return movieAPI.loadPopularMovie(language, page)
     }
 }

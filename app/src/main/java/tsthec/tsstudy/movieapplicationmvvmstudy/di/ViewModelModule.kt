@@ -16,6 +16,10 @@ val viewModelModule = module {
         DetailMovieInformationViewModel(
             handle,
             get(),
+            get(),
+            get(),
+            get(),
+            get(),
             get()
         )
     }

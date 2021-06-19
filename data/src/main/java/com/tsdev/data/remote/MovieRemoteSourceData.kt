@@ -8,12 +8,10 @@ interface MovieRemoteSourceData {
 
     fun remoteSourceDetailMovie(
         movieId: Int?,
-        apiKey: String,
         language: String
     ): Single<MovieDetailResponse>
 
     fun remoteSourcePopularMovie(
-        apiKey: String,
         page: Int,
         language: String
     ): Single<MovieResponse>

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.tsdev.data.source.Genre
 import com.tsdev.data.source.TVResponse
 import com.tsdev.data.source.TVResult
-import com.tsdev.domain.usecase.TvSingleUseCase
+import com.tsdev.domain.usecase.base.TvSingleUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
@@ -52,20 +52,26 @@ class DetailTVInformationViewModel(
             }
             .observeOn(AndroidSchedulers.mainThread())
             .map { likeState ->
-                if (likeState)
-                    rxBusDatabaseSubject.publish(
-                        Pair(
-                            { tvRepository.deleteDatabase(detailTVResult()) },
-                            { _favoriteState.value = false }
-                        )
-                    )
-                else
-                    rxBusDatabaseSubject.publish(
-                        Pair(
-                            { tvRepository.inputDatabase(detailTVResult()) },
-                            { _favoriteState.value = true }
-                        )
-                    )
+
+                //todo tv UseCase
+                if (likeState) {
+
+                } else {
+
+                }
+//                    rxBusDatabaseSubject.publish(
+//                        Pair(
+//                            { tvRepository.deleteDatabase(detailTVResult()) },
+//                            { _favoriteState.value = false }
+//                        )
+//                    )
+//                else
+//                    rxBusDatabaseSubject.publish(
+//                        Pair(
+//                            { tvRepository.inputDatabase(detailTVResult()) },
+//                            { _favoriteState.value = true }
+//                        )
+//                    )
             }
             .subscribe({
                 _isLoadingMutable.value = true
