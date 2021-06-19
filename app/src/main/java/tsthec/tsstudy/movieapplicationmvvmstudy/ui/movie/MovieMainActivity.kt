@@ -45,13 +45,11 @@ class MovieMainActivity : BaseActivity(), SearchMultiInformationViewHolder.ISear
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewINIT()
-
         navFragmentHost = loadNavigation(R.id.nav_host_fragment)
 
-        navFragmentHost?.let {
-            NavigationUI.setupWithNavController(bottom_sheet_menu, it.navController)
-        }
+        navFragmentHost?.let { NavigationUI.setupWithNavController(bottom_sheet_menu, it.navController) }
+
+        viewINIT()
     }
 
 

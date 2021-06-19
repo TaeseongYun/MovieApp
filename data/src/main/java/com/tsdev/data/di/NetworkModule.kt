@@ -3,9 +3,11 @@ package com.tsdev.data.di
 import com.tsdev.data.BuildConfig
 import com.tsdev.data.network.MovieNetworkInterface
 import com.tsdev.data.network.TvNetworkInterface
+import com.tsdev.data.network.interceptor.AuthInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -28,7 +30,8 @@ val networkModule = module {
 
     single {
         OkHttpClient.Builder()
-            .addInterceptor(get<Interceptor>())
+//            .addInterceptor(get<Interceptor>())
+            .addInterceptor(AuthInterceptor())
             .connectTimeout(REQUEST_TIME_OUT, TimeUnit.SECONDS)
             .writeTimeout(REQUEST_TIME_OUT, TimeUnit.SECONDS)
             .readTimeout(REQUEST_TIME_OUT, TimeUnit.SECONDS)
@@ -36,15 +39,17 @@ val networkModule = module {
     }
 
 
-    single<Interceptor> {
-        HttpLoggingInterceptor().apply {
-            level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY
-            } else {
-                HttpLoggingInterceptor.Level.NONE
-            }
-        }
-    }
+//    single<Interceptor> {
+//        HttpLoggingInterceptor().apply {
+//            level = if (BuildConfig.DEBUG) {
+//                HttpLoggingInterceptor.Level.BODY
+//            } else {
+//                HttpLoggingInterceptor.Level.NONE
+//            }
+//        }
+//    }
+
+    single<Interceptor>(named("authInterceptor")) { AuthInterceptor() }
 
 
 }

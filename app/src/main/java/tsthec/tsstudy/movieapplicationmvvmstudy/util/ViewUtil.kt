@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package tsthec.tsstudy.movieapplicationmvvmstudy.util
 
 import android.content.Context

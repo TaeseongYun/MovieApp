@@ -18,6 +18,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "MOVIE_API_KEY", rootProject.ext.movieKey
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

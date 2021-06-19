@@ -34,5 +34,5 @@ task clean(type: Delete) {
 ext {
     Properties properties = new Properties();
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    movieKey = properties.getProperty('MOVIE_API_KEY', "\"\"")
+    movieKey = properties.getProperty('API_KEY', "\"\"")
 }
