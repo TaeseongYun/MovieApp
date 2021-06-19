@@ -1,4 +1,4 @@
-package com.tsdev.domain.usecase
+package com.tsdev.domain.usecase.base
 
 import com.tsdev.data.source.TvDetailResponse
 import com.tsdev.domain.scheduler.SchedulerProvider

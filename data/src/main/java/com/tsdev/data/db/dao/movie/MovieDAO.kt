@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.tsdev.data.source.MovieResult
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 @Dao
@@ -13,11 +14,11 @@ interface MovieDAO {
     fun getFavoriteMovie(id_: Int?): Single<MovieResult>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovieResult(movieResult: MovieResult?)
+    fun insertMovieResult(movieResult: MovieResult?): Completable
 
     @Query("Select * from MovieResult")
     fun getListFavorite(): Single<List<MovieResult>>
 
     @Query("Delete from MovieResult Where id = :id_")
-    fun getFavoriteMovieDelete(id_: Int?)
+    fun getFavoriteMovieDelete(id_: Int?): Completable
 }

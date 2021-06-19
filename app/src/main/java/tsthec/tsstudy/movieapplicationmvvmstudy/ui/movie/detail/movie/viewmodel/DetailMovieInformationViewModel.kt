@@ -7,19 +7,22 @@ import androidx.lifecycle.SavedStateHandle
 import com.tsdev.data.source.Genre
 import com.tsdev.data.source.MovieDetailResponse
 import com.tsdev.data.source.MovieResult
-import com.tsdev.domain.usecase.MovieSingleUseCase
-import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
+import com.tsdev.domain.usecase.base.MovieCompletableUseCase
+import com.tsdev.domain.usecase.base.MovieSingleUseCase
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.rx.RxBusCls
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import tsthec.tsstudy.movieapplicationmvvmstudy.constant.Const.ERROR_RESULT
 
 
 class DetailMovieInformationViewModel(
     private val handle: SavedStateHandle,
-    private val movieRepository: MovieSingleUseCase<String, MovieDetailResponse, MovieResult>,
+    getLocalMovieListUseCase: MovieSingleUseCase<Unit, List<MovieResult>>,
+    private val getLocalMovieUseCase: MovieSingleUseCase<MovieResult?, Boolean>,
+    private val getDetailMovieUseCase: MovieSingleUseCase<Int, MovieDetailResponse>,
+    private val postMovieLocalInsertUseCase: MovieCompletableUseCase<MovieResult>,
+    private val deleteMovieLocalUseCase: MovieCompletableUseCase<MovieResult>,
     private val rxEventBusDataSubject: RxBusCls
 ) :
     BaseLifeCycleViewModel<MovieResult>() {
@@ -42,7 +45,7 @@ class DetailMovieInformationViewModel(
         get() = _favoriteState
 
     init {
-        disposable += movieRepository.getMovieDatabase()
+        disposable += getLocalMovieListUseCase(Unit)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -55,7 +58,7 @@ class DetailMovieInformationViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .switchMapSingle { movieResult ->
-                movieRepository.getMovieDatabaseItem(movieResult)
+                getLocalMovieUseCase(movieResult)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .map { likeState: Boolean ->
@@ -63,23 +66,15 @@ class DetailMovieInformationViewModel(
                     if (likeState) {
                         rxEventBusDataSubject.publish(
                             Pair(
-                                {
-                                    movieRepository.getMovieDeleteDatabase(
-                                        detailMovieResult()
-                                    )
-                                },
+                                { deleteMovieLocalUseCase(detailMovieResult()) },
                                 { _favoriteState.value = false }
                             )
                         )
                     } else {
                         rxEventBusDataSubject.publish(
-                            Pair({
-                                movieRepository.insertMovieDatabase(
-                                    detailMovieResult()
-                                )
-                            }, {
-                                _favoriteState.value = true
-                            })
+                            Pair({ postMovieLocalInsertUseCase(detailMovieResult()) },
+                                { _favoriteState.value = true }
+                            )
                         )
                     }
             }
@@ -89,12 +84,10 @@ class DetailMovieInformationViewModel(
     }
 
 
-    fun getResultDetailMovie(movieID: Int?) {
+    fun getResultDetailMovie(movieID: Int) {
         savedMovieResultID = movieID
-        disposable += movieRepository.getDetailMovie(
-            movieID,
-            apiKey = BuildConfig.MOVIE_API_KEY
-        ).subscribeOn(Schedulers.io())
+        disposable += getDetailMovieUseCase(movieID)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             //동작이 끝났을 때 호출.
             .doAfterTerminate {

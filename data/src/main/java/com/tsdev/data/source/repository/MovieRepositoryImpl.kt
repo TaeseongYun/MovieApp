@@ -4,6 +4,7 @@ import com.tsdev.data.constant.Language
 import com.tsdev.data.local.MovieLocalSourceData
 import com.tsdev.data.remote.MovieRemoteSourceData
 import com.tsdev.data.source.MovieResult
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 internal class MovieRepositoryImpl(
@@ -15,9 +16,9 @@ internal class MovieRepositoryImpl(
 
     override var nextPage = defaultPage
 
-    override fun repositoryDeleteDatabase(movieResult: MovieResult?) {
-        movieLocalSourceData.deleteMovieDatabase(movieResult?.id)
+    override fun repositoryDeleteDatabase(movieResult: MovieResult?): Completable {
         mutableMapItem.remove(movieResult)
+        return movieLocalSourceData.deleteMovieDatabase(movieResult?.id)
     }
 
     override fun loadCacheDatabaseList(movieResult: MovieResult?): Single<Boolean> {
@@ -32,39 +33,31 @@ internal class MovieRepositoryImpl(
 
     override fun repositoryGetListByDatabase() = movieLocalSourceData.loadMovieDatabaseList()
 
-    override fun repositoryMovieInsertRoomDatabase(movieResult: MovieResult?) {
-        movieLocalSourceData.inputMovieResult(movieResult)
+    override fun repositoryMovieInsertRoomDatabase(movieResult: MovieResult?): Completable {
+        return movieLocalSourceData.inputMovieResult(movieResult)
     }
 
-    override fun repositoryPopularMovie(apiKey: String, loadPage: Int) =
+    override fun repositoryPopularMovie(loadPage: Int) =
         when (currentLanguage) {
             Language.ENGLISH -> {
-                movieRemoteSourceData.remoteSourcePopularMovie(apiKey, nextPage, Language.ENGLISH)
+                movieRemoteSourceData.remoteSourcePopularMovie(nextPage, Language.ENGLISH)
             }
 
             Language.KOREAN -> {
-                movieRemoteSourceData.remoteSourcePopularMovie(apiKey, nextPage, Language.KOREAN)
+                movieRemoteSourceData.remoteSourcePopularMovie(nextPage, Language.KOREAN)
             }
             else -> throw IllegalArgumentException()
         }
 
 
-    override fun repositoryDetailMovie(movieID: Int?, apiKey: String) =
+    override fun repositoryDetailMovie(movieID: Int?) =
         when (currentLanguage) {
             Language.ENGLISH -> {
-                movieRemoteSourceData.remoteSourceDetailMovie(
-                    movieID,
-                    apiKey,
-                    Language.ENGLISH
-                )
+                movieRemoteSourceData.remoteSourceDetailMovie(movieID, Language.ENGLISH)
             }
 
             Language.KOREAN -> {
-                movieRemoteSourceData.remoteSourceDetailMovie(
-                    movieID,
-                    apiKey,
-                    Language.KOREAN
-                )
+                movieRemoteSourceData.remoteSourceDetailMovie(movieID, Language.KOREAN)
             }
             else -> throw IllegalArgumentException()
         }
