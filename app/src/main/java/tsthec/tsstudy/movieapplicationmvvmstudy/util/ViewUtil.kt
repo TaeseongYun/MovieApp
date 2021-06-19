@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 inline fun <reified T : Fragment> AppCompatActivity.loadNavigation(@IdRes fragment: Int) =
-    supportFragmentManager.findFragmentById(fragment) as T?
+    supportFragmentManager.findFragmentById(fragment) as T
 
 
 inline fun scrollListener(
