@@ -30,8 +30,8 @@ val networkModule = module {
 
     single {
         OkHttpClient.Builder()
-//            .addInterceptor(get<Interceptor>())
-            .addInterceptor(AuthInterceptor())
+            .addInterceptor(get<Interceptor>(named("logging")))
+            .addInterceptor(get<Interceptor>(named("authInterceptor")))
             .connectTimeout(REQUEST_TIME_OUT, TimeUnit.SECONDS)
             .writeTimeout(REQUEST_TIME_OUT, TimeUnit.SECONDS)
             .readTimeout(REQUEST_TIME_OUT, TimeUnit.SECONDS)
@@ -39,15 +39,15 @@ val networkModule = module {
     }
 
 
-//    single<Interceptor> {
-//        HttpLoggingInterceptor().apply {
-//            level = if (BuildConfig.DEBUG) {
-//                HttpLoggingInterceptor.Level.BODY
-//            } else {
-//                HttpLoggingInterceptor.Level.NONE
-//            }
-//        }
-//    }
+    single<Interceptor>(named("logging")) {
+        HttpLoggingInterceptor().apply {
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
+        }
+    }
 
     single<Interceptor>(named("authInterceptor")) { AuthInterceptor() }
 

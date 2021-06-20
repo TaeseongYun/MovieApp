@@ -6,11 +6,12 @@ import okhttp3.Response
 
 internal class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val urlNewBuild = chain.request().url.newBuilder()
+        val request = chain.request()
+        val customUrl = request.url.newBuilder().addQueryParameter(AUTH_INTERCEPTOR_KEY, BuildConfig.MOVIE_API_KEY).build()
         return chain.proceed(
-            chain.request().newBuilder().apply {
+            request.newBuilder().apply {
                 addHeader(AUTH_INTERCEPTOR_KEY, BuildConfig.MOVIE_API_KEY)
-                urlNewBuild.addQueryParameter(AUTH_INTERCEPTOR_KEY, BuildConfig.MOVIE_API_KEY)
+                url(customUrl)
             }.build()
         )
     }
