@@ -19,11 +19,11 @@ fun bindingAdapterMovieList(view: RecyclerView, movieList: MovieResponse?) {
 }
 
 @BindingAdapter("bindTvList")
-fun bindingAdapterTvList(view: RecyclerView, tvList: TVResponse?) {
+fun bindingAdapterTvList(view: RecyclerView, tvList: List<TVResult>?) {
     val tvAdapter = view.adapter as? MainRecyclerAdapter
 
     tvList?.let {
-        tvAdapter?.addItems(AdapterViewType.DataType.TV, it.results)
+        tvAdapter?.addItems(AdapterViewType.DataType.TV, it)
     }
     //notifyItemDataChange 호출 하게되면 전체가 깜빡 거리는 현상이 있기 때문에 기존 아이템 카운트 부터 추가 된 사이즈까지.
     tvAdapter?.notifyItemRangeChanged(tvAdapter.itemCount, tvAdapter.list.size)

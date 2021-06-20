@@ -14,4 +14,5 @@ internal class DeleteLocalMovieUseCase(
     override fun build(params: MovieResult): Completable {
         return movieRepository.repositoryDeleteDatabase(params)
     }
+
 }

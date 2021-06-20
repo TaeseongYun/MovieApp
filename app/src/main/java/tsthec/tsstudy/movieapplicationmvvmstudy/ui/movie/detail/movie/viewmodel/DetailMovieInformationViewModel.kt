@@ -24,12 +24,9 @@ class DetailMovieInformationViewModel(
     private val postMovieLocalInsertUseCase: MovieCompletableUseCase<MovieResult>,
     private val deleteMovieLocalUseCase: MovieCompletableUseCase<MovieResult>,
     private val rxEventBusDataSubject: RxBusCls
-) :
-    BaseLifeCycleViewModel<MovieResult>() {
+) : BaseLifeCycleViewModel<MovieResult>() {
 
     val genreLiveData = MutableLiveData<List<Genre>>()
-
-    private val DETAIL_MOVIE_KEY = "detailMovie"
 
     var savedMovieResultID: Int? = handle[DETAIL_MOVIE_KEY]
         set(value) {
@@ -110,5 +107,9 @@ class DetailMovieInformationViewModel(
     fun changeLikeState(movieResult: MovieResult) {
         Log.e("ViewModel", "Called")
         uiBehaviorSubject.onNext(movieResult)
+    }
+
+    companion object {
+        private const val DETAIL_MOVIE_KEY = "detailMovie"
     }
 }
