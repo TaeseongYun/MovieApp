@@ -2,6 +2,7 @@ package tsthec.tsstudy.movieapplicationmvvmstudy.di
 
 import androidx.lifecycle.SavedStateHandle
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel
 //import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.movie.viewmodel.DetailMovieInformationViewModel
@@ -9,17 +10,21 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.detail.tv.viewmodel.Det
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
 //import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.SearchViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.StarViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.TVViewModel
 
 val viewModelModule = module {
-    viewModel { MovieNowPlayingViewModel(get(), get()) }
+    viewModel { MovieNowPlayingViewModel(get(named("getPopularMovie"))) }
+
+    viewModel { TVViewModel(get()) }
+
     viewModel { (handle: SavedStateHandle) ->
         DetailMovieInformationViewModel(
             handle,
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
+            get(named("getLocalMovies")),
+            get(named("getLocalMovie")),
+            get(named("getDetailMovie")),
+            get(named("postLocalUseCase")),
+            get(named("deleteLocalUseCase")),
             get()
         )
     }

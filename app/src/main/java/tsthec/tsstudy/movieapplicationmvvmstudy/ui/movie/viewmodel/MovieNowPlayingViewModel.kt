@@ -4,18 +4,14 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.tsdev.data.source.*
 import com.tsdev.domain.usecase.base.MovieSingleUseCase
-import com.tsdev.domain.usecase.base.TvSingleUseCase
 import com.tsdev.domain.usecase.movie.params.PopularMovieParams
-import tsthec.tsstudy.movieapplicationmvvmstudy.BuildConfig
 import tsthec.tsstudy.movieapplicationmvvmstudy.base.viewmodel.BaseLifeCycleViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.plusAssign
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.with
 
-class MovieNowPlayingViewModel(
-    private val getMoviePopularListUseCase: MovieSingleUseCase<PopularMovieParams, MovieResponse>,
-    private val tvRepository: TvSingleUseCase<String, TVResponse, TVResult>
-) :
-    BaseLifeCycleViewModel<MovieResult>() {
+class MovieNowPlayingViewModel constructor(
+    private val getMoviePopularListUseCase: MovieSingleUseCase<PopularMovieParams, MovieResponse>
+) : BaseLifeCycleViewModel<MovieResult>() {
 
     private val _movieList = MutableLiveData<MovieResponse>()
 
@@ -39,18 +35,6 @@ class MovieNowPlayingViewModel(
                 Log.e("error", it.message.toString())
                 it.printStackTrace()
             })
-
-        disposable += tvRepository(BuildConfig.MOVIE_API_KEY, 1)
-            .with()
-            .doOnSubscribe {
-                _isLoadingMutable.value = true
-            }
-            .subscribe({
-                _tvList.value = it
-                _isLoadingMutable.value = false
-            }, {
-                it.printStackTrace()
-            })
     }
 
     fun loadMorePopularMovie(page: Int) {
@@ -66,20 +50,6 @@ class MovieNowPlayingViewModel(
                 _isLoadingMutable.value = false
             }, {
                 Log.e("error", it.message.toString())
-            })
-    }
-
-    fun loadMoreTvPage(page: Int) {
-        disposable += tvRepository(BuildConfig.MOVIE_API_KEY, page)
-            .with()
-            .doOnSubscribe {
-                _isLoadingMutable.value = true
-            }
-            .subscribe({
-                _tvList.value = it
-                _isLoadingMutable.value = false
-            }, {
-                it.printStackTrace()
             })
     }
 

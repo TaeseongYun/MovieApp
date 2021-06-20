@@ -20,6 +20,7 @@ import tsthec.tsstudy.movieapplicationmvvmstudy.databinding.TvFragmentLayoutBind
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.MainRecyclerAdapter
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.adapter.holder.TvRecyclerViewHolder
 import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel
+import tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.TVViewModel
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.log.LogUtil
 import tsthec.tsstudy.movieapplicationmvvmstudy.util.scrollListener
 import java.util.ArrayList
@@ -30,7 +31,7 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
         MainRecyclerAdapter(AdapterViewType.DataType.TV, iShowDetailTV = this)
     }
 
-    private val tvViewModel by stateViewModel<MovieNowPlayingViewModel>()
+    private val tvViewModel by stateViewModel<TVViewModel>()
 
     private lateinit var binding: TvFragmentLayoutBinding
 
@@ -38,8 +39,7 @@ class TVFragment : BaseFragment(), TvRecyclerViewHolder.IShowDetailTv {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         binding = binding(inflater, R.layout.tv_fragment_layout, container)
 
         binding.lifecycleOwner = viewLifecycleOwner

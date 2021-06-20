@@ -12,22 +12,23 @@ import com.tsdev.domain.usecase.movie.GetPopularMoviesUseCase
 import com.tsdev.domain.usecase.movie.PostLocalMovieUseCase
 import com.tsdev.domain.usecase.movie.params.PopularMovieParams
 import com.tsdev.domain.usecase.tv.GetPopularTvListUseCase
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    single<MovieSingleUseCase<PopularMovieParams, MovieResponse>> {
-        GetPopularMoviesUseCase(
-            get(),
-            get()
-        )
-    }
+
     single<TvSingleUseCase<String, TVResponse, TVResult>> { GetPopularTvListUseCase(get(), get()) }
 
-    single<MovieCompletableUseCase<MovieResult>> { PostLocalMovieUseCase(get(), get()) }
+    single<MovieCompletableUseCase<MovieResult>>(named("postLocalUseCase")) { PostLocalMovieUseCase(get(), get()) }
 
-    single<MovieSingleUseCase<Int, MovieDetailResponse>> { GetDetailMovieUseCase(get(), get()) }
+    single<MovieSingleUseCase<Int, MovieDetailResponse>>(named("getDetailMovie")) { GetDetailMovieUseCase(get(), get()) }
 
-    single<MovieSingleUseCase<Unit, List<MovieResult>>> { GetLocalMovieListUseCase(get(), get()) }
+    single<MovieSingleUseCase<Unit, List<MovieResult>>>(named("getLocalMovies")) { GetLocalMovieListUseCase(get(), get()) }
 
-    single<MovieSingleUseCase<MovieResult?, Boolean>> { GetLocalMovieUseCase(get(), get()) }
+    single<MovieSingleUseCase<MovieResult?, Boolean>>(named("getLocalMovie")) { GetLocalMovieUseCase(get(), get()) }
+
+    single<MovieSingleUseCase<PopularMovieParams, MovieResponse>>(named("getPopularMovie")) { GetPopularMoviesUseCase(get(), get()) }
+
+    single<MovieCompletableUseCase<MovieResult>>(named("deleteLocalUseCase")) { DeleteLocalMovieUseCase(get(), get()) }
+
 }

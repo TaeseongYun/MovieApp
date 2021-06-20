@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.MovieNowPlayingViewModel" />
+            type="tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.viewmodel.TVViewModel" />
 
     </data>
 
@@ -45,7 +45,7 @@
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             android:layoutAnimation="@anim/layout_animation"
-            bindTvList="@{vm.tvList}"
+            bindTvList="@{vm.output.tvResult}"
             tools:listitem="@layout/recycler_view_detail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
