@@ -27,7 +27,7 @@ val useCaseModule = module {
 
     single<MovieSingleUseCase<MovieResult?, Boolean>>(named("getLocalMovie")) { GetLocalMovieUseCase(get(), get()) }
 
-    single<MovieSingleUseCase<PopularMovieParams, MovieResponse>>(named("getPopularMovie")) { GetPopularMoviesUseCase(get(), get()) }
+    single<MovieSingleUseCase<PopularMovieParams, List<MovieResult>>>(named("getPopularMovie")) { GetPopularMoviesUseCase(get(), get()) }
 
     single<MovieCompletableUseCase<MovieResult>>(named("deleteLocalUseCase")) { DeleteLocalMovieUseCase(get(), get()) }
 

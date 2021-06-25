@@ -1,12 +1,13 @@
 package com.tsdev.domain.usecase.base
 
 import com.tsdev.domain.scheduler.SchedulerProvider
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 
 abstract class MovieSingleUseCase<in Params, T>(private val schedulersProvider: SchedulerProvider) {
-    protected abstract fun buildUseCase(params: Params): Single<T>
+    protected abstract fun buildUseCase(params: Params): Flowable<T>
 
-    operator fun invoke(item: Params): Single<T> = buildUseCase(item)
+    operator fun invoke(item: Params): Flowable<T> = buildUseCase(item)
         .subscribeOn(schedulersProvider.io())
         .observeOn(schedulersProvider.mainThread())
 

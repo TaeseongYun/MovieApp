@@ -108,6 +108,11 @@ dependencies {
     // Koin AndroidX Experimental features
     implementation deps.library.koin_ext
 
+    //paging2
+    implementation deps.androidx.paging2
+    //paging2-rxjava
+    implementation deps.androidx.paging2_rxjava
+
     //ktx
     implementation deps.ktx.fragment
     implementation deps.kotlin.ktx

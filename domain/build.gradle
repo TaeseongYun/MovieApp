@@ -45,4 +45,9 @@ dependencies {
 
     // Koin AndroidX ViewModel features
     implementation deps.library.koin_viewmodel
+
+    //paging2
+    implementation deps.androidx.paging2
+    //paging2-rxjava
+    implementation deps.androidx.paging2_rxjava
 }

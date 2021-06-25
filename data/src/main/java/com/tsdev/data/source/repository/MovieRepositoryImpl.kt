@@ -1,13 +1,22 @@
 package com.tsdev.data.source.repository
 
+import androidx.paging.DataSource
+import androidx.paging.PagedList
+import androidx.paging.RxPagedListBuilder
 import com.tsdev.data.constant.Language
 import com.tsdev.data.local.MovieLocalSourceData
+import com.tsdev.data.paging.MovieDataSourceFactory
 import com.tsdev.data.remote.MovieRemoteSourceData
 import com.tsdev.data.source.MovieResult
+import hu.akarnokd.rxjava3.bridge.RxJavaBridge
+import io.reactivex.BackpressureStrategy
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 
 internal class MovieRepositoryImpl(
+    private val moviePagingDataSourceFactory: DataSource.Factory<Int, MovieResult>,
+    private val pagingConfig: PagedList.Config,
     private val movieRemoteSourceData: MovieRemoteSourceData,
     private val movieLocalSourceData: MovieLocalSourceData
 ) : MovieRepository, BaseRepository<MovieResult>() {
@@ -37,17 +46,31 @@ internal class MovieRepositoryImpl(
         return movieLocalSourceData.inputMovieResult(movieResult)
     }
 
-    override fun repositoryPopularMovie(loadPage: Int) =
-        when (currentLanguage) {
+    override fun repositoryPopularMovie(loadPage: Int): Flowable<PagedList<MovieResult>> {
+        return when (currentLanguage) {
             Language.ENGLISH -> {
-                movieRemoteSourceData.remoteSourcePopularMovie(nextPage, Language.ENGLISH)
+                val result = RxJavaBridge.toV3Flowable(
+                    RxPagedListBuilder(
+                        moviePagingDataSourceFactory,
+                        pagingConfig
+                    ).buildFlowable(BackpressureStrategy.BUFFER)
+                )
+                result
+//                movieRemoteSourceData.remoteSourcePopularMovie(nextPage, Language.ENGLISH)
             }
 
             Language.KOREAN -> {
-                movieRemoteSourceData.remoteSourcePopularMovie(nextPage, Language.KOREAN)
+                val result = RxJavaBridge.toV3Flowable(
+                    RxPagedListBuilder(
+                        moviePagingDataSourceFactory,
+                        pagingConfig
+                    ).buildFlowable(BackpressureStrategy.BUFFER)
+                )
+                result
             }
             else -> throw IllegalArgumentException()
         }
+    }
 
 
     override fun repositoryDetailMovie(movieID: Int?) =

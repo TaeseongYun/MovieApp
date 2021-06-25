@@ -55,7 +55,7 @@ class DetailMovieInformationViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .switchMapSingle { movieResult ->
-                getLocalMovieUseCase(movieResult)
+                getLocalMovieUseCase(movieResult).singleOrError()
             }
             .observeOn(AndroidSchedulers.mainThread())
             .map { likeState: Boolean ->

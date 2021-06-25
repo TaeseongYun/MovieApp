@@ -48,6 +48,13 @@ dependencies {
     //rxjava
     implementation deps.library.rxjava
 
+    //paging2
+    implementation deps.androidx.paging2
+    //paging2-rxjava
+    implementation deps.androidx.paging2_rxjava
+
+    implementation "com.github.akarnokd:rxjava3-bridge:3.0.0"
+
     //room
     implementation deps.androidx.room_runtime
     kapt deps.kapt.room_compiler

@@ -56,7 +56,7 @@ abstract class BaseLifeCycleViewModel<T : Any?> : ViewModel() {
 
     override fun onCleared() {
         disposable.clear()
-        LogUtil.d("뷰모델 onCleared 호출")
+        LogUtil.d("$this 뷰모델 onCleared 호출")
         super.onCleared()
     }
 }
