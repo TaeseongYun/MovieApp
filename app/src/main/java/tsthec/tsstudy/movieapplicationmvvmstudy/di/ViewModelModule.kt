@@ -28,6 +28,7 @@ val viewModelModule = module {
             get()
         )
     }
+
     viewModel { DetailTVInformationViewModel(get(), get()) }
 //    viewModel { SearchViewModel(get()) }
     viewModel { StarViewModel(get(), get()) }

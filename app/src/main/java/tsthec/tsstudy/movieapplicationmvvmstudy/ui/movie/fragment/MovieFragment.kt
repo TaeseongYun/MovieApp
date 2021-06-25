@@ -1,11 +1,9 @@
 package tsthec.tsstudy.movieapplicationmvvmstudy.ui.movie.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -39,7 +37,7 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = binding(inflater, R.layout.movie_fragment, container)
 
         LogUtil.d("Here is onCreateView")
@@ -65,13 +63,6 @@ class MovieFragment : BaseFragment(), PopularMovieRecyclerViewHolder.IShowDetail
     override fun onDestroyView() {
         super.onDestroyView()
         movieRecyclerView.removeOnScrollListener(addRecyclerViewListener)
-    }
-
-    override fun onAttach(context: Context) {
-        if (movieRepository.nextPage > 2) {
-            movieRepository.nextPage = 1
-        }
-        super.onAttach(context)
     }
 
     private val addRecyclerViewListener =

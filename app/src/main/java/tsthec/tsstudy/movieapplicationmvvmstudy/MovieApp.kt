@@ -16,6 +16,8 @@ class MovieApp : Application() {
         startKoin {
             androidContext(this@MovieApp)
             modules(
+                pagingModule,
+                dataSourceFactory,
                 networkModule,
                 apiModule,
                 remoteModule,

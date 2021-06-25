@@ -32,7 +32,8 @@ ext {
                     ktx_navigation : "2.0.0",
                     navigation_fragment : "2.3.0-alpha02",
                     navigation_ui : "2.3.0-alpha02",
-                    savedstate: "2.2.0"
+                    savedstate: "2.2.0",
+                    paging2: "2.1.2"
             ],
             squareup              : [
                     okhttp3            : "4.2.2",
@@ -62,7 +63,9 @@ ext {
                     gradle          : "com.android.tools.build:gradle:$versions.androidx.gradle",
                     navigation_fragment: "androidx.navigation:navigation-fragment-ktx:$versions.androidx.navigation_fragment",
                     navigation_ui: "androidx.navigation:navigation-ui-ktx:$versions.androidx.navigation_ui",
-                    savedstate: "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.androidx.savedstate"
+                    savedstate: "androidx.lifecycle:lifecycle-viewmodel-savedstate:$versions.androidx.savedstate",
+                    paging2: "androidx.paging:paging-runtime:$versions.androidx.paging2",
+                    paging2_rxjava: "androidx.paging:paging-rxjava2:$versions.androidx.paging2"
             ],
             ktx      : [
                     fragment: "androidx.fragment:fragment-ktx:$versions.androidx.ktx_fragment"
